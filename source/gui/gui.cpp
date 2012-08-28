@@ -2,6 +2,7 @@
 #include "glwidget.h"
 #include "../planet/planet.h"
 #include "../projection/projection.h"
+#include <iostream>
 
 GUI::GUI() {
 	p = new Planet();
@@ -11,9 +12,22 @@ GUI::GUI() {
 	p->terrain = new Terrain();
 	terrain::init(p);
 	terrain::generate(p);
+
+	std::cout << "new projection\n";
+	proj = new Projection();
+	projection::init(p, proj);
+	std::cout << "set colours..";
+	projection::set_colors(proj);
+	std::cout << " done\n";
 	
 	window = new QWidget();
-	window->resize(860,600);
+	windowLayout = new QHBoxLayout();
+		glwin = new GLWidget(window);
+		glwin->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
+		glwin->gui = this;
+		windowLayout->addWidget(glwin);
+	window->setLayout(windowLayout);
+	window->resize(1024,600);
 	window->show();
 }
 

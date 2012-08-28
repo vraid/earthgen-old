@@ -1,5 +1,6 @@
 #include "create_mesh.h"
 #include "mesh.h"
+#include <iostream>
 
 namespace mesh {
 
@@ -21,6 +22,7 @@ void add_edge (int id, Mesh* m, int t1, int t2) {
 	for (int i=0; i<2; i++) {
 		t[i]->edge[position(t[i], t[(i+1)%2])] = e;
 		e->tile[i] = t[i];
+		c[i]->edge[position(c[i], c[(i+1)%2])] = e;
 		e->corner[i] = c[i];
 	}
 }
@@ -28,7 +30,6 @@ void add_edge (int id, Mesh* m, int t1, int t2) {
 Mesh* create (int size) {
 	Mesh* m = nullptr;
 	if (size > 0) {
-//		Mesh* prev = load(size-1);
 		Mesh* prev = create(size-1);
 		m = subdivision(prev);
 		delete prev;
@@ -36,8 +37,6 @@ Mesh* create (int size) {
 	else {
 		m = icosahedron();
 	}
-	//saving yields insignificant speedup for small meshes. Significant waste of space (300MB+) for mesh 10
-//	save(m);
 	return m;
 }
 
@@ -91,18 +90,13 @@ Mesh* icosahedron () {
 		}
 	}
 	//new edges
+	int e_id = 0;
 	for (int i=0; i<12; i++) {
 		for (int k=0; k<5; k++) {
 			if (m->tile[i].edge[k] == nullptr) {
-				add_edge(5*i+k, m, i, icos_tile_n[i][k]);
+				add_edge(e_id, m, i, icos_tile_n[i][k]);
+				e_id++;
 			}
-		}
-	}
-	//add edges to corners
-	for (int i=0; i<m->corners; i++) {
-		for (int k=0; k<3; k++) {
-			Tile *t = m->corner[i].tile[k];
-			m->corner[i].edge[k] = t->edge[position(t, m->corner[i].tile[(k+2)%3])];
 		}
 	}
 	return m;
@@ -152,13 +146,56 @@ Mesh* subdivision (const Mesh* prev_mesh) {
 			}
 		}
 	}
-	//add edges to corners
-	for (int i=0; i<mesh->corners; i++) {
-		for (int k=0; k<3; k++) {
-			Tile *t = mesh->corner[i].tile[k];
-			mesh->corner[i].edge[k] = t->edge[position(t, mesh->corner[i].tile[(k+2)%3])];
+	return mesh;
+}
+
+int validate (const Mesh* m) {
+	bool valid = true;
+	for (int i=0; i<m->tiles; i++) {
+		const Tile* t = &m->tile[i];
+		for (int k=0; k<t->edges; k++) {
+			if (position(t->tile[k], t) == -1) {
+				valid = false;
+				std::cout << "error: tile " << t->id << ", tile " << k << std::endl;
+			}
+			if (position(t->corner[k], t) == -1) {
+				valid = false;
+				std::cout << "error: tile " << t->id << ", corner " << k << std::endl;
+			}
+			if (sign(t->edge[k], t) == 0) {
+				valid = false;
+				std::cout << "error: tile " << t->id << ", edge " << k << std::endl;
+			}
 		}
 	}
-	return mesh;
+	for (int i=0; i<m->corners; i++) {
+		const Corner* c = &m->corner[i];
+		for (int k=0; k<3; k++) {
+			if (position(c->corner[k], c) == -1) {
+				valid = false;
+				std::cout << "error: corner " << c->id << ", corner " << k << std::endl;
+			}
+			if (sign(c->edge[k], c) == 0) {
+				valid = false;
+				std::cout << "error: corner " << c->id << ", edge " << k << std::endl;
+			}
+		}
+	}
+	for (int i=0; i<m->edges; i++) {
+		const Edge* e = &m->edge[i];
+		for (int k=0; k<2; k++) {
+			if (position(e->tile[k], e) == -1) {
+				valid = false;
+				std::cout << "error: edge " << e->id << ", tile " << k << std::endl;
+			}
+			if (position(e->corner[k], e) == -1) {
+				valid = false;
+				std::cout << "error: edge " << e->id << ", corner " << k << std::endl;
+			}
+		}
+	}
+	if (valid) std::cout << "mesh valid\n";
+	else std::cout << "mesh invalid, abandon ship\n";
+	return !valid;
 }
 }

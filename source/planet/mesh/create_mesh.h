@@ -11,6 +11,7 @@ namespace mesh {
 	Mesh* create (int);
 	Mesh* icosahedron ();
 	Mesh* subdivision (const Mesh*);
+	int validate (const Mesh*);
 }
 
 #endif

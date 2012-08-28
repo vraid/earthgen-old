@@ -8,6 +8,5 @@
 int main(int argv, char **args) {
 	QApplication app(argv, args);
 	GUI* mainGUI = new GUI();
-	delete mainGUI;
 	return app.exec();
 }

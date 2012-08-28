@@ -24,8 +24,9 @@ private:
 	static void displayMode(GUI*,int);
 	static void nextSeasonAction(GUI*);
 public:
-	QWidget *window;
-	GLWidget *glwin;
+	QWidget* window;
+	QHBoxLayout* windowLayout;
+	GLWidget* glwin;
 
 	Planet* p;
 	Parameters* par;

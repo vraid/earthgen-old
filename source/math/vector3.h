@@ -11,9 +11,9 @@ public:
 	Vector3 operator + (const Vector3&) const;
 	Vector3 operator * (double) const;
 
-	double x;
-	double y;
-	double z;
+	float x;
+	float y;
+	float z;
 };
 
 namespace vector3 {

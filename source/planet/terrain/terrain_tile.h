@@ -10,7 +10,7 @@ public:
 	}
 	~Terrain_tile() {};
 
-	double elevation;
+	float elevation;
 	Terrain_water water;
 
 	bool is_land;

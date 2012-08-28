@@ -38,7 +38,7 @@ namespace parameters {
 	double check_range_float (double, const double*);
 	int check_range_int (int, const int*);
 
-	const int mesh_size_range[2] = {0, 12};
+	const int mesh_size_range[2] = {0, 11};
 	const double axial_tilt_range[2] = {0.0, 0.8};
 	const double elevation_scale_range[2] = {1.0, 100000.0};
 	const double water_ratio_range[2] = {0.0,1.0};

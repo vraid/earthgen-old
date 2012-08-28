@@ -11,8 +11,10 @@ public:
 	}
 	~Terrain_corner() {};
 
-	double elevation;
+	float elevation;
 
+	bool is_land;
+	bool is_water;
 	bool is_coast;
 	const Corner* stream_direction;
 };

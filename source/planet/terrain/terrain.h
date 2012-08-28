@@ -41,11 +41,11 @@ namespace terrain {
 	void init (Planet*);
 	double latitude (const Vector3&);
 	double longitude (const Vector3&);
-	bool is_coast (const Planet*, const Corner*);
-	bool is_water (const Planet*, const Tile*);
 	double radius (const Planet*, const Tile*);
+	void reset_stream_directions (Planet*);
 	void set_elevation (Planet*);
 	void set_sea_level (Planet*);
+	void set_stream_directions (Planet*);
 	Terrain_tile* tile (Planet*, int);
 	Terrain_tile* tile (Planet*, const Tile*);
 }

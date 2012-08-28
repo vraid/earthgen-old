@@ -94,6 +94,7 @@ const Tile* select_tile (const Planet* p, const Vector3& v) {
 			d = nd;
 		}
 	}
+	/*
 	//find which tile the vector is actually in
 	if (!point_in_tile(t, v)) {
 		for (int i=0; i<t->edges; i++) {
@@ -104,6 +105,7 @@ const Tile* select_tile (const Planet* p, const Vector3& v) {
 			}
 		}
 	}
+	*/
 	return t;
 }
 

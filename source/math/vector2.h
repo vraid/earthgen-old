@@ -9,9 +9,10 @@ public:
 
 	Vector2& operator = (const Vector2&);
 	Vector2 operator + (const Vector2&) const;
+	Vector2 operator - (const Vector2&) const;
 	
-	double x;
-	double y;
+	float x;
+	float y;
 };
 
 namespace vector2 {

@@ -5,6 +5,7 @@
 #include <math.h>
 #include <algorithm>
 #include <iostream>
+#include <map>
 
 namespace terrain {
 
@@ -18,6 +19,10 @@ void classify_corners (Planet* p) {
 			if (tile(p, corner[i].tile[k])->is_land) land++;
 			else water++;
 		}
+		corner_ter[i].is_land = false;
+		corner_ter[i].is_water = false;
+		if (!water) corner_ter[i].is_land = true;
+		if (!land) corner_ter[i].is_water = true;
 		if (land && water) corner_ter[i].is_coast = true;
 		else corner_ter[i].is_coast = false;
 	}
@@ -97,6 +102,7 @@ Vector3 from_lat_long (double lat, double lon) {
 void generate (Planet* p) {
 	set_elevation(p);
 	set_sea_level(p);
+	set_stream_directions(p);
 }
 
 void init (Planet* p) {
@@ -114,6 +120,12 @@ double longitude (const Vector3& v) {
 	return atan2(v.y, v.x);
 }
 
+void reset_stream_directions (Planet* p) {
+	for (int i=0; i<mesh::corners(p); i++) {
+		corner(p,i)->stream_direction = nullptr;
+	}
+}
+
 void set_elevation (Planet* p) {
 	const Tile* tile = mesh::tile(p,0);
 	Terrain_tile* tile_ter = terrain::tile(p,0);
@@ -125,6 +137,8 @@ void set_elevation (Planet* p) {
 	for (int i=0; i<mesh::corners(p); i++) {
 		corner_ter[i].elevation = elevation(p, corner[i].v);
 	}
+	p->terrain->var.highest_point = p->par.elevation_scale;
+	p->terrain->var.lowest_point = -p->par.elevation_scale;
 }
 
 void set_sea_level (Planet* p) {
@@ -141,9 +155,33 @@ void set_sea_level (Planet* p) {
 			tile[i].water.depth = 0;
 		}
 	}
+	std::cout << "classify..";
+	std::cout << " tiles";
 	classify_tiles(p);
+	std::cout << ", corners";
 	classify_corners(p);
+	std::cout << ", edges";
 	classify_edges(p);
+	std::cout << ". done\n";
+}
+
+void set_stream_directions (Planet* p) {
+	reset_stream_directions(p);
+	std::multimap<float,int> flood;
+	for (int i=0; i<mesh::corners(p); i++) {
+		if (corner(p,i)->is_coast) flood.insert(std::pair<float,int>(corner(p,i)->elevation, i));
+	}
+	while (flood.size() > 0) {
+		const Corner* c = mesh::corner(p,flood.begin()->second);
+		flood.erase(flood.begin());
+		for (int i=0; i<3; i++) {
+			Terrain_corner* k = corner(p,mesh::corner(c,i)->id);
+			if (k->is_land && k->stream_direction == nullptr) {
+				k->stream_direction = c;
+				flood.insert(std::pair<float,int>(k->elevation, mesh::corner(c,i)->id));
+			}
+		}
+	}
 }
 
 Terrain_tile* tile (Planet* p, int i) {
