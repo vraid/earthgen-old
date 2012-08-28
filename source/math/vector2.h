@@ -10,6 +10,8 @@ public:
 	Vector2& operator = (const Vector2&);
 	Vector2 operator + (const Vector2&) const;
 	Vector2 operator - (const Vector2&) const;
+	Vector2 operator * (double) const;
+	Vector2 operator / (double) const;
 	
 	float x;
 	float y;

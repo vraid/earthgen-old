@@ -30,14 +30,17 @@ protected:
 	void mousePressEvent(QMouseEvent*);
 	void mouseMoveEvent(QMouseEvent*);
 
+	void reset_zoom();
+	void capture_mouse_position();
+
 //	void keyPressEvent( QKeyEvent *e ) {};
 public:
 	GUI* gui;
 	double scale;
 	Viewport* view;
+	Vector2 mouse_map_position;
+	Vector2 mouse_window_position;
 	int zoom_direction;
-	Vector2 zoom_map_focus;
-	Vector2 zoom_window_focus;
 	time_t zoom_time;
 	time_t zoom_focus_reset_delay;
 };
