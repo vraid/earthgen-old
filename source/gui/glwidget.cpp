@@ -84,6 +84,7 @@ void GLWidget::paintGL() {
 
 void GLWidget::wheelEvent(QWheelEvent *event) {
 	if(event->orientation() == Qt::Vertical) {
+<<<<<<< HEAD
 		if (zoomTime + zoomFocusResetDelay < time(NULL)) {
 			resetZoom();
 		}
@@ -100,10 +101,37 @@ void GLWidget::wheelEvent(QWheelEvent *event) {
 		
 		change_scale(camera, 1+zoomSpeed*event->delta());
 		set_position(camera, mouseMapPosition - mouseWindowPosition/camera->scale);
+=======
+		if (zoom_time + zoom_focus_reset_delay < time(NULL)) {
+			zoom_direction = 0;
+		}
+		if (event->delta() > 0 && zoom_direction <= 0) {
+			zoom_direction = 1;
+			zoom_time = time(NULL);
+			QPoint p = mapFromGlobal(QCursor::pos());
+			double x = 2.0*(p.x() - view->width*0.5);
+			double y = -2.0*(p.y() - view->height*0.5);
+			zoom_window_focus = Vector2(x, y);
+			zoom_map_focus = Vector2(x/view->scale, y/view->scale) + view->center;
+		}
+		else if (event->delta() < 0 && zoom_direction >= 0) {
+			zoom_direction = -1;
+			zoom_time = time(NULL);
+			QPoint p = mapFromGlobal(QCursor::pos());
+			double x = 2.0*(p.x() - view->width*0.5);
+			double y = -2.0*(p.y() - view->height*0.5);
+			zoom_window_focus = Vector2(x, y);
+			zoom_map_focus = Vector2(x/view->scale, y/view->scale) + view->center;
+		}
+		
+		change_scale(view, 1+0.0007*event->delta());
+		set_center(view, Vector2(zoom_map_focus.x - zoom_window_focus.x/view->scale, zoom_map_focus.y - zoom_window_focus.y/view->scale));
+>>>>>>> rollback
 		updateGL();
 	}
 }
 
+<<<<<<< HEAD
 void GLWidget::mousePressEvent(QMouseEvent* event) {
 	resetZoom();
 	captureMousePosition();
@@ -147,3 +175,12 @@ void GLWidget::captureMousePosition() {
 	mouseWindowPosition = Vector2(x, y);
 	mouseMapPosition = Vector2(x/camera->scale, y/camera->scale) + camera->position;
 }
+=======
+void GLWidget::mousePressEvent(QMouseEvent *event) {
+}
+
+void GLWidget::mouseMoveEvent(QMouseEvent *event) {
+	if (event->buttons() & Qt::LeftButton) {
+	}
+}
+>>>>>>> rollback
