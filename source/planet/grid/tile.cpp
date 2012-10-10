@@ -1,6 +1,7 @@
 #include "tile.h"
-#include "mesh.h"
+#include "grid.h"
 #include "../../math/math.h"
+#include <cmath>
 
 Tile::Tile () {
 	for (int i=0; i<6; i++) {
@@ -10,7 +11,7 @@ Tile::Tile () {
 	}
 }
 
-namespace mesh {
+namespace grid {
 
 const Corner* corner (const Tile* t, int i) {
 	int n = i%t->edges;
@@ -83,14 +84,18 @@ int position (const Tile* t, const Tile* e) {
 }
 
 Quaternion reference_rotation (const Tile* t) {
+	Quaternion h = Quaternion();
+	if (t->v.x != 0 || t->v.y != 0) {
+		h = Quaternion(pi+atan2(t->v.y, t->v.x), Vector3(0,0,1));
+	}
 	Quaternion q = Quaternion();
 	if (t->v.x == 0 && t->v.y == 0) {
 		if (t->v.z < 0) q = Quaternion(pi, Vector3(1,0,0));
 	}
 	else {
-		q = Quaternion(t->v, Vector3(0,0,1));
+		q = Quaternion(h*t->v, Vector3(0,0,1));
 	}
-	return q;
+	return h*q;
 }
 
 const Tile* tile (const Tile* t, int i) {
@@ -98,4 +103,5 @@ const Tile* tile (const Tile* t, int i) {
 	if (n < 0) n += t->edges;
 	return t->tile[n];
 }
+
 }

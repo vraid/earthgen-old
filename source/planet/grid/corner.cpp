@@ -1,6 +1,6 @@
 #include "corner.h"
 
-namespace mesh {
+namespace grid {
 
 const Corner* corner (const Corner* c, int i) {
 	int n = i%3;
@@ -52,4 +52,5 @@ const Tile* tile (const Corner* c, int i) {
 	if (n < 0) n += 3;
 	return c->tile[n];
 }
+
 }

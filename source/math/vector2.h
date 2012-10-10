@@ -18,6 +18,9 @@ public:
 };
 
 namespace vector2 {
+	double angle (const Vector2&);
+	double length (const Vector2&);
+	Vector2 rotate (const Vector2&, double);
 }
 
 #endif

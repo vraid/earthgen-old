@@ -1,5 +1,5 @@
-#ifndef mesh_h
-#define mesh_h
+#ifndef grid_h
+#define grid_h
 
 #include <vector>
 using std::vector;
@@ -7,14 +7,14 @@ using std::vector;
 #include "tile.h"
 #include "corner.h"
 #include "edge.h"
-#include "create_mesh.h"
+#include "create_grid.h"
 
 class Planet;
 
-class Mesh {
+class Grid {
 public:
-	Mesh() {};
-	~Mesh() {};
+	Grid() {};
+	~Grid() {};
 
 	int size;
 	int tiles;
@@ -26,13 +26,13 @@ public:
 	std::vector<Edge> edge;
 };
 
-namespace mesh {
+namespace grid {
 	const Corner* corner (const Planet*, int);
 	int corners (const Planet*);
 	const Edge* edge (const Planet*, int);
 	int edges (const Planet*);
-	void init (Mesh*, int);
-	void rotate (Mesh*, const Quaternion&);
+	void init (Grid*, int);
+	void rotate (Grid*, const Quaternion&);
 	const Tile* select_tile (const Planet*, const Vector3&);
 	const Tile* tile (const Planet*, int);
 	int tiles (const Planet*);

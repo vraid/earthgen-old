@@ -15,7 +15,7 @@ public:
 	~Parameters();
 	Parameters& operator = (const Parameters&);
 
-	int mesh_size;
+	int grid_size;
 
 	//physical
 	double axial_tilt;
@@ -23,7 +23,7 @@ public:
 
 	//terrain
 	std::string terrain_seed;
-	Noise_parameters terrain_noise;
+	int iterations;
 	double elevation_scale;
 	double water_ratio;
 
@@ -38,8 +38,9 @@ namespace parameters {
 	double check_range_float (double, const double*);
 	int check_range_int (int, const int*);
 
-	const int mesh_size_range[2] = {0, 11};
+	const int grid_size_range[2] = {0, 11};
 	const double axial_tilt_range[2] = {0.0, 0.8};
+	const int iterations_range[2] = {1, 20000};
 	const double elevation_scale_range[2] = {1.0, 100000.0};
 	const double water_ratio_range[2] = {0.0,1.0};
 	const int seasons_range[2] = {1,24};

@@ -16,7 +16,7 @@ public:
 	Corner* corner[2];
 };
 
-namespace mesh {
+namespace grid {
 	const Corner* corner (const Edge*, int);
 	int sign (const Edge*, const Corner*);
 	int sign (const Edge*, const Tile*);

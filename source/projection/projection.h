@@ -28,9 +28,10 @@ namespace projection {
 	void create_geometry (Projection*);
 	bool flip (const Vector2&, const Vector2&);
 	bool flip (const Vector3&, const Vector3&);
-	Vector3 from_hammer (const Vector2&);
 	void init (Planet*, Projection*);
 	void set_colors (Projection*);
+	void color_topography (Projection*);
+	Vector3 from_hammer (const Vector2&);
 	Vector2 to_hammer (const Vector3&);
 	double hammer_width (double);
 	double hammer_height (double);

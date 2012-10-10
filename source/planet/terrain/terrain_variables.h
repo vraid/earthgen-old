@@ -9,6 +9,8 @@ public:
 	double sea_level;
 	double highest_point;
 	double lowest_point;
+	double radius;
+	double axial_tilt;
 };
 
 #endif

@@ -7,17 +7,18 @@
 #include "../math/vector2.h"
 #include <ctime>
 class GUI;
-class Viewport;
+class Camera_2d;
 
 #define nullptr NULL
 
 class GLWidget : public QGLWidget {
 public:
 	GLWidget(QWidget *parent) : QGLWidget(parent) {
-		view = nullptr;
-		zoom_time = 0;
-		zoom_focus_reset_delay = 1.0;
-		zoom_direction = 0;
+		camera = nullptr;
+		zoomTime = 0;
+		zoomFocusResetDelay = 0.1;
+		zoomDirection = 0;
+		zoomSpeed = 0.0007;
 	}
 	~GLWidget();
 	void reset();
@@ -26,23 +27,27 @@ protected:
 	void resizeGL(int,int);
 	void resizeViewport();
 	void paintGL();
+	void paintRivers();
+	void paintWind();
 	void wheelEvent(QWheelEvent*);
 	void mousePressEvent(QMouseEvent*);
+	void mouseReleaseEvent(QMouseEvent*);
 	void mouseMoveEvent(QMouseEvent*);
 
-	void reset_zoom();
-	void capture_mouse_position();
+	void resetZoom();
+	void captureMousePosition();
 
 //	void keyPressEvent( QKeyEvent *e ) {};
 public:
 	GUI* gui;
-	double scale;
-	Viewport* view;
-	Vector2 mouse_map_position;
-	Vector2 mouse_window_position;
-	int zoom_direction;
-	time_t zoom_time;
-	time_t zoom_focus_reset_delay;
+	Camera_2d* camera;
+	bool mouseMoving;
+	Vector2 mouseMapPosition;
+	Vector2 mouseWindowPosition;
+	int zoomDirection;
+	double zoomSpeed;
+	time_t zoomTime;
+	time_t zoomFocusResetDelay;
 };
 
 #endif

@@ -23,7 +23,7 @@ public:
 	Tile* tile[6];
 };
 
-namespace mesh {
+namespace grid {
 	const Corner* corner (const Tile*, int);
 	const Edge* edge (const Tile*, int);
 	bool point_in_tile (const Tile*, const Vector3&);
