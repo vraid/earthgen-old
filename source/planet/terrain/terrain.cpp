@@ -193,7 +193,7 @@ void create_water_body (Planet* p, int tile) {
 	terrain::m_tile(p,tile)->water.body = id;
 	body->tile.insert(t);
 	std::set<const Tile*> search;
-	floodfill.insert(t);
+	search.insert(t);
 	while (!search.empty()) {
 		t = *search.begin();
 		search.erase(t);
@@ -229,7 +229,6 @@ void set_basins (Planet* p) {
 		bodies.insert(std::pair<int,Water_body*>(p->terrain->water_bodies[i].tile.size(), &p->terrain->water_bodies[i]));
 	}
 	double basin_depth = 500.0;
-	std::multimap
 	//start with largest basin, include all up to basin depth and mark all but starting point as non-basins
 	//repeat for each body not yet marked
 	//set river directions, starting from basins
