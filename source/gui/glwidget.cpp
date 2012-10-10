@@ -83,50 +83,37 @@ void GLWidget::paintGL() {
 void GLWidget::wheelEvent(QWheelEvent *event) {
 	if(event->orientation() == Qt::Vertical) {
 		if (zoom_time + zoom_focus_reset_delay < time(NULL)) {
-			reset_zoom();
+			zoom_direction = 0;
 		}
 		if (event->delta() > 0 && zoom_direction <= 0) {
 			zoom_direction = 1;
 			zoom_time = time(NULL);
-			capture_mouse_position();
+			QPoint p = mapFromGlobal(QCursor::pos());
+			double x = 2.0*(p.x() - view->width*0.5);
+			double y = -2.0*(p.y() - view->height*0.5);
+			zoom_window_focus = Vector2(x, y);
+			zoom_map_focus = Vector2(x/view->scale, y/view->scale) + view->center;
 		}
 		else if (event->delta() < 0 && zoom_direction >= 0) {
 			zoom_direction = -1;
 			zoom_time = time(NULL);
-			capture_mouse_position();
+			QPoint p = mapFromGlobal(QCursor::pos());
+			double x = 2.0*(p.x() - view->width*0.5);
+			double y = -2.0*(p.y() - view->height*0.5);
+			zoom_window_focus = Vector2(x, y);
+			zoom_map_focus = Vector2(x/view->scale, y/view->scale) + view->center;
 		}
 		
 		change_scale(view, 1+0.0007*event->delta());
-		set_center(view, mouse_map_position - mouse_window_position/view->scale);
+		set_center(view, Vector2(zoom_map_focus.x - zoom_window_focus.x/view->scale, zoom_map_focus.y - zoom_window_focus.y/view->scale));
 		updateGL();
 	}
 }
 
 void GLWidget::mousePressEvent(QMouseEvent *event) {
-	reset_zoom();
-	capture_mouse_position();
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event) {
-	if (event->buttons()) reset_zoom();
 	if (event->buttons() & Qt::LeftButton) {
-		QPoint p = mapFromGlobal(QCursor::pos());
-		double x = 2.0*(p.x() - view->width*0.5);
-		double y = -2.0*(p.y() - view->height*0.5);
-		mouse_window_position = Vector2(x, y);
-		set_center(view, mouse_map_position - mouse_window_position/view->scale);
-		updateGL();
 	}
-}
-
-void GLWidget::reset_zoom() {
-	zoom_direction = 0;
-}
-
-void GLWidget::capture_mouse_position() {
-	QPoint p = mapFromGlobal(QCursor::pos());
-	double x = 2.0*(p.x() - view->width*0.5);
-	double y = -2.0*(p.y() - view->height*0.5);
-	mouse_window_position = Vector2(x, y);
-	mouse_map_position = Vector2(x/view->scale, y/view->scale) + view->center;
 }

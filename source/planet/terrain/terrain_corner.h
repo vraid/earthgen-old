@@ -7,7 +7,8 @@ class Terrain_corner {
 public:
 	Terrain_corner() {
 		elevation = 0;
-		stream_direction = nullptr;
+		sea_distance = 0;
+		river_direction = nullptr;
 	}
 	~Terrain_corner() {};
 
@@ -16,7 +17,8 @@ public:
 	bool is_land;
 	bool is_water;
 	bool is_coast;
-	const Corner* stream_direction;
+	int sea_distance;
+	const Corner* river_direction;
 };
 
 #endif
