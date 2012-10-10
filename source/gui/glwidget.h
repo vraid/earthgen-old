@@ -34,7 +34,6 @@ protected:
 	void mouseReleaseEvent(QMouseEvent*);
 	void mouseMoveEvent(QMouseEvent*);
 
-<<<<<<< HEAD
 	void resetZoom();
 	void captureMousePosition();
 
@@ -49,18 +48,6 @@ public:
 	double zoomSpeed;
 	time_t zoomTime;
 	time_t zoomFocusResetDelay;
-=======
-//	void keyPressEvent( QKeyEvent *e ) {};
-public:
-	GUI* gui;
-	double scale;
-	Viewport* view;
-	int zoom_direction;
-	Vector2 zoom_map_focus;
-	Vector2 zoom_window_focus;
-	time_t zoom_time;
-	time_t zoom_focus_reset_delay;
->>>>>>> rollback
 };
 
 #endif
