@@ -1,16 +1,12 @@
 #include "glwidget.h"
 #include "gui.h"
+#include "generationmenu.h"
 #include "../planet/planet.h"
 #include "../projection/projection.h"
 #include "../map/camera_2d.h"
 #include "../math/vector2.h"
 #include <cmath>
-#include <string>
-#include <sstream>
-#include <iomanip>
 #include <vector>
-#include <QString>
-#include <QLabel>
 using std::vector;
 
 GLWidget::~GLWidget () {
@@ -114,10 +110,8 @@ void GLWidget::mouseReleaseEvent(QMouseEvent* event) {
 	if (mouseMoving == false) {
 		if (pow(mouseMapPosition.x/sqrt(8.0),2.0) + pow(mouseMapPosition.y/sqrt(2.0),2.0) <= 1) {
 			Vector3 v = projection::from_hammer(mouseMapPosition);
-			std::ostringstream buffer;
-			buffer << std::fixed << std::setprecision(2) << "(" << v.x << ", " << v.y << ", " << v.z << ")";
-			std::string s = buffer.str();
-			gui->coordinateSelectionLabel->setText(QString::fromStdString(s));
+			gui->sideMenu->setSelectedCoordinate(v);
+			// coordinateSelectionLabel->setText(QString::fromStdString(s));
 		}
 	}
 	mouseMoving = false;

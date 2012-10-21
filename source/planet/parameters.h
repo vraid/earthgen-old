@@ -2,6 +2,7 @@
 #define parameters_h
 
 #include <string>
+#include "../math/vector3.h"
 #include "../noise/noise_parameters.h"
 
 #define nullptr NULL
@@ -19,7 +20,7 @@ public:
 
 	//physical
 	double axial_tilt;
-	Vector3* axis;
+	Vector3 axis;
 
 	//terrain
 	std::string terrain_seed;

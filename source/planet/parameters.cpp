@@ -8,7 +8,7 @@ Parameters::Parameters() {
 	grid_size = 7;
 
 	axial_tilt = 0.4;
-	axis = nullptr;
+	axis = Vector3(0,0,1);
 
 	terrain_seed = "";
 	iterations = 2000;
@@ -19,7 +19,6 @@ Parameters::Parameters() {
 }
 
 Parameters::~Parameters() {
-	delete axis;
 }
 
 Parameters& Parameters::operator = (const Parameters& par) {
