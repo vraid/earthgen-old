@@ -24,7 +24,10 @@ Parameters::~Parameters() {
 Parameters& Parameters::operator = (const Parameters& par) {
 	grid_size = par.grid_size;
 	axial_tilt = par.axial_tilt;
+	axis = par.axis;
+	rotation = par.rotation;
 	terrain_seed = par.terrain_seed;
+	iterations = par.iterations;
 	elevation_scale = par.elevation_scale;
 	water_ratio = par.water_ratio;
 	seasons = par.seasons;

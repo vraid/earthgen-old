@@ -2,9 +2,12 @@
 #include "../planet.h"
 #include "../../math/vector3.h"
 #include "../../noise/noise.h"
+#include "../../hash/md5.h"
 #include <math.h>
 #include <algorithm>
 #include <iostream>
+#include <sstream>
+#include <string>
 #include <set>
 #include <map>
 #include <ctime>
@@ -18,6 +21,7 @@ void generate (Planet* p) {
 	set_sea_level(p);
 	set_water_bodies(p);
 	set_river_directions(p);
+	grid::rotate(p->grid, p->par.rotation);
 }
 
 void init (Planet* p) {
@@ -145,7 +149,20 @@ void smoothe_elevation (Planet* p) {
 void set_elevation (Planet* p) {
 	std::vector<Vector3> point;
 	point.resize(2*p->par.iterations);
-	srand(time(NULL));
+
+	std::string md = md5(p->par.terrain_seed);
+	unsigned long hash = 0;
+	for (unsigned int i=0; i<md.length(); i++) {
+		hash *= 16;
+		hash += md[i];
+		if (md[i] >= 'a') hash -= 'a';
+		else hash -= '0';
+	}
+	
+	std::cout << "seed = " << p->par.terrain_seed << std::endl;
+	std::cout << "iterations = " << p->par.iterations << std::endl;
+	
+	srand(hash);
 	for (int i=0; i<p->par.iterations; i++) {
 		for (int k=0; k<2; k++) {
 			double x = 2*pi*(rand()/(double)RAND_MAX);
@@ -328,4 +345,4 @@ Terrain_edge* m_edge (Planet* p, int id) {
 	return &p->terrain->edge[id];
 }
 
-}
+} 

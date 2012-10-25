@@ -6,6 +6,7 @@
 #include "../map/camera_2d.h"
 #include "../math/vector2.h"
 #include <cmath>
+#include <iomanip>
 #include <vector>
 using std::vector;
 

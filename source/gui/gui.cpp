@@ -14,12 +14,15 @@ GUI::GUI() {
 	glwin = nullptr;
 	loadParameters();
 	resetPlanet();
-	generatePlanet();
+
+//	generateTerrain();
 
 	window = new QWidget();
 	windowLayout = new QGridLayout();
 		sideMenu = new GenerationMenu(this);
 		windowLayout->addWidget(sideMenu, 0, 0, 2, 1, 0);
+		sideMenu->generateTerrain();
+		
 		glwin = new GLWidget(window);
 		glwin->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
 		glwin->gui = this;
@@ -56,7 +59,7 @@ void GUI::resetPlanet() {
 	proj = new Projection();
 }
 
-void GUI::generatePlanet() {
+void GUI::generateTerrain() {
 	p->grid = grid::create(p->par.grid_size);
 	terrain::generate(p);
 	
@@ -64,4 +67,7 @@ void GUI::generatePlanet() {
 	projection::set_colors(proj);
 	projection::color_topography(proj);
 	if (glwin) glwin->update();
+}
+
+void GUI::generateClimate() {
 }

@@ -3,7 +3,7 @@
 
 #include <string>
 #include "../math/vector3.h"
-#include "../noise/noise_parameters.h"
+#include "../math/quaternion.h"
 
 #define nullptr NULL
 
@@ -21,6 +21,7 @@ public:
 	//physical
 	double axial_tilt;
 	Vector3 axis;
+	Quaternion rotation;
 
 	//terrain
 	std::string terrain_seed;

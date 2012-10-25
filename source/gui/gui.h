@@ -28,7 +28,8 @@ public:
 
 	void loadParameters();
 	void resetPlanet();
-	void generatePlanet();
+	void generateTerrain();
+	void generateClimate();
 
 	QWidget* window;
 	QGridLayout* windowLayout;
