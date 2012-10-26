@@ -44,13 +44,13 @@ void GLWidget::paintGL() {
 	const Projection* proj = gui->proj;
 	
 	for (int i=0; i<grid::tiles(p); i++) {
-		const vector<Vector2>& t = proj->tile;
 		glColor3f(proj->color[3*i], proj->color[3*i+1], proj->color[3*i+2]);
 		glBegin(GL_TRIANGLE_FAN);
-		for (int k=0; k<7; k++) {
-			glVertex2f(t[i*7+k].x, t[i*7+k].y);
+		glVertex2f(proj->tile_center[i].x, proj->tile_center[i].y);
+		for (int k=0; k<6; k++) {
+			glVertex2f(proj->tile_corner[i*6+k].x, proj->tile_corner[i*6+k].y);
 		}
-		glVertex2f(t[i*7+1].x, t[i*7+1].y);
+		glVertex2f(proj->tile_corner[i*6].x, proj->tile_corner[i*6].y);
 		glEnd();
 	}
 	/*

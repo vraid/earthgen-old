@@ -43,7 +43,6 @@ public:
 	Vector2 mouseWindowPosition;
 	int zoomDirection;
 	double zoomSpeed;
->>>>>>> wip
 };
 
 #endif

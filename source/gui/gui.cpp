@@ -64,6 +64,7 @@ void GUI::generateTerrain() {
 	terrain::generate(p);
 	
 	projection::init(p, proj);
+	projection::create_geometry(proj, Quaternion());
 	projection::set_colors(proj);
 	projection::color_topography(proj);
 	if (glwin) glwin->update();
