@@ -52,31 +52,6 @@ void GLWidget::paintGL() {
 		}
 		glVertex2f(proj->tile_corner[i*6].x, proj->tile_corner[i*6].y);
 		glEnd();
-	}
-	/*
-	int id = proj->north_id;
-	if (id >= 0) {
-		const vector<Vector2>& t = proj->north_tile;std::precision(2)
-		glColor3f(proj->color[3*id], proj->color[3*id+1], proj->color[3*id+2]);
-		glBegin(GL_TRIANGLE_FAN);
-		for (unsigned int i=0; i<proj->north_tile.size(); i++) {
-			glVertex2f(t[i].x, t[i].y);
-		}
-		glVertex2f(t[1].x, t[1].y);
-		glEnd();
-	}
-	id = proj->south_id;
-	if (id >= 0) {
-		const vector<Vector2>& t = proj->south_tile;
-		glColor3f(proj->color[3*id], proj->color[3*id+1], proj->color[3*id+2]);
-		glBegin(GL_TRIANGLE_FAN);
-		for (unsigned int i=0; i<proj->south_tile.size(); i++) {
-			glVertex2f(t[i].x, t[i].y);
-		}
-		glVertex2f(t[1].x, t[1].y);
-		glEnd();
-	}
-	*/
 }
 
 void GLWidget::wheelEvent(QWheelEvent *event) {
@@ -106,7 +81,6 @@ void GLWidget::mouseReleaseEvent(QMouseEvent* event) {
 		if (pow(mouseMapPosition.x/sqrt(8.0),2.0) + pow(mouseMapPosition.y/sqrt(2.0),2.0) <= 1) {
 			Vector3 v = projection::from_hammer(mouseMapPosition);
 			gui->sideMenu->setSelectedCoordinate(v);
-			// coordinateSelectionLabel->setText(QString::fromStdString(s));
 		}
 	}
 	mouseMoving = false;

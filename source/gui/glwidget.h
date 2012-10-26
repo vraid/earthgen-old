@@ -34,7 +34,6 @@ protected:
 	void resetZoom();
 	void captureMousePosition();
 
-//	void keyPressEvent( QKeyEvent *e ) {};
 public:
 	GUI* gui;
 	Camera_2d* camera;

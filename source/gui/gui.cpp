@@ -15,8 +15,6 @@ GUI::GUI() {
 	loadParameters();
 	resetPlanet();
 
-//	generateTerrain();
-
 	window = new QWidget();
 	windowLayout = new QGridLayout();
 		sideMenu = new GenerationMenu(this);
