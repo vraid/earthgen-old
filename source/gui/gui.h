@@ -1,16 +1,17 @@
 #ifndef gui_h
 #define gui_h
 
-class GUI;
-class GLWidget;
-class QLabel;
-
 #include <iostream>
-#include <QWidget>
-#include <QLayout>
-#include <QFormLayout>
-#include <QCheckBox>
+#include <string>
+#include <QString>
+#include "../planet/parameters.h"
 
+class QWidget;
+class QLayout;
+class QGridLayout;
+
+class GenerationMenu;
+class GLWidget;
 class Planet;
 class Parameters;
 class Projection;
@@ -20,12 +21,19 @@ public:
 	GUI();
 	~GUI();
 private:
-	static void generateAction(GUI*);
-	static void displayMode(GUI*,int);
-	static void nextSeasonAction(GUI*);
+	static void generateAction (GUI*);
+	static void displayMode (GUI*,int);
+	static void nextSeasonAction (GUI*);
 public:
+
+	void loadParameters();
+	void resetPlanet();
+	void generateTerrain();
+	void generateClimate();
+
 	QWidget* window;
-	QHBoxLayout* windowLayout;
+	QGridLayout* windowLayout;
+	GenerationMenu* sideMenu;
 	GLWidget* glwin;
 
 	Planet* p;

@@ -1,27 +1,27 @@
 #include "glwidget.h"
 #include "gui.h"
+#include "generationmenu.h"
 #include "../planet/planet.h"
 #include "../projection/projection.h"
-#include "../map/viewport.h"
+#include "../map/camera_2d.h"
 #include "../math/vector2.h"
+#include <cmath>
+#include <iomanip>
 #include <vector>
 using std::vector;
 
 GLWidget::~GLWidget () {
-	delete view;
+	delete camera;
 }
 
 void GLWidget::reset() {
-	std::cout << "reset gl\n";
 	glLoadIdentity();
 }
 
 void GLWidget::initializeGL() {
-	if (view == nullptr && width() > 0 && height() > 0) view = new Viewport(width(), height());
-	std::cout << "init gl\n";
+	if (camera == nullptr && width() > 0 && height() > 0) camera = new Camera_2d(width(), height());
 	glClearColor(0,0,0,0);
 	glLoadIdentity();
-	scale = 3.0/width();
 }
 
 void GLWidget::resizeGL(int w, int h) {
@@ -30,21 +30,20 @@ void GLWidget::resizeGL(int w, int h) {
 }
 
 void GLWidget::resizeViewport() {
-	if (view == nullptr && width() > 0 && height() > 0) view = new Viewport(width(), height());
-	resize_viewport(view, width(), height());
+	if (camera == nullptr && width() > 0 && height() > 0) camera = new Camera_2d(width(), height());
+	resize_camera(camera, width(), height());
 	glViewport(0,0,width(),height());
 }
 
 void GLWidget::paintGL() {
-	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	double scale = camera->scale;
 	glLoadIdentity();
-	double scale = view->scale;
-	glOrtho(-width()/scale + view->center.x, width()/scale + view->center.x, -height()/scale + view->center.y, height()/scale + view->center.y, -1.0, 1.0);
+	glOrtho(-width()/scale + camera->position.x, width()/scale + camera->position.x, -height()/scale + camera->position.y, height()/scale + camera->position.y, -1.0, 1.0);
 	const Planet* p = gui->p;
 	const Projection* proj = gui->proj;
 	
-	for (int i=0; i<mesh::tiles(p); i++) {
+	for (int i=0; i<grid::tiles(p); i++) {
 		const vector<Vector2>& t = proj->tile;
 		glColor3f(proj->color[3*i], proj->color[3*i+1], proj->color[3*i+2]);
 		glBegin(GL_TRIANGLE_FAN);
@@ -57,7 +56,7 @@ void GLWidget::paintGL() {
 	/*
 	int id = proj->north_id;
 	if (id >= 0) {
-		const vector<Vector2>& t = proj->north_tile;
+		const vector<Vector2>& t = proj->north_tile;std::precision(2)
 		glColor3f(proj->color[3*id], proj->color[3*id+1], proj->color[3*id+2]);
 		glBegin(GL_TRIANGLE_FAN);
 		for (unsigned int i=0; i<proj->north_tile.size(); i++) {
@@ -82,38 +81,58 @@ void GLWidget::paintGL() {
 
 void GLWidget::wheelEvent(QWheelEvent *event) {
 	if(event->orientation() == Qt::Vertical) {
-		if (zoom_time + zoom_focus_reset_delay < time(NULL)) {
-			zoom_direction = 0;
+		if (event->delta() > 0) {
+			zoomDirection = 1;
 		}
-		if (event->delta() > 0 && zoom_direction <= 0) {
-			zoom_direction = 1;
-			zoom_time = time(NULL);
-			QPoint p = mapFromGlobal(QCursor::pos());
-			double x = 2.0*(p.x() - view->width*0.5);
-			double y = -2.0*(p.y() - view->height*0.5);
-			zoom_window_focus = Vector2(x, y);
-			zoom_map_focus = Vector2(x/view->scale, y/view->scale) + view->center;
+		else if (event->delta() < 0) {
+			zoomDirection = -1;
 		}
-		else if (event->delta() < 0 && zoom_direction >= 0) {
-			zoom_direction = -1;
-			zoom_time = time(NULL);
-			QPoint p = mapFromGlobal(QCursor::pos());
-			double x = 2.0*(p.x() - view->width*0.5);
-			double y = -2.0*(p.y() - view->height*0.5);
-			zoom_window_focus = Vector2(x, y);
-			zoom_map_focus = Vector2(x/view->scale, y/view->scale) + view->center;
+		captureMousePosition();
+		change_scale(camera, 1+zoomSpeed*event->delta());
+		set_position(camera, mouseMapPosition - mouseWindowPosition/camera->scale);
+		updateGL();
+	}
+	resetZoom();
+}
+
+void GLWidget::mousePressEvent(QMouseEvent* event) {
+	resetZoom();
+	captureMousePosition();
+	mouseMoving = false;
+}
+
+void GLWidget::mouseReleaseEvent(QMouseEvent* event) {
+	if (mouseMoving == false) {
+		if (pow(mouseMapPosition.x/sqrt(8.0),2.0) + pow(mouseMapPosition.y/sqrt(2.0),2.0) <= 1) {
+			Vector3 v = projection::from_hammer(mouseMapPosition);
+			gui->sideMenu->setSelectedCoordinate(v);
+			// coordinateSelectionLabel->setText(QString::fromStdString(s));
 		}
-		
-		change_scale(view, 1+0.0007*event->delta());
-		set_center(view, Vector2(zoom_map_focus.x - zoom_window_focus.x/view->scale, zoom_map_focus.y - zoom_window_focus.y/view->scale));
+	}
+	mouseMoving = false;
+}
+
+void GLWidget::mouseMoveEvent(QMouseEvent* event) {
+	mouseMoving = true;
+	if (event->buttons()) resetZoom();
+	if (event->buttons() & Qt::LeftButton) {
+		QPoint p = mapFromGlobal(QCursor::pos());
+		double x = 2.0*(p.x() - camera->width*0.5);
+		double y = -2.0*(p.y() - camera->height*0.5);
+		mouseWindowPosition = Vector2(x, y);
+		set_position(camera, mouseMapPosition - mouseWindowPosition/camera->scale);
 		updateGL();
 	}
 }
 
-void GLWidget::mousePressEvent(QMouseEvent *event) {
+void GLWidget::resetZoom() {
+	zoomDirection = 0;
 }
 
-void GLWidget::mouseMoveEvent(QMouseEvent *event) {
-	if (event->buttons() & Qt::LeftButton) {
-	}
+void GLWidget::captureMousePosition() {
+	QPoint p = mapFromGlobal(QCursor::pos());
+	double x = 2.0*(p.x() - camera->width*0.5);
+	double y = -2.0*(p.y() - camera->height*0.5);
+	mouseWindowPosition = Vector2(x, y);
+	mouseMapPosition = Vector2(x/camera->scale, y/camera->scale) + camera->position;
 }

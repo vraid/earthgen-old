@@ -8,7 +8,7 @@ Parameters::Parameters() {
 	grid_size = 7;
 
 	axial_tilt = 0.4;
-	axis = nullptr;
+	axis = Vector3(0,0,1);
 
 	terrain_seed = "";
 	iterations = 2000;
@@ -19,13 +19,15 @@ Parameters::Parameters() {
 }
 
 Parameters::~Parameters() {
-	delete axis;
 }
 
 Parameters& Parameters::operator = (const Parameters& par) {
 	grid_size = par.grid_size;
 	axial_tilt = par.axial_tilt;
+	axis = par.axis;
+	rotation = par.rotation;
 	terrain_seed = par.terrain_seed;
+	iterations = par.iterations;
 	elevation_scale = par.elevation_scale;
 	water_ratio = par.water_ratio;
 	seasons = par.seasons;

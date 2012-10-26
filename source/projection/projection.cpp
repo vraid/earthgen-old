@@ -51,12 +51,14 @@ void create_geometry (Projection* proj) {
 			}
 		}
 		proj->north_tile.push_back(to_hammer(t->v));
+		/*
 		std::cout << "north tile: ";
 		for (int i=first; i<=first+t->edges; i++) {
 			proj->north_tile.push_back(to_hammer(grid::corner(t,i)->v));
 			std::cout << "(" << grid::corner(t,i)->v.x << ", " << grid::corner(t,i)->v.y << "), ";
 		}
 		std::cout << std::endl;
+		*/
 		if (flip(proj->north_tile[1], proj->north_tile[2])) {
 			proj->north_tile[1].x *= -1;
 		}
@@ -80,12 +82,14 @@ void create_geometry (Projection* proj) {
 			}
 		}
 		proj->south_tile.push_back(to_hammer(t->v));
+		/*
 		std::cout << "south tile: ";
 		for (int i=first; i<=first+t->edges; i++) {
 			proj->south_tile.push_back(to_hammer(grid::corner(t,i)->v));
 			std::cout << "(" << grid::corner(t,i)->v.x << ", " << grid::corner(t,i)->v.y << ")";
 		}
 		std::cout << std::endl;
+		*/
 		if (flip(proj->south_tile[1], proj->south_tile[2])) {
 			proj->south_tile[1].x *= -1;
 		}

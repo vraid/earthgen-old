@@ -1,31 +1,32 @@
 #include "gui.h"
+#include "generationmenu.h"
 #include "glwidget.h"
 #include "../planet/planet.h"
 #include "../projection/projection.h"
 #include <iostream>
+#include <QObject>
+#include <QWidget>
+#include <QLayout>
 
 GUI::GUI() {
-	p = new Planet();
-	par = parameters::load();
-	p->par = *par;
-	p->mesh = mesh::create(p->par.mesh_size);
-	p->terrain = new Terrain();
-	terrain::init(p);
-	terrain::generate(p);
+	p = nullptr;
+	proj = nullptr;
+	glwin = nullptr;
+	loadParameters();
+	resetPlanet();
 
-	std::cout << "new projection\n";
-	proj = new Projection();
-	projection::init(p, proj);
-	std::cout << "set colours..";
-	projection::set_colors(proj);
-	std::cout << " done\n";
-	
+//	generateTerrain();
+
 	window = new QWidget();
-	windowLayout = new QHBoxLayout();
+	windowLayout = new QGridLayout();
+		sideMenu = new GenerationMenu(this);
+		windowLayout->addWidget(sideMenu, 0, 0, 2, 1, 0);
+		sideMenu->generateTerrain();
+		
 		glwin = new GLWidget(window);
 		glwin->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
 		glwin->gui = this;
-		windowLayout->addWidget(glwin);
+		windowLayout->addWidget(glwin, 0, 1, 2, 1, 0);
 	window->setLayout(windowLayout);
 	window->resize(1024,600);
 	window->show();
@@ -44,4 +45,29 @@ void GUI::displayMode(GUI *gui, int i) {
 }
 
 void GUI::nextSeasonAction(GUI *gui) {
+}
+
+void GUI::loadParameters() {
+	par = parameters::load();
+}
+
+void GUI::resetPlanet() {
+	delete p;
+	p = new Planet();
+	p->par = *par;
+	delete proj;
+	proj = new Projection();
+}
+
+void GUI::generateTerrain() {
+	p->grid = grid::create(p->par.grid_size);
+	terrain::generate(p);
+	
+	projection::init(p, proj);
+	projection::set_colors(proj);
+	projection::color_topography(proj);
+	if (glwin) glwin->update();
+}
+
+void GUI::generateClimate() {
 }

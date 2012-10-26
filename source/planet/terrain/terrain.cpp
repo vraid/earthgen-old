@@ -2,6 +2,7 @@
 #include "../planet.h"
 #include "../../math/vector3.h"
 #include "../../noise/noise.h"
+#include "../../hash/md5.h"
 #include <math.h>
 #include <algorithm>
 #include <iostream>
@@ -18,6 +19,7 @@ void generate (Planet* p) {
 	set_sea_level(p);
 	set_water_bodies(p);
 	set_river_directions(p);
+	grid::rotate(p->grid, p->par.rotation);
 }
 
 void init (Planet* p) {
@@ -145,7 +147,20 @@ void smoothe_elevation (Planet* p) {
 void set_elevation (Planet* p) {
 	std::vector<Vector3> point;
 	point.resize(2*p->par.iterations);
-	srand(time(NULL));
+
+	std::string md = md5(p->par.terrain_seed);
+	unsigned long hash = 0;
+	for (unsigned int i=0; i<md.length(); i++) {
+		hash *= 16;
+		hash += md[i];
+		if (md[i] >= 'a') hash += 10 - 'a';
+		else hash -= '0';
+	}
+	
+	std::cout << "seed = " << p->par.terrain_seed << std::endl;
+	std::cout << "iterations = " << p->par.iterations << std::endl;
+	
+	srand(hash);
 	for (int i=0; i<p->par.iterations; i++) {
 		for (int k=0; k<2; k++) {
 			double x = 2*pi*(rand()/(double)RAND_MAX);
@@ -193,7 +208,11 @@ void create_water_body (Planet* p, int tile) {
 	terrain::m_tile(p,tile)->water.body = id;
 	body->tile.insert(t);
 	std::set<const Tile*> search;
+<<<<<<< HEAD
 	floodfill.insert(t);
+=======
+	search.insert(t);
+>>>>>>> wip
 	while (!search.empty()) {
 		t = *search.begin();
 		search.erase(t);
@@ -229,7 +248,10 @@ void set_basins (Planet* p) {
 		bodies.insert(std::pair<int,Water_body*>(p->terrain->water_bodies[i].tile.size(), &p->terrain->water_bodies[i]));
 	}
 	double basin_depth = 500.0;
+<<<<<<< HEAD
 	std::multimap
+=======
+>>>>>>> wip
 	//start with largest basin, include all up to basin depth and mark all but starting point as non-basins
 	//repeat for each body not yet marked
 	//set river directions, starting from basins
@@ -298,6 +320,38 @@ double north (const Planet* p, const Tile* t) {
 
 double circumference (const Planet* p) {
 	return p->terrain->var.radius * 2.0 * pi;
+<<<<<<< HEAD
+}
+
+
+const Terrain_tile* tile (const Planet* p, int id) {
+	return &p->terrain->tile[id];
+}
+const Terrain_tile* tile (const Planet* p, const Tile* t) {
+	return &p->terrain->tile[t->id];
+}
+const Terrain_corner* corner (const Planet* p, int id) {
+	return &p->terrain->corner[id];
+}
+const Terrain_corner* corner (const Planet* p, const Corner* c) {
+	return &p->terrain->corner[c->id];
+}
+const Terrain_edge* edge (const Planet* p, int id) {
+	return &p->terrain->edge[id];
+}
+const Terrain_edge* edge (const Planet* p, const Edge* e) {
+	return &p->terrain->edge[e->id];
+}
+Terrain_tile* m_tile (Planet* p, int id) {
+	return &p->terrain->tile[id];
+}
+Terrain_corner* m_corner (Planet* p, int id) {
+	return &p->terrain->corner[id];
+}
+Terrain_edge* m_edge (Planet* p, int id) {
+	return &p->terrain->edge[id];
+=======
+>>>>>>> wip
 }
 
 
@@ -329,4 +383,4 @@ Terrain_edge* m_edge (Planet* p, int id) {
 	return &p->terrain->edge[id];
 }
 
-}
+} 
