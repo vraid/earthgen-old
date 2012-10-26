@@ -15,8 +15,6 @@ class GLWidget : public QGLWidget {
 public:
 	GLWidget(QWidget *parent) : QGLWidget(parent) {
 		camera = nullptr;
-		zoomTime = 0;
-		zoomFocusResetDelay = 0.1;
 		zoomDirection = 0;
 		zoomSpeed = 0.0007;
 	}
@@ -46,8 +44,6 @@ public:
 	Vector2 mouseWindowPosition;
 	int zoomDirection;
 	double zoomSpeed;
-	time_t zoomTime;
-	time_t zoomFocusResetDelay;
 };
 
 #endif

@@ -81,24 +81,18 @@ void GLWidget::paintGL() {
 
 void GLWidget::wheelEvent(QWheelEvent *event) {
 	if(event->orientation() == Qt::Vertical) {
-		if (zoomTime + zoomFocusResetDelay < time(NULL)) {
-			resetZoom();
-		}
-		if (event->delta() > 0 && zoomDirection <= 0) {
+		if (event->delta() > 0) {
 			zoomDirection = 1;
-			zoomTime = time(NULL);
-			captureMousePosition();
 		}
-		else if (event->delta() < 0 && zoomDirection >= 0) {
+		else if (event->delta() < 0) {
 			zoomDirection = -1;
-			zoomTime = time(NULL);
-			captureMousePosition();
 		}
-		
+		captureMousePosition();
 		change_scale(camera, 1+zoomSpeed*event->delta());
 		set_position(camera, mouseMapPosition - mouseWindowPosition/camera->scale);
 		updateGL();
 	}
+	resetZoom();
 }
 
 void GLWidget::mousePressEvent(QMouseEvent* event) {

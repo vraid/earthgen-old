@@ -109,7 +109,7 @@ void GenerationMenu::generateClimate() {
 }
 
 void GenerationMenu::setAxis() {
-	axis = selectedCoordinate;
+	axis = quaternion::conjugate(oldRotation)*selectedCoordinate;
 	axisLabel->setText(coordinateSelectionLabel->text());
 }
 
@@ -149,7 +149,6 @@ void GenerationMenu::updateTerrainParameters() {
 
 	gui->par->grid_size = gridSizeEdit->text().toInt();
 
-	axis = quaternion::conjugate(oldRotation)*axis;
 	gui->par->axis = axis;
 	if (axis.z == 1) {
 		oldRotation = Quaternion();
@@ -159,6 +158,8 @@ void GenerationMenu::updateTerrainParameters() {
 		else              oldRotation = Quaternion(axis, Vector3(0,0,1));
 	}
 	gui->par->rotation = oldRotation;
+	setSelectedCoordinate(Vector3(0,0,1));
+	setAxis();
 
 	gui->par->water_ratio = std::min(std::max(waterRatioEdit->text().toDouble(), waterRatioValidator->bottom()), waterRatioValidator->top());
 	waterRatioEdit->setText(QString::number(gui->par->water_ratio));

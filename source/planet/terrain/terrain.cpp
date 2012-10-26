@@ -155,7 +155,7 @@ void set_elevation (Planet* p) {
 	for (unsigned int i=0; i<md.length(); i++) {
 		hash *= 16;
 		hash += md[i];
-		if (md[i] >= 'a') hash -= 'a';
+		if (md[i] >= 'a') hash += 10 - 'a';
 		else hash -= '0';
 	}
 	
