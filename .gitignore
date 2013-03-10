@@ -27,5 +27,8 @@ PROJECT
 Thumbs.db
 desktop.ini
 
-# Editors temporary files 
+# Editors temporary files
 *~
+
+# Saved text files
+*.txt
