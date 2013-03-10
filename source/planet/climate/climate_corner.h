@@ -3,12 +3,12 @@
 
 class Climate_corner {
 public:
-	Climate_corner () {
-		river_discharge = 0.0;
-	}
-	~Climate_corner () {};
+	Climate_corner () :
+		river_flow_increase (0) {}
 
-	float river_discharge;
+	float river_flow_increase;
 };
+
+float river_flow_increase (const Climate_corner&);
 
 #endif

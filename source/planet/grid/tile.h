@@ -1,39 +1,54 @@
 #ifndef tile_h
 #define tile_h
 
+#include <vector>
+#include "../../math/vector2.h"
 #include "../../math/vector3.h"
 #include "../../math/quaternion.h"
-#include <vector>
-using std::vector;
-
 class Corner;
 class Edge;
-class Quaternion;
 
 class Tile {
 public:
-	Tile();
-	~Tile() {};
+	Tile (int id, int edge_count);
 	
 	int id;
-	int edges;
+	int edge_count;
 	Vector3 v;
-	Corner* corner[6];
-	Edge* edge[6];
-	Tile* tile[6];
+	std::vector<const Tile*> tiles;
+	std::vector<const Corner*> corners;
+	std::vector<const Edge*> edges;
 };
 
-namespace grid {
-	const Corner* corner (const Tile*, int);
-	const Edge* edge (const Tile*, int);
-	bool point_in_tile (const Tile*, const Vector3&);
-	vector<Vector3> polygon (const Tile*);
-	vector<Vector3> polygon (const Tile*, const Quaternion&);
-	int position (const Tile*, const Corner*);
-	int position (const Tile*, const Edge*);
-	int position (const Tile*, const Tile*);
-	Quaternion reference_rotation (const Tile*);
-	const Tile* tile (const Tile*, int);
-}
+int id (const Tile&);
+int edge_count (const Tile&);
+const Vector3& vector (const Tile&);
+const std::vector<const Tile*>& tiles (const Tile&);
+const std::vector<const Corner*>& corners (const Tile&);
+const std::vector<const Edge*>& edges (const Tile&);
+const Tile* nth_tile (const Tile&, int);
+const Corner* nth_corner (const Tile&, int);
+const Edge* nth_edge (const Tile&, int);
+
+int position (const Tile&, const Tile*);
+int position (const Tile&, const Corner*);
+int position (const Tile&, const Edge*);
+
+Quaternion reference_rotation (const Tile*, Quaternion);
+std::vector<Vector2> polygon (const Tile*, Quaternion);
+
+inline int id (const Tile* t) {return id(*t);}
+inline int edge_count (const Tile* t) {return edge_count(*t);}
+inline const Vector3& vector (const Tile* t) {return vector(*t);}
+inline const std::vector<const Tile*>& tiles (const Tile* t) {return tiles(*t);}
+inline const std::vector<const Corner*>& corners (const Tile* t) {return corners(*t);}
+inline const std::vector<const Edge*>& edges (const Tile* t) {return edges(*t);}
+inline const Tile* nth_tile (const Tile* t, int n) {return nth_tile(*t, n);}
+inline const Corner* nth_corner (const Tile* t, int n) {return nth_corner(*t, n);}
+inline const Edge* nth_edge (const Tile* t, int n) {return nth_edge(*t, n);}
+
+inline int position (const Tile* t, const Tile* n) {return position(*t, n);}
+inline int position (const Tile* t, const Corner* c) {return position(*t, c);}
+inline int position (const Tile* t, const Edge* e) {return position(*t, e);}
 
 #endif

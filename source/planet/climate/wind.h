@@ -3,11 +3,14 @@
 
 class Wind {
 public:
-	Wind () {
-		direction = 0.0;
-		speed = 0.0;
+	Wind () :
+		direction (0), speed (0) {}
+	
+	Wind& operator = (const Wind& w) {
+		direction = w.direction;
+		speed = w.speed;
+		return *this;
 	}
-	~Wind () {};
 
 	float direction;
 	float speed;

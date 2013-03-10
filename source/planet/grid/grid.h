@@ -1,41 +1,39 @@
 #ifndef grid_h
 #define grid_h
 
-#include <vector>
-using std::vector;
-
+#include <deque>
 #include "tile.h"
 #include "corner.h"
 #include "edge.h"
 #include "create_grid.h"
-
 class Planet;
 
 class Grid {
 public:
-	Grid() {};
-	~Grid() {};
-
-	int size;
-	int tiles;
-	int corners;
-	int edges;
+	Grid (int);
 	
-	std::vector<Tile> tile;
-	std::vector<Corner> corner;
-	std::vector<Edge> edge;
+	int size;
+	std::deque<Tile> tiles;
+	std::deque<Corner> corners;
+	std::deque<Edge> edges;
 };
 
-namespace grid {
-	const Corner* corner (const Planet*, int);
-	int corners (const Planet*);
-	const Edge* edge (const Planet*, int);
-	int edges (const Planet*);
-	void init (Grid*, int);
-	void rotate (Grid*, const Quaternion&);
-	const Tile* select_tile (const Planet*, const Vector3&);
-	const Tile* tile (const Planet*, int);
-	int tiles (const Planet*);
-}
+const std::deque<Tile>& tiles (const Planet&);
+const std::deque<Corner>& corners (const Planet&);
+const std::deque<Edge>& edges (const Planet&);
+
+const Tile* nth_tile (const Planet&, int);
+const Corner* nth_corner (const Planet&, int);
+const Edge* nth_edge (const Planet&, int);
+
+int tile_count (const Planet&);
+int corner_count (const Planet&);
+int edge_count (const Planet&);
+
+int tile_count (int size);
+int corner_count (int size);
+int edge_count (int size);
+
+void set_grid_size (Planet&, int);
 
 #endif

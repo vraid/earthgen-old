@@ -3,14 +3,14 @@
 
 class Climate_edge {
 public:
-	Climate_edge () {
-		river_discharge = 0.0;
-		wind_speed = 0.0;
-	}
-	~Climate_edge () {};
+	Climate_edge () :
+		wind_velocity (0), river_flow (0) {}
 
-	float river_discharge;
-	float wind_speed;
+	float wind_velocity;
+	float river_flow;
 };
+
+float wind_velocity (const Climate_edge&);
+float river_flow (const Climate_edge&);
 
 #endif

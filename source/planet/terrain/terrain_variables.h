@@ -1,16 +1,22 @@
 #ifndef terrain_variables_h
 #define terrain_variables_h
 
+#include "../../math/vector3.h"
+class Planet;
+
 class Terrain_variables {
 public:
-	Terrain_variables () {};
-	~Terrain_variables () {};
+	Terrain_variables () {}
 
-	double sea_level;
-	double highest_point;
-	double lowest_point;
-	double radius;
+	Vector3 axis;
 	double axial_tilt;
+	double radius;
+	double sea_level;
 };
+
+const Vector3& axis (const Planet&);
+double axial_tilt (const Planet&);
+double radius (const Planet&);
+double sea_level (const Planet&);
 
 #endif

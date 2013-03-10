@@ -1,12 +1,12 @@
 #include <iostream>
-#include <QtCore>
 #include <QApplication>
+#include <QIcon>
+#include "gui/mainWindow.h"
 
-#include "source/gui/gui.h"
-
-
-int main(int argv, char **args) {
+int main (int argv, char **args) {
 	QApplication app(argv, args);
-	GUI* mainGUI = new GUI();
+	MainWindow window;
+	window.setWindowIcon(QIcon("icon.png"));
+	window.show();
 	return app.exec();
 }

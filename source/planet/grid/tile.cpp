@@ -1,107 +1,86 @@
 #include "tile.h"
-#include "grid.h"
-#include "../../math/math.h"
-#include <cmath>
+#include "corner.h"
+#include "../../math/math_common.h"
 
-Tile::Tile () {
-	for (int i=0; i<6; i++) {
-		tile[i] = nullptr;
-		corner[i] = nullptr;
-		edge[i] = nullptr;
-	}
+Tile::Tile (int i, int e) :
+	id (i), edge_count (e) {
+	tiles.resize(edge_count, nullptr);
+	corners.resize(edge_count, nullptr);
+	edges.resize(edge_count, nullptr);
 }
 
-namespace grid {
-
-const Corner* corner (const Tile* t, int i) {
-	int n = i%t->edges;
-	if (n < 0) n += t->edges;
-	return t->corner[n];
+int position (const Tile& t, const Tile* n) {
+	for (int i=0; i<t.edge_count; i++)
+		if (t.tiles[i] == n)
+			return i;
+	return -1;
 }
 
-const Edge* edge (const Tile* t, int i) {
-	int n = i%t->edges;
-	if (n < 0) n += t->edges;
-	return t->edge[n];
+int position (const Tile& t, const Corner* c) {
+	for (int i=0; i<t.edge_count; i++)
+		if (t.corners[i] == c)
+			return i;
+	return -1;
 }
 
-bool point_in_tile (const Tile* t, const Vector3& v) {
-	Quaternion q = reference_rotation(t);
-	Vector3 p = vector3::normal(q*v);
-	vector<Vector3> pol = polygon(t,q);
-	for (int i=0; i<t->edges; i++) {
-		if (p.z >= t->corner[i]->v.z) {
-			return true;
-		}
-	}
-	return false;
+int position (const Tile& t, const Edge* e) {
+	for (int i=0; i<t.edge_count; i++)
+		if (t.edges[i] == e)
+			return i;
+	return -1;
 }
 
-vector<Vector3> polygon (const Tile* t) {
-	return polygon(t, reference_rotation(t));
+int id (const Tile& t) {return t.id;}
+int edge_count (const Tile& t) {return t.edge_count;}
+const Vector3& vector (const Tile& t) {return t.v;}
+const std::vector<const Tile*>& tiles (const Tile& t) {return t.tiles;}
+const std::vector<const Corner*>& corners (const Tile& t) {return t.corners;}
+const std::vector<const Edge*>& edges (const Tile& t) {return t.edges;}
+
+const Tile* nth_tile (const Tile& t, int n) {
+	int k = n < 0 ?
+		n % edge_count(t) + edge_count(t) :
+		n % edge_count(t);
+	return t.tiles[k];
 }
 
-vector<Vector3> polygon (const Tile* t, const Quaternion& q) {
-	vector<Vector3> v;
-	for (int i=0; i<t->edges; i++) {
-		Vector3 e = q*t->corner[i]->v;
-		v.push_back(e);
-	}
-	return v;
+const Corner* nth_corner (const Tile& t, int n) {
+	int k = n < 0 ?
+		n % edge_count(t) + edge_count(t) :
+		n % edge_count(t);
+	return t.corners[k];
 }
 
-int position (const Tile* t, const Corner* c) {
-	int n = -1;
-	for (int i=0; i<t->edges; i++) {
-		if (t->corner[i] == c) {
-			n = i;
-			break;
-		}
-	}
-	return n;
+const Edge* nth_edge (const Tile& t, int n) {
+	int k = n < 0 ?
+		n % edge_count(t) + edge_count(t) :
+		n % edge_count(t);
+	return t.edges[k];
 }
 
-int position (const Tile* t, const Edge* e) {
-	int n = -1;
-	for (int i=0; i<t->edges; i++) {
-		if (t->edge[i] == e) {
-			n = i;
-			break;
-		}
-	}
-	return n;
-}
-
-int position (const Tile* t, const Tile* e) {
-	int n = -1;
-	for (int i=0; i<t->edges; i++) {
-		if (t->tile[i] == e) {
-			n = i;
-			break;
-		}
-	}
-	return n;
-}
-
-Quaternion reference_rotation (const Tile* t) {
+Quaternion reference_rotation (const Tile* t, Quaternion d) {
+	Vector3 v = d * vector(t);
 	Quaternion h = Quaternion();
-	if (t->v.x != 0 || t->v.y != 0) {
-		h = Quaternion(pi+atan2(t->v.y, t->v.x), Vector3(0,0,1));
+	if (v.x != 0 || v.y != 0) {
+		if (v.y != 0) h = Quaternion(normal(Vector3(v.x, v.y, 0)), Vector3(-1,0,0));
+		else if (v.x > 0) h = Quaternion(Vector3(0,0,1), pi);
 	}
 	Quaternion q = Quaternion();
-	if (t->v.x == 0 && t->v.y == 0) {
-		if (t->v.z < 0) q = Quaternion(pi, Vector3(1,0,0));
+	if (v.x == 0 && v.y == 0) {
+		if (v.z < 0) q = Quaternion(Vector3(1,0,0), pi);
 	}
 	else {
-		q = Quaternion(h*t->v, Vector3(0,0,1));
+		q = Quaternion(h*v, Vector3(0,0,1));
 	}
-	return h*q;
+	return q*h*d;
 }
 
-const Tile* tile (const Tile* t, int i) {
-	int n = i%t->edges;
-	if (n < 0) n += t->edges;
-	return t->tile[n];
-}
-
+std::vector<Vector2> polygon (const Tile* t, Quaternion d) {
+	std::vector<Vector2> p;
+	Quaternion q = reference_rotation(t, d);
+	for (int i=0; i<edge_count(t); i++) {
+		Vector3 c = q * vector(nth_corner(t, i));
+		p.push_back(Vector2(c.x, c.y));
+	}
+	return p;
 }

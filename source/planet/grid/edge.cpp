@@ -1,31 +1,49 @@
 #include "edge.h"
 
-namespace grid {
-
-const Corner* corner (const Edge* e, int i) {
-	int n = i%2;
-	if (n < 0) n += 2;
-	return e->corner[n];
+Edge::Edge (int i) :
+	id (i) {
+	for (auto& t : tiles)
+		t = nullptr;
+	for (auto& c : corners)
+		c = nullptr;
 }
 
-int sign (const Edge* e, const Corner* c) {
-	int n = 0;
-	if (e->corner[0] == c) n = 1;
-	else if (e->corner[1] == c) n = -1;
-	return n;
+int position (const Edge& e, const Tile* t) {
+	if (e.tiles[0] == t)
+		return 0;
+	else if (e.tiles[1] == t)
+		return 1;
+	return -1;
+}
+int position (const Edge& e, const Corner* c) {
+	if (e.corners[0] == c)
+		return 0;
+	else if (e.corners[1] == c)
+		return 1;
+	return -1;
 }
 
-int sign (const Edge* e, const Tile* t) {
-	int n = 0;
-	if (e->tile[0] == t) n = 1;
-	else if (e->tile[1] == t) n = -1;
-	return n;
+int sign (const Edge& e, const Tile* t) {
+	if (e.tiles[0] == t)
+		return 1;
+	else if (e.tiles[1] == t)
+		return -1;
+	return 0;
+}
+int sign (const Edge& e, const Corner* c) {
+	if (e.corners[0] == c)
+		return 1;
+	else if (e.corners[1] == c)
+		return -1;
+	return 0;
 }
 
-const Tile* tile (const Edge* e, int i) {
-	int n = i%2;
-	if (n < 0) n += 2;
-	return e->tile[n];
+int id (const Edge& e) {return e.id;}
+const std::array<const Tile*, 2>& tiles (const Edge& e) {return e.tiles;}
+const std::array<const Corner*, 2>& corners (const Edge& e) {return e.corners;}
+const Tile* nth_tile (const Edge& e, int i) {
+	return e.tiles[i];
 }
-
+const Corner* nth_corner (const Edge& e, int i) {
+	return e.corners[i];
 }

@@ -1,66 +1,59 @@
 #ifndef terrain_h
 #define terrain_h
 
-#define nullptr NULL
-
-#include <vector>
-#include "terrain_variables.h"
+#include <deque>
 #include "terrain_tile.h"
 #include "terrain_corner.h"
 #include "terrain_edge.h"
-#include "water_body.h"
-
+#include "terrain_variables.h"
+#include "river.h"
 class Planet;
 class Tile;
-class Corner;
-class Edge;
-class Vector3;
+class Quaternion;
 
 class Terrain {
 public:
-	Terrain() {};
-	~Terrain() {};
-
+	Terrain () {}
+	
 	Terrain_variables var;
-	std::vector<Terrain_tile> tile;
-	std::vector<Terrain_corner> corner;
-	std::vector<Terrain_edge> edge;
-
-	std::vector<Water_body> water_bodies;
+	std::deque<Terrain_tile> tiles;
+	std::deque<Terrain_corner> corners;
+	std::deque<Terrain_edge> edges;
 };
 
-namespace terrain {
-	void generate (Planet*);
-	void init (Planet*);
-	void set_elevation (Planet*);
-	void smoothe_elevation (Planet*);
-	void scale_elevation (Planet*);
-	void set_sea_level (Planet*);
-	void create_water_body (Planet*, int tile);
-	void set_water_bodies (Planet*);
-	void set_basins (Planet*);
-	void reset_river_directions (Planet*);
-	void set_river_directions (Planet*);
-	
-	double area (const Planet*, const Tile*);
-	double distance (const Planet*, const Tile*, const Tile*);
-	double find_sea_level (Planet*);
-	Vector3 from_lat_long (double, double);
-	double latitude (const Vector3&);
-	double longitude (const Vector3&);
-	double north (const Planet*, const Tile*);
-	double radius (const Planet*, const Tile*);
-	double circumference (const Planet*);
+void clear_terrain (Planet&);
+void init_terrain (Planet&);
 
-	const Terrain_tile* tile (const Planet*, int id);
-	const Terrain_tile* tile (const Planet*, const Tile*);
-	const Terrain_corner* corner (const Planet*, int id);
-	const Terrain_corner* corner (const Planet*, const Corner*);
-	const Terrain_edge* edge (const Planet*, int id);
-	const Terrain_edge* edge (const Planet*, const Edge*);
-	Terrain_tile* m_tile (Planet*, int id);
-	Terrain_corner* m_corner (Planet*, int id);
-	Terrain_edge* m_edge (Planet*, int id);
-}
+double latitude (const Vector3&);
+double longitude (const Vector3&);
+
+double latitude (const Planet&, const Vector3&);
+double longitude (const Planet&, const Vector3&);
+
+// angle from corner 0 to north
+double north (const Planet&, const Tile*);
+
+double area (const Planet&, const Tile*);
+double length (const Planet&, const Edge*);
+
+double coriolis_coefficient (const Planet&, double);
+
+Vector3 default_axis ();
+Quaternion rotation (const Planet&);
+// rotation to bring planet axis into default position
+Quaternion rotation_to_default (const Planet&);
+
+const std::deque<Terrain_tile>& terrain_tiles (const Planet&);
+const std::deque<Terrain_corner>& terrain_corners (const Planet&);
+const std::deque<Terrain_edge>& terrain_edges (const Planet&);
+
+const Terrain_tile& nth_terrain_tile (const Planet&, int);
+const Terrain_corner& nth_terrain_corner (const Planet&, int);
+const Terrain_edge& nth_terrain_edge (const Planet&, int);
+
+Terrain_tile& m_terrain_tile (Planet&, int);
+Terrain_corner& m_terrain_corner (Planet&, int);
+Terrain_edge& m_terrain_edge (Planet&, int);
+
 
 #endif
