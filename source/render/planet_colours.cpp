@@ -31,25 +31,42 @@ void set_colours (Planet_colours& c, const Planet& p, const Season* s, int mode)
 }
 
 void colour_topography (Planet_colours& c, const Planet& p) {
-	static const Colour water_col = Colour(0.05, 0.05, 0.20);
-	static const Colour water_shallow = Colour(0.04, 0.22, 0.42);
-	static const Colour land_col = Colour(0.95, 0.81, 0.53);
-	static const Colour land_low = Colour(1,1,1);
-	static const Colour mountain = Colour(0.1, 0.1, 0.1);
+	static const Colour water_deep = Colour(0.0, 0.0, 0.25);
+	static const Colour water = Colour(0.0, 0.12, 0.5);
+	static const Colour water_shallow = Colour(0.0, 0.4, 0.6);
+
+	static const Colour land[6] = {
+		Colour(0.0, 0.4, 0.0),
+		Colour(0.0, 0.7, 0.0),
+		Colour(1.0, 1.0, 0.0),
+		Colour(1.0, 0.5, 0.0),
+		Colour(0.7, 0.0, 0.0),
+		Colour(0.3, 0.3, 0.3)};
+	double land_limits[7] = {-500, 0, 500, 1000, 1500, 2000, 2500};
 	for (const Tile& t : tiles(p)) {
 		const Terrain_tile& ter = nth_terrain_tile(p, id(t));
+		double elev = elevation(ter) - sea_level(p);
 		if (is_water(ter)) {
-			double d = std::min(1.0f, water_depth(ter)/400);
-			c.tiles[id(t)] = interpolate(water_shallow, water_col, d);
-		}
-		else {
-			if (ter.elevation < sea_level(p)) {
-				double d = std::min(1.0, (sea_level(p) - ter.elevation)/200);
-				c.tiles[id(t)] = interpolate(land_col, land_low, d);
+			if (elev < -1000) {
+				c.tiles[id(t)] = water_deep;
+			}
+			else if (elev < -500) {
+				double d = (elev+500)/(-500);
+				c.tiles[id(t)] = interpolate(water, water_deep, d);
 			}
 			else {
-				double d = std::min(1.0, (ter.elevation - sea_level(p)) / 2500);
-				c.tiles[id(t)] = interpolate(land_col, mountain, d);
+				double d = elev/(-500);
+				c.tiles[id(t)] = interpolate(water_shallow, water, d);
+			}
+		}
+		else {
+			c.tiles[id(t)] = land[5];
+			for (int i=0; i<6; i++) {
+				if (elev <= land_limits[i+1]) {
+					double d = std::max(0.0, std::min(1.0, (elev - land_limits[i]) / (land_limits[i+1] - land_limits[i])));
+					c.tiles[id(t)] = interpolate(land[i], land[i+1], d);
+					break;
+				}
 			}
 		}
 	}
@@ -61,7 +78,7 @@ void colour_vegetation (Planet_colours& c, const Planet& p, const Season& s) {
 	static const Colour water_shallow = Colour(0.04, 0.22, 0.42);
 	static const Colour land_low = Colour(0.95, 0.81, 0.53);
 	static const Colour land_high = Colour(0.1, 0.1, 0.1);
-	static const Colour vegetation = Colour(0.10, 0.26, 0.0);
+	static const Colour vegetation = Colour(0.176, 0.32, 0.05);
 
 	for (const Tile& t : tiles(p)) {
 		if (is_water(nth_terrain_tile(p,id(t)))) {
@@ -141,25 +158,32 @@ void colour_aridity (Planet_colours& c, const Planet& p, const Season& s) {
 }
 
 void colour_humidity (Planet_colours& c, const Planet& p, const Season& s) {
-	static const Colour water_dry = Colour(1.0, 1.0, 1.0);
-	static const Colour water_humid = Colour(1.0, 1.0, 1.0);
-	static const Colour land_dry = Colour(1.0, 1.0, 0.8);
-	static const Colour land_humid = Colour(0.0, 1.0, 0.0);
+	static const Colour water = Colour(1.0, 1.0, 1.0);
+	static const Colour land_dry = Colour(1.0, 1.0, 0.5);
+	static const Colour land_mid = Colour(1.0, 1.0, 0.0);
+	static const Colour land_humid = Colour(0.0, 0.7, 0.0);
 	
 	for (const Tile& t : tiles(p)) {
-		double d = humidity(nth_climate_tile(s, id(t))) / saturation_humidity(temperature(nth_climate_tile(s, id(t))));
+		double h = humidity(nth_climate_tile(s, id(t))) / saturation_humidity(temperature(nth_climate_tile(s, id(t))));
 		if (is_water(nth_terrain_tile(p, id(t)))) {
-			c.tiles[id(t)] = interpolate(water_dry, water_humid, d);
+			c.tiles[id(t)] = water;
 		}
 		else {
-			c.tiles[id(t)] = interpolate(land_dry, land_humid, d);
+			if (h <= 0.5) {
+				double d = h / 0.5;
+				c.tiles[id(t)] = interpolate(land_dry, land_mid, d);
+			}
+			else {
+				double d = (h-0.5)/0.5;
+				c.tiles[id(t)] = interpolate(land_mid, land_humid, d);
+			}
 		}
 	}
 }
 
 void colour_precipitation (Planet_colours& c, const Planet& p, const Season& s) {
 	static const Colour water = Colour(1.0, 1.0, 1.0);
-	static const Colour dry = Colour(1.0, 1.0, 0.8);
+	static const Colour dry = Colour(1.0, 1.0, 0.5);
 	static const Colour medium = Colour(0.0, 1.0, 0.0);
 	static const Colour wet = Colour(0.0, 0.0, 1.0);
 
