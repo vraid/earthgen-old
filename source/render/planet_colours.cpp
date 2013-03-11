@@ -41,7 +41,7 @@ void colour_topography (Planet_colours& c, const Planet& p) {
 		Colour(1.0, 1.0, 0.0),
 		Colour(1.0, 0.5, 0.0),
 		Colour(0.7, 0.0, 0.0),
-		Colour(0.3, 0.3, 0.3)};
+		Colour(0.1, 0.1, 0.1)};
 	double land_limits[7] = {-500, 0, 500, 1000, 1500, 2000, 2500};
 	for (const Tile& t : tiles(p)) {
 		const Terrain_tile& ter = nth_terrain_tile(p, id(t));
@@ -61,7 +61,7 @@ void colour_topography (Planet_colours& c, const Planet& p) {
 		}
 		else {
 			c.tiles[id(t)] = land[5];
-			for (int i=0; i<6; i++) {
+			for (int i=0; i<5; i++) {
 				if (elev <= land_limits[i+1]) {
 					double d = std::max(0.0, std::min(1.0, (elev - land_limits[i]) / (land_limits[i+1] - land_limits[i])));
 					c.tiles[id(t)] = interpolate(land[i], land[i+1], d);
