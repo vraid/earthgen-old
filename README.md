@@ -4,7 +4,7 @@ Earthgen - An earth-like planet generator
 
 What does it do?
 -
-Earthgen is a tool for generating planets with random geographical features and a semi-realistic climate with seasonal variation of temperature, wind and humidity based on these features. [A look at the gui](http://i.imgur.com/EiSyVs2.png).
+Earthgen is a tool for generating planets with random geographical features and a semi-realistic climate with seasonal variation of temperature, wind and humidity based on these features.
 
 The geometry consists of pentagonal and hexagonal tiles based on a subdivided icosahedron, with the planet shown having 21872 tiles (though more is certainly possible, [here](http://i.imgur.com/wYoo3Bn.png) is one with 196832 tiles).
 
