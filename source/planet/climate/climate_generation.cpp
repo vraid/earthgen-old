@@ -6,8 +6,8 @@
 
 void generate_climate (Planet& planet, const Climate_parameters& par) {
 	clear_climate(planet);
-	planet.terrain.var.axial_tilt = par.axial_tilt;
-	planet.climate.var.season_count = par.seasons;
+	m_terrain(planet).var.axial_tilt = par.axial_tilt;
+	m_climate(planet).var.season_count = par.seasons;
 	std::cout << "seasons: ";
 	for (int i=0; i<par.seasons; i++) {
 		std::cout << i << std::flush;
@@ -48,7 +48,7 @@ void generate_season (Planet& planet, const Climate_parameters& par, float time_
 	s.corners.resize(corner_count(planet));
 	s.edges.resize(edge_count(planet));
 	copy_season(season, s);
-	planet.climate.seasons.push_back(s);
+	m_climate(planet).seasons.push_back(s);
 }
 
 void _set_temperature (const Planet& planet, const Climate_parameters&, Climate_generation_season& season) {
@@ -58,9 +58,9 @@ void _set_temperature (const Planet& planet, const Climate_parameters&, Climate_
 	
 	for (auto& t : tiles(planet)) {
 		float temperature = temperature_at_latitude(season.tropical_equator - latitude(planet, vector(t)));
-		if (is_land(nth_terrain_tile(planet, id(t)))) {
-			if (elevation(nth_terrain_tile(planet, id(t))) > sea_level(planet))
-				temperature -= temperature_lapse(elevation(nth_terrain_tile(planet, id(t))) - sea_level(planet));
+		if (is_land(nth_tile(terrain(planet), id(t)))) {
+			if (elevation(nth_tile(terrain(planet), id(t))) > sea_level(planet))
+				temperature -= temperature_lapse(elevation(nth_tile(terrain(planet), id(t))) - sea_level(planet));
 		}
 		else {
 			temperature = 0.3*temperature + 0.7*temperature_at_latitude(latitude(planet, vector(t)));
@@ -99,7 +99,7 @@ Wind _prevailing_wind (Vector2 pressure_gradient_force, double coriolis_coeffici
 Wind _default_wind (const Planet& p, int i, double tropical_equator) {
 	Vector2 pressure_force = _default_pressure_gradient_force(tropical_equator, latitude(p, vector(nth_tile(p,i))));
 	double coriolis_coeff = coriolis_coefficient(p, latitude(p, vector(nth_tile(p,i))));
-	double friction = is_land(nth_terrain_tile(p, i)) ? 0.000045 : 0.000045;
+	double friction = is_land(nth_tile(terrain(p), i)) ? 0.000045 : 0.000045;
 	return _prevailing_wind(pressure_force, coriolis_coeff, friction);
 }
 
@@ -194,7 +194,7 @@ void _iterate_humidity (const Planet& planet, const Climate_parameters& par, Cli
 //		std::cout << "delta: " << delta << "\n";
 		for (int i=0; i<tile_count(planet); i++) {
 			precipitation[i] = 0.0;
-			if (is_land(nth_terrain_tile(planet, i))) {
+			if (is_land(nth_tile(terrain(planet), i))) {
 				humidity[i] = 0.0;
 				precipitation[i] = 0.0;
 				float incoming_wind = _incoming_wind(planet, season, i);
@@ -240,7 +240,7 @@ void _iterate_humidity (const Planet& planet, const Climate_parameters& par, Cli
 void _set_humidity (const Planet& planet, const Climate_parameters& par, Climate_generation_season& season) {
 	for (auto& t : tiles(planet)) {
 		float humidity = 0.0;		
-		if (is_water(nth_terrain_tile(planet, id(t)))) {
+		if (is_water(nth_tile(terrain(planet), id(t)))) {
 			humidity = saturation_humidity(season.tiles[id(t)].temperature);
 		}
 		season.tiles[id(t)].humidity = humidity;

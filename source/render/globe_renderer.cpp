@@ -63,9 +63,9 @@ void Globe_renderer::draw (const Planet& planet, const Quaternion& q, const Plan
 
 	if (show_rivers)
 		for (auto& t : tiles(planet))
-			if (is_land(nth_terrain_tile(planet, id(&t)))) {
+			if (is_land(nth_tile(terrain(planet), id(t)))) {
 				for (int k=0; k<edge_count(&t); k++) {
-					auto e = edges(&t)[k];
+					auto e = nth_edge(t, k);
 					if (has_river(planet, e)) {
 						River r = river(planet, e);
 						if (left_tributary(planet, r) || right_tributary(planet, r))

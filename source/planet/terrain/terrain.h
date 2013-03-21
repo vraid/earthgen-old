@@ -43,17 +43,20 @@ Quaternion rotation (const Planet&);
 // rotation to bring planet axis into default position
 Quaternion rotation_to_default (const Planet&);
 
-const std::deque<Terrain_tile>& terrain_tiles (const Planet&);
-const std::deque<Terrain_corner>& terrain_corners (const Planet&);
-const std::deque<Terrain_edge>& terrain_edges (const Planet&);
+const Terrain& terrain (const Planet&);
+Terrain& m_terrain (Planet&);
 
-const Terrain_tile& nth_terrain_tile (const Planet&, int);
-const Terrain_corner& nth_terrain_corner (const Planet&, int);
-const Terrain_edge& nth_terrain_edge (const Planet&, int);
+const std::deque<Terrain_tile>& tiles (const Terrain&);
+const std::deque<Terrain_corner>& corners (const Terrain&);
+const std::deque<Terrain_edge>& edges (const Terrain&);
 
-Terrain_tile& m_terrain_tile (Planet&, int);
-Terrain_corner& m_terrain_corner (Planet&, int);
-Terrain_edge& m_terrain_edge (Planet&, int);
+const Terrain_tile& nth_tile (const Terrain&, int);
+const Terrain_corner& nth_corner (const Terrain&, int);
+const Terrain_edge& nth_edge (const Terrain&, int);
+
+Terrain_tile& m_tile (Terrain&, int);
+Terrain_corner& m_corner (Terrain&, int);
+Terrain_edge& m_edge (Terrain&, int);
 
 
 #endif

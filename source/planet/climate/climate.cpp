@@ -2,13 +2,16 @@
 #include "../planet.h"
 
 void clear_climate (Planet& p) {
-	std::deque<Season>().swap(p.climate.seasons);
-	p.climate.var.season_count = 0;
+	std::deque<Season>().swap(m_climate(p).seasons);
+	m_climate(p).var.season_count = 0;
 }
 
-const std::deque<Season> seasons (const Planet& p) {return p.climate.seasons;}
-const Season& nth_season (const Planet& p, int n) {return p.climate.seasons[n];}
-Season& m_season (Planet& p, int n) {return p.climate.seasons[n];}
+const Climate& climate (const Planet& p) {return *p.climate;}
+Climate& m_climate (Planet& p) {return *p.climate;}
+
+const std::deque<Season> seasons (const Planet& p) {return climate(p).seasons;}
+const Season& nth_season (const Planet& p, int n) {return climate(p).seasons[n];}
+Season& m_season (Planet& p, int n) {return m_climate(p).seasons[n];}
 
 float freezing_point () {return 273.15;}
 float temperature_lapse_rate () {return 9.8e-3;}

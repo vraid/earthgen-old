@@ -21,50 +21,50 @@ void generate_terrain (Planet& p, const Terrain_parameters& par) {
 }
 
 void _set_variables (Planet& p, const Terrain_parameters& par) {
-	p.terrain.var.axis = par.axis;
-	p.terrain.var.radius = 40000000;
+	m_terrain(p).var.axis = par.axis;
+	m_terrain(p).var.radius = 40000000;
 }
 
 void _set_elevation (Planet& p, const Terrain_parameters& par) {
 	// can be made concurrent
 	auto d = _elevation_vectors(par);
 	for (auto& t : tiles(p))
-		m_terrain_tile(p, t.id).elevation = _elevation_at_point(t.v, d);
+		m_tile(m_terrain(p), id(t)).elevation = _elevation_at_point(t.v, d);
 	for (auto& c : corners(p))
-		m_terrain_corner(p, c.id).elevation = _elevation_at_point(c.v, d);
+		m_corner(m_terrain(p), id(c)).elevation = _elevation_at_point(c.v, d);
 	_scale_elevation(p, par);
 }
 
 void _scale_elevation (Planet& p, const Terrain_parameters&) {
-	float lowest = nth_terrain_tile(p,0).elevation;
+	float lowest = elevation(nth_tile(terrain(p),0));
 	float highest = lowest;
 	float scale = 3000;
-	for (auto& t : terrain_tiles(p)) {
-		lowest = std::min(lowest, t.elevation);
-		highest = std::max(highest, t.elevation);
+	for (auto& t : tiles(terrain(p))) {
+		lowest = std::min(lowest, elevation(t));
+		highest = std::max(highest, elevation(t));
 	}
-	for (auto& c : terrain_corners(p)) {
-		lowest = std::min(lowest, c.elevation);
-		highest = std::max(highest, c.elevation);
+	for (auto& c : corners(terrain(p))) {
+		lowest = std::min(lowest, elevation(c));
+		highest = std::max(highest, elevation(c));
 	}
 	highest = std::max(1.0f, highest-lowest);
 	for (auto& t : tiles(p)) {
-		m_terrain_tile(p, t.id).elevation -= lowest;
-		m_terrain_tile(p, t.id).elevation *= scale / highest;
+		m_tile(m_terrain(p), id(t)).elevation -= lowest;
+		m_tile(m_terrain(p), id(t)).elevation *= scale / highest;
 	}
 	for (auto& c : corners(p)) {
-		m_terrain_corner(p, c.id).elevation -= lowest;
-		m_terrain_corner(p, c.id).elevation *= scale / highest;
+		m_corner(m_terrain(p), id(c)).elevation -= lowest;
+		m_corner(m_terrain(p), id(c)).elevation *= scale / highest;
 	}
 }
 
 const Tile* lowest_tile (const Planet& p) {
 	const Tile* tile = nth_tile(p, 0);
-	float lowest_elevation = nth_terrain_tile(p, 0).elevation;
+	float lowest_elevation = elevation(nth_tile(terrain(p), 0));
 	for (const Tile& t : tiles(p)) {
-		if (nth_terrain_tile(p, t.id).elevation < lowest_elevation) {
+		if (elevation(nth_tile(terrain(p), id(t))) < lowest_elevation) {
 			tile = &t;
-			lowest_elevation = nth_terrain_tile(p, t.id).elevation;
+			lowest_elevation = elevation(nth_tile(terrain(p), id(t)));
 		}
 	}
 	return tile;
@@ -72,7 +72,7 @@ const Tile* lowest_tile (const Planet& p) {
 
 void _create_sea (Planet& p, const Terrain_parameters& par) {
 	const Tile* const start_tile = lowest_tile(p);
-	float sea_level = nth_terrain_tile(p, id(start_tile)).elevation;
+	float sea_level = elevation(nth_tile(terrain(p), id(start_tile)));
 	unsigned int water_tile_count = par.water_ratio * tile_count(p);
 	std::set<const Tile*> water_tiles;
 	std::multimap<float, const Tile*> coast_tiles_elevation;
@@ -82,7 +82,7 @@ void _create_sea (Planet& p, const Terrain_parameters& par) {
 		coast_tiles.resize(tile_count(p), false);
 		for (const Tile* i : tiles(start_tile)) {
 			coast_tiles[id(i)] = true;
-			coast_tiles_elevation.insert(std::make_pair(nth_terrain_tile(p,id(i)).elevation, i));
+			coast_tiles_elevation.insert(std::make_pair(elevation(nth_tile(terrain(p) ,id(i))), i));
 		}
 		const Tile* tile;
 		auto insert_next_tile = [&]() {
@@ -93,13 +93,13 @@ void _create_sea (Planet& p, const Terrain_parameters& par) {
 			for (auto i : tiles(tile)) {
 				if (water_tiles.find(i) == water_tiles.end() && !coast_tiles[id(i)]) {
 					coast_tiles[id(i)] = true;
-					coast_tiles_elevation.insert(std::make_pair(nth_terrain_tile(p,id(i)).elevation, i));
+					coast_tiles_elevation.insert(std::make_pair(elevation(nth_tile(terrain(p), id(i))), i));
 				}
 			}
 		};
 		while (water_tiles.size() < water_tile_count) {
 			insert_next_tile();
-			sea_level = nth_terrain_tile(p, id(tile)).elevation;
+			sea_level = elevation(nth_tile(terrain(p), id(tile)));
 			while (coast_tiles_elevation.size() > 0 && coast_tiles_elevation.begin()->first <= sea_level) {
 				insert_next_tile();
 			}
@@ -107,10 +107,10 @@ void _create_sea (Planet& p, const Terrain_parameters& par) {
 		if (coast_tiles_elevation.size() > 0)
 			sea_level = (sea_level + coast_tiles_elevation.begin()->first) / 2;
 	}
-	p.terrain.var.sea_level = sea_level;
+	m_terrain(p).var.sea_level = sea_level;
 	for (auto t : water_tiles) {
-		m_terrain_tile(p, t->id).water.surface = sea_level;
-		m_terrain_tile(p, t->id).water.depth = sea_level - nth_terrain_tile(p, t->id).elevation;
+		m_tile(m_terrain(p), id(t)).water.surface = sea_level;
+		m_tile(m_terrain(p), id(t)).water.depth = sea_level - elevation(nth_tile(terrain(p), id(t)));
 	}
 }
 
@@ -118,23 +118,23 @@ int _tile_type (const Planet& p, const Tile* t) {
 	int land = 0;
 	int water = 0;
 	for (auto i : tiles(t)) {
-		if (water_depth(nth_terrain_tile(p,id(i))) > 0) water++;
+		if (water_depth(nth_tile(terrain(p) ,id(i))) > 0) water++;
 		else land++;
 	}
 	int type =
-		water_depth(nth_terrain_tile(p,id(t))) > 0 ?
+		water_depth(nth_tile(terrain(p) ,id(t))) > 0 ?
 			Terrain_tile::type_water :
 			Terrain_tile::type_land;
 	if (land && water)
 		type += Terrain_tile::type_coast;
 	return type;
 }
-		
+
 int _corner_type (const Planet& p, const Corner* c) {
 	int land = 0;
 	int water = 0;
 	for (auto i : tiles(c)) {
-		if (water_depth(nth_terrain_tile(p,id(i))) > 0) water++;
+		if (water_depth(nth_tile(terrain(p) ,id(i))) > 0) water++;
 		else land++;
 	}
 	int type =
@@ -150,7 +150,7 @@ int _edge_type (const Planet& p, const Edge* e) {
 	int land = 0;
 	int water = 0;
 	for (auto i : tiles(e)) {
-		if (water_depth(nth_terrain_tile(p,id(i))) > 0) water++;
+		if (water_depth(nth_tile(terrain(p) ,id(i))) > 0) water++;
 			else land++;
 	}
 	int type =
@@ -164,29 +164,29 @@ int _edge_type (const Planet& p, const Edge* e) {
 
 void _classify_terrain (Planet& p) {
 	for (auto& t : tiles(p))
-		m_terrain_tile(p, t.id).type = _tile_type(p, &t);
+		m_tile(m_terrain(p), id(t)).type = _tile_type(p, &t);
 	for (auto& c : corners(p))
-		m_terrain_corner(p, c.id).type = _corner_type(p, &c);
+		m_corner(m_terrain(p), id(c)).type = _corner_type(p, &c);
 	for (auto& e : edges(p))
-		m_terrain_edge(p, e.id).type = _edge_type(p, &e);
+		m_edge(m_terrain(p), id(e)).type = _edge_type(p, &e);
 }
 
 void _set_river_directions (Planet& p) {
 	std::multimap<float, const Corner*> endpoints;
 	for (auto& c : corners(p))
-		if (is_coast(nth_terrain_corner(p, c.id))) {
-			m_terrain_corner(p, c.id).distance_to_sea = 0;
-			endpoints.insert(std::make_pair(nth_terrain_corner(p, c.id).elevation, &c));
+		if (is_coast(nth_corner(terrain(p), id(c)))) {
+			m_corner(m_terrain(p), id(c)).distance_to_sea = 0;
+			endpoints.insert(std::make_pair(elevation(nth_corner(terrain(p), id(c))), &c));
 		}
 	while (endpoints.size() > 0) {
 		auto first = endpoints.begin();
 		const Corner* c = first->second;
 		for (auto n : corners(c)) {
-			Terrain_corner& ter = m_terrain_corner(p, id(n));
+			Terrain_corner& ter = m_corner(m_terrain(p), id(n));
 			if (is_land(ter) && ter.river_direction == -1) {
 				ter.river_direction = position(n, c);
-				ter.distance_to_sea = 1 + nth_terrain_corner(p, id(c)).distance_to_sea;
-				endpoints.insert(std::make_pair(ter.elevation, n));
+				ter.distance_to_sea = 1 + distance_to_sea(nth_corner(terrain(p), id(c)));
+				endpoints.insert(std::make_pair(elevation(ter), n));
 			}
 		}
 		endpoints.erase(first);			

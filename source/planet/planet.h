@@ -11,8 +11,8 @@ public:
 	~Planet ();
 	
 	Grid* grid;
-	Terrain terrain;
-	Climate climate;
+	Terrain* terrain;
+	Climate* climate;
 };
 
 void clear (Planet&);

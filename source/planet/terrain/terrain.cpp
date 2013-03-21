@@ -4,16 +4,16 @@
 #include <cmath>
 
 void clear_terrain (Planet& p) {
-	std::deque<Terrain_tile>().swap(p.terrain.tiles);
-	std::deque<Terrain_corner>().swap(p.terrain.corners);
-	std::deque<Terrain_edge>().swap(p.terrain.edges);
+	std::deque<Terrain_tile>().swap(p.terrain->tiles);
+	std::deque<Terrain_corner>().swap(p.terrain->corners);
+	std::deque<Terrain_edge>().swap(p.terrain->edges);
 }
 
 void init_terrain (Planet& p) {
 	clear_terrain(p);
-	p.terrain.tiles.resize(tile_count(p));
-	p.terrain.corners.resize(corner_count(p));
-	p.terrain.edges.resize(edge_count(p));
+	p.terrain->tiles.resize(tile_count(p));
+	p.terrain->corners.resize(corner_count(p));
+	p.terrain->edges.resize(edge_count(p));
 }
 
 double latitude (const Vector3& v) {
@@ -75,14 +75,17 @@ Quaternion rotation_to_default (const Planet& p) {
 	return Quaternion(axis(p), default_axis());
 }
 
-const std::deque<Terrain_tile>& terrain_tiles (const Planet& p) {return p.terrain.tiles;}
-const std::deque<Terrain_corner>& terrain_corners (const Planet& p) {return p.terrain.corners;}
-const std::deque<Terrain_edge>& terrain_edges (const Planet& p) {return p.terrain.edges;}
+const Terrain& terrain (const Planet& p) {return *p.terrain;}
+Terrain& m_terrain (Planet& p) {return *p.terrain;}
 
-const Terrain_tile& nth_terrain_tile (const Planet& p, int n) {return p.terrain.tiles[n];}
-const Terrain_corner& nth_terrain_corner (const Planet& p, int n) {return p.terrain.corners[n];}
-const Terrain_edge& nth_terrain_edge (const Planet& p, int n) {return p.terrain.edges[n];}
+const std::deque<Terrain_tile>& tiles (const Terrain& t) {return t.tiles;}
+const std::deque<Terrain_corner>& corners (const Terrain& t) {return t.corners;}
+const std::deque<Terrain_edge>& edges (const Terrain& t) {return t.edges;}
 
-Terrain_tile& m_terrain_tile (Planet& p, int n) {return p.terrain.tiles[n];}
-Terrain_corner& m_terrain_corner (Planet& p, int n) {return p.terrain.corners[n];}
-Terrain_edge& m_terrain_edge (Planet& p, int n) {return p.terrain.edges[n];}
+const Terrain_tile& nth_tile (const Terrain& t, int n) {return t.tiles[n];}
+const Terrain_corner& nth_corner (const Terrain& t, int n) {return t.corners[n];}
+const Terrain_edge& nth_edge (const Terrain& t, int n) {return t.edges[n];}
+
+Terrain_tile& m_tile (Terrain& t, int n) {return t.tiles[n];}
+Terrain_corner& m_corner (Terrain& t, int n) {return t.corners[n];}
+Terrain_edge& m_edge (Terrain& t, int n) {return t.edges[n];}

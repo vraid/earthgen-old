@@ -3,10 +3,14 @@
 
 Planet::Planet () {
 	grid = size_n_grid(0);
+	terrain = new Terrain();
+	climate = new Climate();
 }
 
 Planet::~Planet () {
 	delete grid;
+	delete terrain;
+	delete climate;
 }
 
 void clear (Planet& p) {

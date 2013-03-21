@@ -15,6 +15,9 @@ public:
 	std::deque<Season> seasons;
 };
 
+const Climate& climate (const Planet&);
+Climate& m_climate (Planet&);
+
 const std::deque<Season> seasons (const Planet&);
 const Season& nth_season (const Planet&, int);
 Season& m_season (Planet&, int);
