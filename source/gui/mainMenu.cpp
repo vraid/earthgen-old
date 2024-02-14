@@ -8,6 +8,7 @@
 
 MainMenu::MainMenu (PlanetHandler* p, PlanetWidget* planetWidget) : planetHandler(p) {
 	layout = new QBoxLayout(QBoxLayout::TopToBottom);
+	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setAlignment(Qt::AlignTop);
 		terrainBox = new TerrainBox(planetHandler);
 		terrainBox->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
