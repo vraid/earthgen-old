@@ -37,7 +37,7 @@ public slots:
 	void updateGeometry ();
 	void initColours ();
 signals:
-	void pointSelected (Vector3);
+	void pointSelected (const Vector3&);
 public:
 	bool mouseMoving;
 	QPoint mousePosition;

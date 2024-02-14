@@ -17,7 +17,7 @@ public:
 	const Season* currentSeason ();
 	void setCurrentSeason (int);
 public slots:
-	void setAxis (Vector3);
+	void setAxis (const Vector3&);
 	void generateTerrain (const Terrain_parameters&);
 	void generateClimate (const Climate_parameters&);
 signals:

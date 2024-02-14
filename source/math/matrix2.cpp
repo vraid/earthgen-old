@@ -16,14 +16,6 @@ Matrix2::Matrix2(double a[2][2]) {
 	m[1][1] = a[1][1];
 }
 
-Matrix2& Matrix2::operator = (const Matrix2& mat) {
-	m[0][0] = mat.m[0][0];
-	m[0][1] = mat.m[0][1];
-	m[1][0] = mat.m[1][0];
-	m[1][1] = mat.m[1][1];
-	return *this;
-}
-
 Vector2 Matrix2::operator * (const Vector2& v) const {
 	return Vector2
 		(v.x*m[0][0] + v.y*m[0][1],
