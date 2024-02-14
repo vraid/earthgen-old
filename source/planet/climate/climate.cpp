@@ -1,3 +1,4 @@
+#include <math.h>
 #include "climate.h"
 #include "../planet.h"
 
