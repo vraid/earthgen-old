@@ -1,15 +1,16 @@
+#include <QBoxLayout>
 #include "mainWindow.h"
 
 MainWindow::MainWindow () {
 	planetHandler = new PlanetHandler();
 	
-	layout = new QGridLayout();
+	QBoxLayout* layout = new QHBoxLayout(this);
 		planetWidget = new PlanetWidget(planetHandler);
+		planetWidget->setMinimumSize(400,400);
+		planetWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 		mainMenu = new MainMenu(planetHandler, planetWidget);
-		layout->addWidget(mainMenu, 0, 0, 2, 1, 0);
+		layout->addWidget(mainMenu);
+		layout->addWidget(planetWidget, 1);
 
-		planetWidget->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
-		layout->addWidget(planetWidget, 0, 1, 2, 1, 0);
-	setLayout(layout);
 	resize(860,600);
 }

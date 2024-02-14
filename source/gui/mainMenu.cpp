@@ -26,5 +26,5 @@ MainMenu::MainMenu (PlanetHandler* p, PlanetWidget* planetWidget) : planetHandle
 		layout->addWidget(displayBox);
 	setLayout(layout);
 	setMinimumWidth(200);
-	setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Ignored);
+	setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 }
