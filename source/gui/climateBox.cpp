@@ -7,10 +7,10 @@
 ClimateBox::ClimateBox (PlanetHandler* p) : QGroupBox(QString("Climate")), planetHandler(p) {
 	form = new QFormLayout();
 		seasonsEdit = new QLineEdit();
-		form->addRow("Seasons", seasonsEdit);
+		form->addRow("Seasons:", seasonsEdit);
 
 		axialTiltEdit = new QLineEdit();
-		form->addRow("Axial tilt", axialTiltEdit);
+		form->addRow("Axial tilt:", axialTiltEdit);
 
 		generateButton = new QPushButton("Generate");
 		generateButton->setEnabled(false);

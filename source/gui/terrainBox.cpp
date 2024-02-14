@@ -8,16 +8,16 @@
 TerrainBox::TerrainBox (PlanetHandler* p) : QGroupBox("Terrain"), planetHandler(p) {
 	form = new QFormLayout();
 		seedEdit = new QLineEdit();
-		form->addRow("Seed", seedEdit);
+		form->addRow("Seed:", seedEdit);
 		
 		gridSizeEdit = new QLineEdit();
-		form->addRow("Grid size", gridSizeEdit);
+		form->addRow("Grid size:", gridSizeEdit);
 
 		iterationsEdit = new QLineEdit();
-		form->addRow("Iterations", iterationsEdit);
+		form->addRow("Iterations:", iterationsEdit);
 
 		waterRatioEdit = new QLineEdit();
-		form->addRow("Water ratio", waterRatioEdit);
+		form->addRow("Water ratio:", waterRatioEdit);
 		
 		generateButton = new QPushButton("Generate");
 		QObject::connect(generateButton, SIGNAL(clicked()), this, SLOT(generateButtonClicked()));

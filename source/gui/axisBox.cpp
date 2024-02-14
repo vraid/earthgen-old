@@ -12,12 +12,12 @@ AxisBox::AxisBox (PlanetHandler* p, PlanetWidget* planetWidget) : QGroupBox("Axi
 		axisEdit = new QLineEdit();
 		axisEdit->setReadOnly(true);
 		axisEdit->setText(string(selected));
-		form->addRow("Current", axisEdit);
+		form->addRow("Current:", axisEdit);
 
 		selectedEdit = new QLineEdit();
 		selectedEdit->setReadOnly(true);
 		selectedEdit->setText(string(selected));
-		form->addRow("Selected", selectedEdit);
+		form->addRow("Selected:", selectedEdit);
 
 		setButton = new QPushButton("Set");
 		setButton->setEnabled(false);
