@@ -6,6 +6,7 @@
 #include "../planet/planet.h"
 #include "planet_colours.h"
 #include <iostream>
+#include <math.h>
 
 Globe_renderer::Globe_renderer () : Planet_renderer () {
 	reset_rotation();

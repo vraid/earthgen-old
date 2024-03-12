@@ -24,14 +24,14 @@ DisplayBox::DisplayBox (PlanetHandler* p, PlanetWidget* w) : QGroupBox(QString("
 		QObject::connect(globeButton, SIGNAL(clicked()), this, SLOT(globeButtonClicked()));
 		layout->addWidget(globeButton, 0, 2, 1, 2);
 
-		layout->addWidget(new QLabel("Colour"), 1, 0, 1, 1, Qt::AlignRight);
+		layout->addWidget(new QLabel("Colour:"), 1, 0, 1, 1, Qt::AlignRight);
 		colourBox = new QComboBox();
 		colourBox->insertItem(0, "Topography");
 		colourBox->setEnabled(false);
 		QObject::connect(colourBox, SIGNAL(currentIndexChanged(int)), this, SLOT(colourChanged()));
 		layout->addWidget(colourBox, 1, 1, 1, 3);
 
-		layout->addWidget(new QLabel("Season"), 2, 0, 1, 1, Qt::AlignRight);
+		layout->addWidget(new QLabel("Season:"), 2, 0, 1, 1, Qt::AlignRight);
 		seasonEdit = new QLineEdit();
 		seasonEdit->setReadOnly(true);
 		layout->addWidget(seasonEdit, 2, 1, 1, 1);
