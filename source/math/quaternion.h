@@ -11,7 +11,6 @@ public:
 	Quaternion (const Vector3&, const Vector3&);
 	Quaternion (double, double, double, double);
 	
-	Quaternion& operator = (const Quaternion&);
 	Quaternion operator * (const Quaternion&) const;
 	Vector3 operator * (const Vector3&) const;
 	

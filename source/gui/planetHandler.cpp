@@ -19,11 +19,8 @@ const Season* PlanetHandler::currentSeason () {
 	return &nth_season(planet(), _currentSeason);
 }
 
-void PlanetHandler::setAxis (Vector3 v) {
-	if (zero(v)) {
-		v = default_axis();
-	}
-	m_terrain(_planet).var.axis = normal(v);
+void PlanetHandler::setAxis (const Vector3& v) {
+	m_terrain(_planet).var.axis = zero(v) ? default_axis() : normal(v);
 	climateDestroyed();
 	clear_climate(_planet);
 	axisChanged();

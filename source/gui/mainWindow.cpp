@@ -3,8 +3,8 @@
 
 MainWindow::MainWindow () {
 	planetHandler = new PlanetHandler();
-	
 	QBoxLayout* layout = new QHBoxLayout(this);
+	layout->setContentsMargins(2, 2, 2, 2);
 		planetWidget = new PlanetWidget(planetHandler);
 		planetWidget->setMinimumSize(400,400);
 		planetWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);

@@ -7,12 +7,6 @@ Vector2::Vector2 () :
 Vector2::Vector2 (float a, float b) :
 	x (a), y (b) {}
 
-Vector2& Vector2::operator = (const Vector2& v) {
-	x = v.x;
-	y = v.y;
-	return *this;
-}
-
 Vector2 Vector2::operator + (const Vector2& v) const {
 	return Vector2(x+v.x, y+v.y);
 }

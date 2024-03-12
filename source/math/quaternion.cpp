@@ -33,14 +33,6 @@ Quaternion::Quaternion (double alpha, double x, double y, double z) :
 	a (alpha), i (x), j (y), k (z) {
 }
 
-Quaternion& Quaternion::operator = (const Quaternion& q) {
-	a = q.a;
-	i = q.i;
-	j = q.j;
-	k = q.k;
-	return *this;
-}
-
 Quaternion Quaternion::operator * (const Quaternion& q) const {
 	return normal(Quaternion(a*q.a - dot_product(vector(*this), vector(q)),
 		j*q.k - k*q.j + a*q.i + i*q.a,

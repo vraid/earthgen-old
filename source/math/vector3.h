@@ -8,7 +8,6 @@ public:
 
 	bool operator == (const Vector3&) const;
 	bool operator != (const Vector3&) const;
-	Vector3& operator = (const Vector3&);
 	Vector3 operator + (const Vector3&) const;
 	Vector3 operator - (const Vector3&) const;
 	Vector3 operator * (double) const;

@@ -27,7 +27,7 @@ AxisBox::AxisBox (PlanetHandler* p, PlanetWidget* planetWidget) : QGroupBox("Axi
 
 	QObject::connect(planetHandler, SIGNAL(terrainCreated()), this, SLOT(enableButton()));
 	QObject::connect(planetHandler, SIGNAL(axisChanged()), this, SLOT(setAxis()));
-	QObject::connect(planetWidget, SIGNAL(pointSelected(Vector3)), this, SLOT(setSelection(const Vector3&)));
+	QObject::connect(planetWidget, SIGNAL(pointSelected(const Vector3&)), this, SLOT(setSelection(const Vector3&)));
 }
 
 void AxisBox::setButtonClicked () {

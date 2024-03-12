@@ -89,7 +89,7 @@ HEADERS += source/gui/axisBox.h \
 SOURCES += source/main.cpp \
            source/gui/axisBox.cpp \
            source/gui/climateBox.cpp \
-           source/gui/diplayBox.cpp \
+           source/gui/displayBox.cpp \
            source/gui/mainMenu.cpp \
            source/gui/mainWindow.cpp \
            source/gui/planetHandler.cpp \

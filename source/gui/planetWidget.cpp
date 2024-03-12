@@ -47,8 +47,9 @@ void PlanetWidget::paintGL () {
 
 void PlanetWidget::wheelEvent (QWheelEvent* event) {
 	getMousePosition();
-	if(event->orientation() == Qt::Vertical) {
-		activeRenderer->change_scale(vector(mousePosition), 1+0.0007*event->delta());
+	int dy = event->angleDelta().y();
+	if(dy) {
+		activeRenderer->change_scale(vector(mousePosition), 1+0.0007*dy);
 		update();
 	}
 }
