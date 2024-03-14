@@ -14,7 +14,7 @@ void PlanetHandler::setCurrentSeason (int n) {
 }
 
 const Season* PlanetHandler::currentSeason () {
-	if (_currentSeason >= planet().climate->seasons.size())
+	if (_currentSeason >= planet().climate.seasons.size())
 		return nullptr;
 	return &nth_season(planet(), _currentSeason);
 }

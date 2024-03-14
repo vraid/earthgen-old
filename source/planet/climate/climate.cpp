@@ -7,8 +7,8 @@ void clear_climate (Planet& p) {
 	m_climate(p).var.season_count = 0;
 }
 
-const Climate& climate (const Planet& p) {return *p.climate;}
-Climate& m_climate (Planet& p) {return *p.climate;}
+const Climate& climate (const Planet& p) {return p.climate;}
+Climate& m_climate (Planet& p) {return p.climate;}
 
 const std::deque<Season> seasons (const Planet& p) {return climate(p).seasons;}
 const Season& nth_season (const Planet& p, int n) {return climate(p).seasons[n];}

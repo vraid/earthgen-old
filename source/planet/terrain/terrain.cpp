@@ -4,16 +4,16 @@
 #include <cmath>
 
 void clear_terrain (Planet& p) {
-	std::deque<Terrain_tile>().swap(p.terrain->tiles);
-	std::deque<Terrain_corner>().swap(p.terrain->corners);
-	std::deque<Terrain_edge>().swap(p.terrain->edges);
+	p.terrain.tiles.clear();
+	p.terrain.corners.clear();
+	p.terrain.edges.clear();
 }
 
 void init_terrain (Planet& p) {
 	clear_terrain(p);
-	p.terrain->tiles.resize(tile_count(p));
-	p.terrain->corners.resize(corner_count(p));
-	p.terrain->edges.resize(edge_count(p));
+	p.terrain.tiles.resize(tile_count(p));
+	p.terrain.corners.resize(corner_count(p));
+	p.terrain.edges.resize(edge_count(p));
 }
 
 double latitude (const Vector3& v) {
@@ -75,8 +75,8 @@ Quaternion rotation_to_default (const Planet& p) {
 	return Quaternion(axis(p), default_axis());
 }
 
-const Terrain& terrain (const Planet& p) {return *p.terrain;}
-Terrain& m_terrain (Planet& p) {return *p.terrain;}
+const Terrain& terrain (const Planet& p) {return p.terrain;}
+Terrain& m_terrain (Planet& p) {return p.terrain;}
 
 const std::deque<Terrain_tile>& tiles (const Terrain& t) {return t.tiles;}
 const std::deque<Terrain_corner>& corners (const Terrain& t) {return t.corners;}
