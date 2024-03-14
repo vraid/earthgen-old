@@ -12,17 +12,37 @@ Grid size_0_grid () {
 	float x = -0.525731112119133606;
 	float z = -0.850650808352039932;
 	
-	Vector3 icos_tiles[12] = {
-		Vector3(-x, 0, z), Vector3(x, 0, z), Vector3(-x, 0, -z), Vector3(x, 0, -z),
-		Vector3(0, z, x), Vector3(0, z, -x), Vector3(0, -z, x), Vector3(0, -z, -x),
-		Vector3(z, x, 0), Vector3(-z, x, 0), Vector3(z, -x, 0), Vector3(-z, -x, 0)
+	std::array<Vector3, 12>
+	icos_tiles = {
+		Vector3(-x, 0, z),
+		Vector3(x, 0, z),
+		Vector3(-x, 0, -z),
+		Vector3(x, 0, -z),
+		Vector3(0, z, x),
+		Vector3(0, z, -x),
+		Vector3(0, -z, x),
+		Vector3(0, -z, -x),
+		Vector3(z, x, 0),
+		Vector3(-z, x, 0),
+		Vector3(z, -x, 0),
+		Vector3(-z, -x, 0)
 	};
 	
-	int icos_tiles_n[12][5] = {
-		{9, 4, 1, 6, 11}, {4, 8, 10, 6, 0}, {11, 7, 3, 5, 9}, {2, 7, 10, 8, 5},
-		{9, 5, 8, 1, 0}, {2, 3, 8, 4, 9}, {0, 1, 10, 7, 11}, {11, 6, 10, 3, 2},
-		{5, 3, 10, 1, 4}, {2, 5, 4, 0, 11}, {3, 7, 6, 1, 8}, {7, 2, 9, 0, 6}
-	};
+	std::array<std::array<int, 5>, 12>
+	icos_tiles_n = {{
+		{9, 4, 1, 6, 11},
+		{4, 8, 10, 6, 0},
+		{11, 7, 3, 5, 9},
+		{2, 7, 10, 8, 5},
+		{9, 5, 8, 1, 0},
+		{2, 3, 8, 4, 9},
+		{0, 1, 10, 7, 11},
+		{11, 6, 10, 3, 2},
+		{5, 3, 10, 1, 4},
+		{2, 5, 4, 0, 11},
+		{3, 7, 6, 1, 8},
+		{7, 2, 9, 0, 6}
+	}};
 	
 	for (Tile& t : grid.tiles) {
 		t.v = icos_tiles[t.id];
@@ -36,16 +56,15 @@ Grid size_0_grid () {
 	for (int i=0; i<5; i++) {
 		add_corner(i+5, grid, 3, icos_tiles_n[3][(i+4)%5], icos_tiles_n[3][i]);
 	}
-	add_corner(10,grid,10,1,8);
-	add_corner(11,grid,1,10,6);
-	add_corner(12,grid,6,10,7);
-	add_corner(13,grid,6,7,11);
-	add_corner(14,grid,11,7,2);
-	add_corner(15,grid,11,2,9);
-	add_corner(16,grid,9,2,5);
-	add_corner(17,grid,9,5,4);
-	add_corner(18,grid,4,5,8);
-	add_corner(19,grid,4,8,1);
+
+	std::array<std::array<int, 3>, 10>
+	remaining_adjacencies = {{
+		{10,1,8}, {1,10,6}, {6,10,7}, {6,7,11}, {11,7,2}, {11,2,9}, {9,2,5}, {9,5,4}, {4,5,8}, {4,8,1}
+	}};
+	for (int i=0; i<10; i++) {
+		auto adj = remaining_adjacencies[i];
+		add_corner(i+10, grid, adj[0], adj[1], adj[2]);
+	}
 	
 	//add corners to corners
 	for (Corner& c : grid.corners) {
@@ -57,7 +76,7 @@ Grid size_0_grid () {
 	int next_edge_id = 0;
 	for (Tile& t : grid.tiles) {
 		for (int k=0; k<5; k++) {
-			if (t.edges[k] == nullptr) {
+			if (t.id < t.tiles[k]->id) {
 				add_edge(next_edge_id, grid, t.id, icos_tiles_n[t.id][k]);
 				next_edge_id++;
 			}
@@ -107,7 +126,7 @@ Grid subdivide (const Grid& prev) {
 	int next_edge_id = 0;
 	for (Tile& t : grid.tiles) {
 		for (int k=0; k<t.edge_count; k++) {
-			if (t.edges[k] == nullptr) {
+			if (t.id < t.tiles[k]->id) {
 				add_edge(next_edge_id, grid, t.id, t.tiles[k]->id);
 				next_edge_id++;
 			}
