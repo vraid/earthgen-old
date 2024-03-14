@@ -1,6 +1,8 @@
 #ifndef river_h
 #define river_h
 
+namespace earthgen {
+
 class Planet;
 class Corner;
 class Edge;
@@ -20,5 +22,7 @@ const River river (const Planet&, const Edge*);
 const River river (const Planet&, const Corner*);
 const Corner* left_tributary (const Planet&, const River&);
 const Corner* right_tributary (const Planet&, const River&);
+
+}
 
 #endif

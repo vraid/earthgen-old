@@ -2,6 +2,8 @@
 #include "vector2.h"
 #include <cmath>
 
+namespace earthgen {
+
 Matrix2::Matrix2() {
 	m[0][0] = 1.0;
 	m[0][1] = 0.0;
@@ -37,4 +39,6 @@ Matrix2 rotation_matrix (double a) {
 	m.m[1][0] = std::sin(a);
 	m.m[1][1] = std::cos(a);
 	return m;
+}
+
 }

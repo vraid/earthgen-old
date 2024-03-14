@@ -3,6 +3,8 @@
 #include "../planet/planet.h"
 #include "../math/quaternion.h"
 
+namespace earthgen {
+
 Map_renderer::Map_renderer () : Planet_renderer () {
 	geometry_updated = false;
 	scale = min_scale();
@@ -120,4 +122,6 @@ Vector2 Map_renderer::map_offset () const {
 
 Vector2 Map_renderer::invert_y (const Vector2& v) const {
 	return Vector2(v.x, -v.y);
+}
+
 }

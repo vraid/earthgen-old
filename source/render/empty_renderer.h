@@ -3,6 +3,8 @@
 
 #include "planet_renderer.h"
 
+namespace earthgen {
+
 class Empty_renderer : public Planet_renderer {
 public:
 	Empty_renderer () {}
@@ -12,5 +14,7 @@ public:
 	Vector3 to_coordinates (const Vector2&) const {return Vector3();}
 	void draw (const Planet&, const Quaternion&, const Planet_colours&) {}
 };
+
+}
 
 #endif

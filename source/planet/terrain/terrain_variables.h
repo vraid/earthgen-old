@@ -2,6 +2,9 @@
 #define terrain_variables_h
 
 #include "../../math/vector3.h"
+
+namespace earthgen {
+
 class Planet;
 
 class Terrain_variables {
@@ -18,5 +21,7 @@ const Vector3& axis (const Planet&);
 double axial_tilt (const Planet&);
 double radius (const Planet&);
 double sea_level (const Planet&);
+
+}
 
 #endif

@@ -6,6 +6,9 @@ class QGridLayout;
 class QPushButton;
 class QComboBox;
 class QLineEdit;
+
+namespace earthgen {
+
 class PlanetHandler;
 class PlanetWidget;
 
@@ -37,5 +40,7 @@ public:
 	bool climateEnabled;
 	int currentSeason;
 };
+
+}
 
 #endif

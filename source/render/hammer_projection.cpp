@@ -6,6 +6,8 @@
 #include "../planet/planet.h"
 #include <cmath>
 
+namespace earthgen {
+
 void clear (Hammer_projection& proj) {
 	std::deque<Hammer_tile>().swap(proj.tiles);
 }
@@ -37,3 +39,5 @@ Vector2 to_hammer (double latitude, double longitude) {
 
 double hammer_width () {return sqrt(8.0);}
 double hammer_height () {return sqrt(2.0);}
+
+}

@@ -4,6 +4,8 @@
 #include <algorithm>
 #include "../../math/math_common.h"
 
+namespace earthgen {
+
 class Climate_parameters {
 public:
 	Climate_parameters () {
@@ -36,5 +38,7 @@ public:
 	double axial_tilt;
 	float error_tolerance;
 };
+
+}
 
 #endif

@@ -3,6 +3,8 @@
 
 #include "terrain_water.h"
 
+namespace earthgen {
+
 class Terrain_tile {
 public:
 	Terrain_tile () :
@@ -19,5 +21,7 @@ bool is_water (const Terrain_tile&);
 bool has_coast (const Terrain_tile&);
 float elevation (const Terrain_tile&);
 float water_depth (const Terrain_tile&);
+
+}
 
 #endif

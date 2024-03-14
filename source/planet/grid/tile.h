@@ -5,6 +5,9 @@
 #include "../../math/vector2.h"
 #include "../../math/vector3.h"
 #include "../../math/quaternion.h"
+
+namespace earthgen {
+
 class Corner;
 class Edge;
 
@@ -50,5 +53,7 @@ inline const Edge* nth_edge (const Tile* t, int n) {return nth_edge(*t, n);}
 inline int position (const Tile* t, const Tile* n) {return position(*t, n);}
 inline int position (const Tile* t, const Corner* c) {return position(*t, c);}
 inline int position (const Tile* t, const Edge* e) {return position(*t, e);}
+
+}
 
 #endif

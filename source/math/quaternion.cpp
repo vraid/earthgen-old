@@ -3,6 +3,8 @@
 #include "matrix3.h"
 #include <cmath>
 
+namespace earthgen {
+
 Quaternion::Quaternion () :
 	a (1), i (0), j (0), k(0) {}
 	
@@ -73,4 +75,6 @@ Matrix3 matrix3 (const Quaternion& q) {
 	m.m[2][1] = 2*q.j*q.k + 2*q.i*q.a;
 	m.m[2][2] = 1 - 2*q.i*q.i - 2*q.j*q.j;
 	return m;
+}
+
 }

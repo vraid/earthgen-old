@@ -5,7 +5,7 @@
 
 int main (int argv, char **args) {
 	QApplication app(argv, args);
-	MainWindow window;
+	earthgen::MainWindow window;
 	window.setWindowIcon(QIcon("icon.png"));
 	window.show();
 	return app.exec();

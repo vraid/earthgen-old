@@ -1,6 +1,8 @@
 #ifndef climate_variables_h
 #define climate_variables_h
 
+namespace earthgen {
+
 class Planet;
 
 class Climate_variables {
@@ -11,5 +13,7 @@ public:
 };
 
 int season_count (const Planet&);
+
+}
 
 #endif

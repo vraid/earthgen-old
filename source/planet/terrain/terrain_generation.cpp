@@ -9,6 +9,9 @@
 #include "../../hash/md5.h"
 
 #include <iostream>
+
+namespace earthgen {
+
 void generate_terrain (Planet& p, const Terrain_parameters& par) {
 	clear(p);
 	set_grid_size(p, par.grid_size);
@@ -235,4 +238,6 @@ Vector3 point_uniform (int a, int b) {
 	double x = 2*pi*(a/(double)RAND_MAX);
 	double y = acos(2*(b/(double)RAND_MAX)-1)-(0.5*pi);
 	return Vector3(sin(x)*cos(y), sin(y), cos(x)*cos(y));
+}
+
 }

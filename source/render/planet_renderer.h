@@ -5,6 +5,9 @@
 #include "../math/vector2.h"
 #include "../math/vector3.h"
 #include "colour.h"
+
+namespace earthgen {
+
 class Planet;
 class Quaternion;
 
@@ -26,8 +29,10 @@ public:
 	double scale;
 };
 
-inline void glVertex2f (const Vector2& v) {glVertex2f(v.x, v.y);}
-inline void glVertex3f (const Vector3& v) {glVertex3f(v.x, v.y, v.z);}
-inline void glColor3f (const Colour& c) {glColor3f(c.r, c.g, c.b);}
+inline void glVertex2f (const Vector2& v) {::glVertex2f(v.x, v.y);}
+inline void glVertex3f (const Vector3& v) {::glVertex3f(v.x, v.y, v.z);}
+inline void glColor3f (const Colour& c) {::glColor3f(c.r, c.g, c.b);}
+
+}
 
 #endif

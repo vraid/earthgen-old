@@ -5,6 +5,9 @@
 #include "season.h"
 #include "climate_variables.h"
 #include "climate_parameters.h"
+
+namespace earthgen {
+
 class Planet;
 
 class Climate {
@@ -33,5 +36,7 @@ float temperature_lapse (float);
 float saturation_humidity (float);
 // aridity at temperature
 float aridity (float);
+
+}
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef terrain_corner_h
 #define terrain_corner_h
 
+namespace earthgen {
+
 class Terrain_corner {
 public:
 	Terrain_corner () :
@@ -19,5 +21,7 @@ bool is_coast (const Terrain_corner&);
 float elevation (const Terrain_corner&);
 int river_direction (const Terrain_corner&);
 int distance_to_sea (const Terrain_corner&);
+
+}
 
 #endif

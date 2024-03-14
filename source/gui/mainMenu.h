@@ -3,6 +3,9 @@
 
 #include <QWidget>
 class QBoxLayout;
+
+namespace earthgen {
+
 class TerrainBox;
 class AxisBox;
 class ClimateBox;
@@ -21,5 +24,7 @@ public:
 	QBoxLayout* layout;
 	PlanetHandler* planetHandler;
 };
+
+}
 
 #endif

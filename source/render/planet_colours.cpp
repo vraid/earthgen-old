@@ -1,6 +1,8 @@
 #include "planet_colours.h"
 #include "../planet/planet.h"
 
+namespace earthgen {
+
 void clear_colours (Planet_colours& c) {
 	std::deque<Colour>().swap(c.tiles);
 }
@@ -204,4 +206,6 @@ void colour_precipitation (Planet_colours& c, const Planet& p, const Season& s) 
 			}
 		}
 	}
+}
+
 }

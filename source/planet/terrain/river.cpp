@@ -2,6 +2,8 @@
 #include "../planet.h"
 #include "../grid/grid.h"
 
+namespace earthgen {
+
 bool has_river (const Planet& p, const Edge* e) {
 	const Corner* first = nth_corner(e, 0);
 	const Corner* second = nth_corner(e, 1);
@@ -50,4 +52,6 @@ const Corner* right_tributary (const Planet& p, const River& r) {
 	if (river_direction(nth_corner(terrain(p), t->id)) == position(t, r.source))
 		c = t;
 	return c;
+}
+
 }

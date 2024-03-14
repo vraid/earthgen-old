@@ -5,6 +5,8 @@
 #include "terrain/terrain.h"
 #include "climate/climate.h"
 
+namespace earthgen {
+
 class Planet {
 public:
 	Planet ();
@@ -28,5 +30,7 @@ const Edge* nth_edge (const Planet&, int);
 int tile_count (const Planet&);
 int corner_count (const Planet&);
 int edge_count (const Planet&);
+
+}
 
 #endif

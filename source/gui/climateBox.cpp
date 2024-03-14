@@ -4,6 +4,8 @@
 #include <QLineEdit>
 #include "planetHandler.h"
 
+namespace earthgen {
+
 ClimateBox::ClimateBox (PlanetHandler* p) : QGroupBox(QString("Climate")), planetHandler(p) {
 	form = new QFormLayout();
 		seasonsEdit = new QLineEdit();
@@ -42,4 +44,6 @@ void ClimateBox::enableButton () {
 }
 void ClimateBox::disableButton () {
 	generateButton->setEnabled(false);
+}
+
 }

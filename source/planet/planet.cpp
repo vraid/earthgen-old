@@ -1,6 +1,8 @@
 #include "planet.h"
 #include "grid/grid.h"
 
+namespace earthgen {
+
 Planet::Planet () {
 	grid = size_0_grid();
 }
@@ -26,3 +28,5 @@ const Edge* nth_edge (const Planet& p, int n) {return &p.grid.edges[n];}
 int tile_count (const Planet& p) {return p.grid.tiles.size();}
 int corner_count (const Planet& p) {return p.grid.corners.size();}
 int edge_count (const Planet& p) {return p.grid.edges.size();}
+
+}

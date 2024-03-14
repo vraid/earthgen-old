@@ -1,6 +1,8 @@
 #include <QBoxLayout>
 #include "mainWindow.h"
 
+namespace earthgen {
+
 MainWindow::MainWindow () {
 	planetHandler = new PlanetHandler();
 	QBoxLayout* layout = new QHBoxLayout(this);
@@ -13,4 +15,6 @@ MainWindow::MainWindow () {
 		layout->addWidget(planetWidget, 1);
 
 	resize(860,600);
+}
+
 }

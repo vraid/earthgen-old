@@ -1,6 +1,8 @@
 #ifndef planet_render_data
 #define planet_render_data
 
+namespace earthgen {
+
 class Planet;
 class River_geometry;
 
@@ -12,5 +14,7 @@ public:
 	const Planet* planet;
 	River_geometry* river_geometry;
 };
+
+}
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef terrain_water
 #define terrain_water
 
+namespace earthgen {
+
 class Terrain_water {
 public:
 	Terrain_water () :
@@ -9,5 +11,7 @@ public:
 	float surface;
 	float depth;
 };
+
+}
 
 #endif

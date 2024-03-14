@@ -1,6 +1,8 @@
 #include "matrix3.h"
 #include "vector3.h"
 
+namespace earthgen {
+
 Matrix3::Matrix3 () {
 	for (int i=0; i<3; i++) {
 		for (int k=0; k<3; k++) {
@@ -25,3 +27,4 @@ Vector3 Matrix3::operator * (const Vector3 &v) const {
 		 v.x*m[2][0] + v.y*m[2][1] + v.z*m[2][2]);
 }
 
+}

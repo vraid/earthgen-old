@@ -1,6 +1,8 @@
 #ifndef vector3_h
 #define vector3_h
 
+namespace earthgen {
+
 class Vector3 {
 public:
 	Vector3 ();
@@ -27,5 +29,7 @@ double squared_length (const Vector3&);
 double distance (const Vector3&, const Vector3&);
 double squared_distance (const Vector3&, const Vector3&);
 double angle (const Vector3&, const Vector3&);
+
+}
 
 #endif

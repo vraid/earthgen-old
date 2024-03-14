@@ -1,6 +1,8 @@
 #ifndef vector2_h
 #define vector2_h
 
+namespace earthgen {
+
 class Vector2 {
 public:
 	Vector2 ();
@@ -19,5 +21,7 @@ double squared_length (const Vector2&);
 double distance (const Vector2&, const Vector2&);
 double squared_distance (const Vector2&, const Vector2&);
 double angle (const Vector2&);
+
+}
 
 #endif

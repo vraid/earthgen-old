@@ -1,6 +1,8 @@
 #ifndef quaternion_h
 #define quaternion_h
 
+namespace earthgen {
+
 class Vector3;
 class Matrix3;
 
@@ -24,5 +26,7 @@ Quaternion conjugate (const Quaternion&);
 Vector3 vector (const Quaternion&);
 Quaternion normal (const Quaternion&);
 Matrix3 matrix3 (const Quaternion&);
+
+}
 
 #endif

@@ -10,6 +10,8 @@
 #include "../render/planet_colours.h"
 #include <iostream>
 
+namespace earthgen {
+
 DisplayBox::DisplayBox (PlanetHandler* p, PlanetWidget* w) : QGroupBox(QString("Display")), planetHandler(p), planetWidget(w) {
 	layout = new QGridLayout();
 		mapButton = new QPushButton("Map");
@@ -125,4 +127,6 @@ void DisplayBox::incrementSeason () {
 
 void DisplayBox::decrementSeason () {
 	setSeason(currentSeason - 1 < 0 ? season_count(planetHandler->planet()) - 1 : currentSeason - 1);
+}
+
 }

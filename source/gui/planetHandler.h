@@ -7,6 +7,8 @@
 #include "../planet/terrain/terrain_generation.h"
 #include "../planet/climate/climate_generation.h"
 
+namespace earthgen {
+
 class PlanetHandler : public QObject {
 	Q_OBJECT
 public:
@@ -30,5 +32,7 @@ private:
 	Planet _planet;
 	unsigned _currentSeason;
 };
+
+}
 
 #endif

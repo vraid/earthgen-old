@@ -6,6 +6,8 @@
 #include "planetWidget.h"
 #include "util.h"
 
+namespace earthgen {
+
 AxisBox::AxisBox (PlanetHandler* p, PlanetWidget* planetWidget) : QGroupBox("Axis"), planetHandler(p) {
 	selected = Vector3(0,0,0);
 	form = new QFormLayout();
@@ -45,4 +47,6 @@ void AxisBox::setAxis () {
 
 void AxisBox::enableButton () {
 	setButton->setEnabled(true);
+}
+
 }

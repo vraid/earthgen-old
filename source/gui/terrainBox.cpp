@@ -5,6 +5,8 @@
 #include "planetHandler.h"
 #include "util.h"
 
+namespace earthgen {
+
 TerrainBox::TerrainBox (PlanetHandler* p) : QGroupBox("Terrain"), planetHandler(p) {
 	form = new QFormLayout();
 		seedEdit = new QLineEdit();
@@ -47,4 +49,6 @@ void TerrainBox::setValues (const Terrain_parameters& par) {
 	gridSizeEdit->setText(QString::number(par.grid_size));
 	iterationsEdit->setText(QString::number(par.iterations));
 	waterRatioEdit->setText(QString::number(par.water_ratio));
+}
+
 }

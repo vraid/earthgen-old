@@ -1,6 +1,8 @@
 #ifndef terrain_edge_h
 #define terrain_edge_h
 
+namespace earthgen {
+
 class Terrain_edge {
 public:
 	Terrain_edge () :
@@ -13,5 +15,7 @@ public:
 bool is_land (const Terrain_edge&);
 bool is_water (const Terrain_edge&);
 bool is_coast (const Terrain_edge&);
+
+}
 
 #endif

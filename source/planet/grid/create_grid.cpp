@@ -2,6 +2,8 @@
 #include "grid.h"
 #include <cmath>
 
+namespace earthgen {
+
 Grid size_n_grid (int size) {
 	return (size <= 0) ? size_0_grid() : subdivide(size_n_grid(size - 1));
 }
@@ -157,4 +159,6 @@ void add_edge (int id, Grid& grid, int t1, int t2) {
 		c[i]->edges[position(c[i], c[(i+1)%2])] = e;
 		e->corners[i] = c[i];
 	}
+}
+
 }

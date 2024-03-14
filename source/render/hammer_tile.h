@@ -2,6 +2,9 @@
 #define hammer_tile_h
 
 #include "../math/vector2.h"
+
+namespace earthgen {
+
 class Tile;
 class Matrix3;
 
@@ -12,5 +15,7 @@ public:
 	Vector2 centre;
 	Vector2 corners[6];
 };
+
+}
 
 #endif

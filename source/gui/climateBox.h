@@ -5,6 +5,9 @@
 class QPushButton;
 class QFormLayout;
 class QLineEdit;
+
+namespace earthgen {
+
 class PlanetHandler;
 class Climate_parameters;
 
@@ -26,5 +29,7 @@ public:
 	QLineEdit* axialTiltEdit;
 	PlanetHandler* planetHandler;
 };
+
+}
 
 #endif

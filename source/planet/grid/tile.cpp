@@ -2,6 +2,8 @@
 #include "corner.h"
 #include "../../math/math_common.h"
 
+namespace earthgen {
+
 Tile::Tile (int i, int e) :
 	id (i), edge_count (e) {
 	tiles.resize(edge_count, nullptr);
@@ -83,4 +85,6 @@ std::vector<Vector2> polygon (const Tile* t, Quaternion d) {
 		p.push_back(Vector2(c.x, c.y));
 	}
 	return p;
+}
+
 }

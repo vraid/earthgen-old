@@ -1,5 +1,7 @@
 #include "edge.h"
 
+namespace earthgen {
+
 Edge::Edge (int i) :
 	id (i) {
 	for (auto& t : tiles)
@@ -46,4 +48,6 @@ const Tile* nth_tile (const Edge& e, int i) {
 }
 const Corner* nth_corner (const Edge& e, int i) {
 	return e.corners[i];
+}
+
 }

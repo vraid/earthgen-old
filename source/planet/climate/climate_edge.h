@@ -1,6 +1,8 @@
 #ifndef climate_edge_h
 #define climate_edge_h
 
+namespace earthgen {
+
 class Climate_edge {
 public:
 	Climate_edge () :
@@ -12,5 +14,7 @@ public:
 
 float wind_velocity (const Climate_edge&);
 float river_flow (const Climate_edge&);
+
+}
 
 #endif

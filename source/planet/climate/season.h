@@ -5,6 +5,9 @@
 #include "climate_tile.h"
 #include "climate_corner.h"
 #include "climate_edge.h"
+
+namespace earthgen {
+
 class Planet;
 
 class Season {
@@ -27,5 +30,7 @@ const Climate_edge& nth_edge (const Season&, int);
 Climate_tile& m_tile (Season&, int);
 Climate_corner& m_corner (Season&, int);
 Climate_edge& m_edge (Season&, int);
+
+}
 
 #endif

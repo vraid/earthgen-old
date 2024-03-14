@@ -6,6 +6,8 @@
 #include "../render/planet_colours.h"
 #include <iostream>
 
+namespace earthgen {
+
 PlanetWidget::PlanetWidget (PlanetHandler* p) : planetHandler(p) {
 	emptyRenderer = new Empty_renderer();
 	globeRenderer = new Globe_renderer();
@@ -107,4 +109,6 @@ void PlanetWidget::updateGeometry () {
 void PlanetWidget::initColours () {
 	init_colours(*colours, planetHandler->planet());
 	set_colours(*colours, planetHandler->planet(), 0);
+}
+
 }

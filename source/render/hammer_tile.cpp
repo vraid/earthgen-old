@@ -4,6 +4,8 @@
 #include "../math/matrix3.h"
 #include "../math/quaternion.h"
 
+namespace earthgen {
+
 Hammer_tile::Hammer_tile (const Tile* t, const Matrix3& m) {
 	centre = to_hammer(m * vector(t));
 	double tile_longitude = longitude(m * vector(t));
@@ -14,4 +16,6 @@ Hammer_tile::Hammer_tile (const Tile* t, const Matrix3& m) {
 	}
 	if (edge_count(t) == 5)
 		corners[5] = corners[0];
+}
+
 }

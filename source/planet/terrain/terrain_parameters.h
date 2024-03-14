@@ -5,6 +5,8 @@
 #include <algorithm>
 #include "../../math/vector3.h"
 
+namespace earthgen {
+
 class Terrain_parameters {
 public:
 	Terrain_parameters () {
@@ -49,5 +51,7 @@ public:
 		water_ratio = std::min(1.0, water_ratio);
 	}
 };
+
+}
 
 #endif

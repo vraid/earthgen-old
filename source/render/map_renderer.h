@@ -4,6 +4,8 @@
 #include "planet_renderer.h"
 #include "hammer_projection.h"
 
+namespace earthgen {
+
 class Map_renderer : public Planet_renderer {
 public:
 	Map_renderer ();
@@ -30,5 +32,7 @@ public:
 	Vector2 camera_position;
 	bool geometry_updated;
 };
+
+}
 
 #endif

@@ -8,6 +8,8 @@
 #include <iostream>
 #include <math.h>
 
+namespace earthgen {
+
 Globe_renderer::Globe_renderer () : Planet_renderer () {
 	reset_rotation();
 	show_rivers = false;
@@ -134,4 +136,6 @@ Quaternion Globe_renderer::longitude_rotation () const {
 
 Quaternion Globe_renderer::latitude_rotation () const {
 	return Quaternion(Vector3(1,0,0), -latitude);
+}
+
 }

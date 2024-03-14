@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <iostream>
 
+namespace earthgen {
+
 void generate_climate (Planet& planet, const Climate_parameters& par) {
 	clear_climate(planet);
 	m_terrain(planet).var.axial_tilt = par.axial_tilt;
@@ -270,4 +272,6 @@ void _set_river_flow (const Planet&, const Climate_parameters&, Climate_generati
 		climate_generation_edge(river_direction(c)).river_flow = flow;
 	}
 	*/
+}
+
 }

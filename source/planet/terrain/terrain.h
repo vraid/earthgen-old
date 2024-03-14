@@ -7,6 +7,9 @@
 #include "terrain_edge.h"
 #include "terrain_variables.h"
 #include "river.h"
+
+namespace earthgen {
+
 class Planet;
 class Tile;
 class Quaternion;
@@ -58,5 +61,6 @@ Terrain_tile& m_tile (Terrain&, int);
 Terrain_corner& m_corner (Terrain&, int);
 Terrain_edge& m_edge (Terrain&, int);
 
+}
 
 #endif

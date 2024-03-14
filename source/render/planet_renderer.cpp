@@ -1,5 +1,7 @@
 #include "planet_renderer.h"
 
+namespace earthgen {
+
 Planet_renderer::Planet_renderer () {
 	default_size = 600;
 	width = 600;
@@ -20,4 +22,6 @@ void Planet_renderer::mouse_dragged (const Vector2&) {}
 
 Vector3 Planet_renderer::to_coordinates (const Vector2&) const {
 	return Vector3();
+}
+
 }

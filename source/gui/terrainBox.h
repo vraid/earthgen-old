@@ -8,6 +8,9 @@ class QFormLayout;
 class QLabel;
 class QLineEdit;
 class QPushButton;
+
+namespace earthgen {
+
 class PlanetHandler;
 class Terrain_parameters;
 
@@ -30,5 +33,7 @@ public:
 	QLineEdit* waterRatioEdit;
 	PlanetHandler* planetHandler;
 };
+
+}
 
 #endif

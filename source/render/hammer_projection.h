@@ -3,6 +3,9 @@
 
 #include "hammer_tile.h"
 #include <deque>
+
+namespace earthgen {
+
 class Vector2;
 class Vector3;
 class Quaternion;
@@ -24,5 +27,7 @@ Vector2 to_hammer (double latitude, double longitude);
 
 double hammer_width ();
 double hammer_height ();
+
+}
 
 #endif

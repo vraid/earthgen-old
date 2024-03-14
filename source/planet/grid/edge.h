@@ -2,6 +2,9 @@
 #define edge_h
 
 #include <array>
+
+namespace earthgen {
+
 class Tile;
 class Corner;
 
@@ -35,5 +38,7 @@ inline int position (const Edge* e, const Tile* t) {return position(*e, t);}
 inline int position (const Edge* e, const Corner* c) {return position(*e, c);}
 inline int sign (const Edge* e, const Tile* t) {return sign(*e, t);}
 inline int sign (const Edge* e, const Corner* c) {return sign(*e, c);}
+
+}
 
 #endif

@@ -1,6 +1,8 @@
 #include "vector3.h"
 #include <cmath>
 
+namespace earthgen {
+
 Vector3::Vector3 () :
 	x (0), y (0), z (0) {}
 
@@ -63,4 +65,6 @@ double squared_distance (const Vector3& v, const Vector3& u) {
 
 double angle (const Vector3& v, const Vector3& u) {
 	return acos(dot_product(v,u) / (length(v) * length(u)));
+}
+
 }

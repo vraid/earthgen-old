@@ -1,6 +1,8 @@
 #ifndef matrix3_h
 #define matrix3_h
 
+namespace earthgen {
+
 class Vector3;
 
 class Matrix3 {
@@ -12,5 +14,7 @@ public:
 
 	double m[3][3];
 };
+
+}
 
 #endif

@@ -2,6 +2,8 @@
 #include "climate.h"
 #include "../planet.h"
 
+namespace earthgen {
+
 void clear_climate (Planet& p) {
 	std::deque<Season>().swap(m_climate(p).seasons);
 	m_climate(p).var.season_count = 0;
@@ -29,4 +31,6 @@ float saturation_humidity (float temperature) {
 float aridity (float potential_evapotranspiration) {
 	float index_base_temperature = 10 + freezing_point();
 	return potential_evapotranspiration / saturation_humidity(index_base_temperature);
+}
+
 }

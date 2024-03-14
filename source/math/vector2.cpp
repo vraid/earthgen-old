@@ -1,6 +1,8 @@
 #include "vector2.h"
 #include <cmath>
 
+namespace earthgen {
+
 Vector2::Vector2 () :
 	x (0), y (0) {}
 
@@ -32,4 +34,6 @@ double squared_distance (const Vector2& v, const Vector2& u) {
 }
 double angle (const Vector2& v) {
 	return atan2(v.y, v.x);
+}
+
 }

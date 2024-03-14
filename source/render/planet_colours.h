@@ -3,6 +3,9 @@
 
 #include <deque>
 #include "colour.h"
+
+namespace earthgen {
+
 class Planet;
 class Season;
 
@@ -25,5 +28,7 @@ void colour_temperature (Planet_colours&, const Planet&, const Season&);
 void colour_aridity (Planet_colours&, const Planet&, const Season&);
 void colour_humidity (Planet_colours&, const Planet&, const Season&);
 void colour_precipitation (Planet_colours&, const Planet&, const Season&);
+
+}
 
 #endif

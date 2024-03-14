@@ -6,6 +6,9 @@
 class QFormLayout;
 class QLineEdit;
 class QPushButton;
+
+namespace earthgen {
+
 class PlanetHandler;
 class PlanetWidget;
 
@@ -27,5 +30,7 @@ public:
 	Vector3 selected;
 	PlanetHandler* planetHandler;
 };
+
+}
 
 #endif

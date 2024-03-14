@@ -2,6 +2,9 @@
 #define matrix2_h
 
 #include <vector>
+
+namespace earthgen {
+
 class Vector2;
 
 class Matrix2 {
@@ -16,5 +19,7 @@ public:
 };
 
 Matrix2 rotation_matrix (double);
+
+}
 
 #endif

@@ -5,6 +5,9 @@
 #include <array>
 #include "../../math/vector3.h"
 #include "terrain_parameters.h"
+
+namespace earthgen {
+
 class Planet;
 class Tile;
 class Corner;
@@ -28,5 +31,7 @@ float _elevation_at_point (const Vector3&, const std::vector<std::array<Vector3,
 
 //returns point on sphere of uniform distribution, given two random integers
 Vector3 point_uniform (int, int);
+
+}
 
 #endif

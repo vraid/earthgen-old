@@ -1,6 +1,8 @@
 #ifndef wind_h
 #define wind_h
 
+namespace earthgen {
+
 class Wind {
 public:
 	Wind () :
@@ -9,5 +11,7 @@ public:
 	float direction;
 	float speed;
 };
+
+}
 
 #endif

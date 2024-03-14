@@ -2,6 +2,8 @@
 #define climate_tile_h
 #include "wind.h"
 
+namespace earthgen {
+
 class Climate_tile {
 public:
 	Climate_tile () :
@@ -18,5 +20,7 @@ float humidity (const Climate_tile&);
 float aridity (const Climate_tile&);
 float potential_evapotranspiration (const Climate_tile&);
 float precipitation (const Climate_tile&);
+
+}
 
 #endif

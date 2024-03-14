@@ -3,6 +3,8 @@
 #include <iomanip>
 #include <sstream>
 
+namespace earthgen {
+
 QString randomAlpha (int length) {
 	static char alpha[] =
 	"abcdefghijklmnopqrstuvwxyz";
@@ -37,4 +39,6 @@ QString string (const Vector3& v, int precision) {
 
 QString string (const Vector3& v) {
 	return string(v, 2);
+}
+
 }

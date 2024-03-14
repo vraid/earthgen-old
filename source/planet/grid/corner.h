@@ -3,6 +3,9 @@
 
 #include <array>
 #include "../../math/vector3.h"
+
+namespace earthgen {
+
 class Tile;
 class Edge;
 
@@ -40,5 +43,7 @@ inline const Edge* nth_edge (const Corner* c, int i) {return nth_edge(*c, i);}
 inline int position (const Corner* c, const Tile* t) {return position(*c, t);}
 inline int position (const Corner* c, const Corner* n) {return position(*c, n);}
 inline int position (const Corner* c, const Edge* e) {return position(*c, e);}
+
+}
 
 #endif

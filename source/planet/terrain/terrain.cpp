@@ -3,6 +3,8 @@
 #include "../../math/quaternion.h"
 #include <cmath>
 
+namespace earthgen {
+
 void clear_terrain (Planet& p) {
 	p.terrain.tiles.clear();
 	p.terrain.corners.clear();
@@ -89,3 +91,5 @@ const Terrain_edge& nth_edge (const Terrain& t, int n) {return t.edges[n];}
 Terrain_tile& m_tile (Terrain& t, int n) {return t.tiles[n];}
 Terrain_corner& m_corner (Terrain& t, int n) {return t.corners[n];}
 Terrain_edge& m_edge (Terrain& t, int n) {return t.edges[n];}
+
+}

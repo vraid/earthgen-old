@@ -5,6 +5,8 @@
 #include "wind.h"
 #include "../../math/vector2.h"
 
+namespace earthgen {
+
 class Climate_generation_tile {
 public:
 	Climate_generation_tile () :
@@ -47,5 +49,7 @@ public:
 	std::deque<Climate_generation_corner> corners;
 	std::deque<Climate_generation_edge> edges;
 };
+
+}
 
 #endif

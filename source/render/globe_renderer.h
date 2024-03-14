@@ -3,6 +3,9 @@
 
 #include "planet_renderer.h"
 #include "../math/quaternion.h"
+
+namespace earthgen {
+
 class Vector2;
 class Matrix3;
 class Tile;
@@ -29,5 +32,7 @@ public:
 	double longitude;
 	bool show_rivers;
 };
+
+}
 
 #endif

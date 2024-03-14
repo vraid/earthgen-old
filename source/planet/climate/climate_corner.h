@@ -1,6 +1,8 @@
 #ifndef climate_corner_h
 #define climate_corner_h
 
+namespace earthgen {
+
 class Climate_corner {
 public:
 	Climate_corner () :
@@ -10,5 +12,7 @@ public:
 };
 
 float river_flow_increase (const Climate_corner&);
+
+}
 
 #endif

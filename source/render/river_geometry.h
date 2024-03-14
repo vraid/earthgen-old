@@ -5,6 +5,8 @@
 #include <deque>
 #include <vector>
 
+namespace earthgen {
+
 struct River_segment {
 	Vector3 v[4];
 };
@@ -18,5 +20,7 @@ public:
 	std::deque<River_segment> segments;
 	std::vector<int> edge_segment_id;
 };
+
+}
 
 #endif

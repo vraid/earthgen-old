@@ -1,6 +1,8 @@
 #ifndef colour_h
 #define colour_h
 
+namespace earthgen {
+
 class Colour {
 public:
 	Colour () :
@@ -22,5 +24,7 @@ public:
 };
 
 Colour interpolate (const Colour&, const Colour&, double);
+
+}
 
 #endif

@@ -2,6 +2,8 @@
 #include "planetWidget.h"
 #include <iostream>
 
+namespace earthgen {
+
 PlanetHandler::PlanetHandler () {
 	_currentSeason = 0;
 }
@@ -36,4 +38,6 @@ void PlanetHandler::generateTerrain (const Terrain_parameters& par) {
 void PlanetHandler::generateClimate (const Climate_parameters& par) {
 	generate_climate(_planet, par);
 	climateCreated();
+}
+
 }

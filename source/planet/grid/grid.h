@@ -7,6 +7,8 @@
 #include "edge.h"
 #include "create_grid.h"
 
+namespace earthgen {
+
 class Grid {
 public:
 	void set_size(int);
@@ -19,5 +21,7 @@ public:
 int tile_count (int size);
 int corner_count (int size);
 int edge_count (int size);
+
+}
 
 #endif

@@ -6,6 +6,8 @@
 #include "planetWidget.h"
 #include "planetHandler.h"
 
+namespace earthgen {
+
 class MainWindow : public QWidget {
 public:
 	MainWindow ();
@@ -14,5 +16,7 @@ public:
 	PlanetWidget* planetWidget;
 	PlanetHandler* planetHandler;
 };
+
+}
 
 #endif

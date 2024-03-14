@@ -6,6 +6,8 @@
 #include "displayBox.h"
 #include "planetHandler.h"
 
+namespace earthgen {
+
 MainMenu::MainMenu (PlanetHandler* p, PlanetWidget* planetWidget) : planetHandler(p) {
 	layout = new QBoxLayout(QBoxLayout::TopToBottom);
 	layout->setContentsMargins(0, 0, 0, 0);
@@ -28,4 +30,6 @@ MainMenu::MainMenu (PlanetHandler* p, PlanetWidget* planetWidget) : planetHandle
 	setLayout(layout);
 	setMinimumWidth(200);
 	setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+}
+
 }

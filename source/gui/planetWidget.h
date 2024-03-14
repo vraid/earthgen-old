@@ -6,6 +6,9 @@
 #include <QWheelEvent>
 #include "../math/vector2.h"
 #include "../math/vector3.h"
+
+namespace earthgen {
+
 class PlanetHandler;
 class Planet_renderer;
 class Globe_renderer;
@@ -48,5 +51,7 @@ public:
 	Empty_renderer* emptyRenderer;
 	Planet_colours* colours;
 };
+
+}
 
 #endif
