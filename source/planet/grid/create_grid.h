@@ -3,11 +3,11 @@
 
 class Grid;
 
-Grid* size_n_grid (int);
-Grid* size_0_grid ();
-Grid* _subdivided_grid (Grid*);
+Grid size_n_grid (int);
+Grid size_0_grid ();
+Grid subdivide (const Grid&);
 
-void _add_corner (int, Grid*, int, int, int);
-void _add_edge (int, Grid*, int, int);
+void add_corner (int, Grid&, int, int, int);
+void add_edge (int, Grid&, int, int);
 
 #endif

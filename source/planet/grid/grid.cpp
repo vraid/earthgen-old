@@ -1,14 +1,17 @@
 #include <math.h>
 #include "grid.h"
 
-Grid::Grid (int s) :
-	size (s) {
-	for (int i=0; i<tile_count(size); i++)
-		tiles.push_back(Tile(i, i<12 ? 5 : 6));
-	for (int i=0; i<corner_count(size); i++)
-		corners.push_back(Corner(i));
-	for (int i=0; i<edge_count(size); i++)
-		edges.push_back(Edge(i));
+void Grid::set_size (int size) {
+	this->size = size;
+	for (int i=0; i<tile_count(size); i++) {
+		this->tiles.push_back(Tile(i, i<12 ? 5 : 6));
+	}
+	for (int i=0; i<corner_count(size); i++) {
+		this->corners.push_back(Corner(i));
+	}
+	for (int i=0; i<edge_count(size); i++) {
+		this->edges.push_back(Edge(i));
+	}
 }
 
 int tile_count (int size) {return 10*pow(3,size)+2;}

@@ -10,7 +10,7 @@ public:
 	Planet ();
 	~Planet ();
 	
-	Grid* grid;
+	Grid grid;
 	Terrain* terrain;
 	Climate* climate;
 };

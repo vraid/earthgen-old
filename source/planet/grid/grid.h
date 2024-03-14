@@ -9,8 +9,7 @@
 
 class Grid {
 public:
-	Grid (int);
-	
+	void set_size(int);
 	int size;
 	std::deque<Tile> tiles;
 	std::deque<Corner> corners;
