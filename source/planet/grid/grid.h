@@ -1,7 +1,6 @@
 #ifndef grid_h
 #define grid_h
 
-#include <deque>
 #include "tile.h"
 #include "corner.h"
 #include "edge.h"
@@ -13,9 +12,9 @@ class Grid {
 public:
 	void set_size(int);
 	int size;
-	std::deque<Tile> tiles;
-	std::deque<Corner> corners;
-	std::deque<Edge> edges;
+	std::vector<Tile> tiles;
+	std::vector<Corner> corners;
+	std::vector<Edge> edges;
 };
 
 int tile_count (int size);

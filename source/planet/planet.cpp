@@ -17,9 +17,9 @@ void set_grid_size (Planet& p, int size) {
 	p.grid = size_n_grid(size);
 }
 
-const std::deque<Tile>& tiles (const Planet& p) {return p.grid.tiles;}
-const std::deque<Corner>& corners (const Planet& p) {return p.grid.corners;}
-const std::deque<Edge>& edges (const Planet& p) {return p.grid.edges;}
+const std::vector<Tile>& tiles (const Planet& p) {return p.grid.tiles;}
+const std::vector<Corner>& corners (const Planet& p) {return p.grid.corners;}
+const std::vector<Edge>& edges (const Planet& p) {return p.grid.edges;}
 
 const Tile* nth_tile (const Planet& p, int n) {return &p.grid.tiles[n];}
 const Corner* nth_corner (const Planet& p, int n) {return &p.grid.corners[n];}

@@ -19,9 +19,9 @@ public:
 void clear (Planet&);
 void set_grid_size (Planet&, int);
 
-const std::deque<Tile>& tiles (const Planet&);
-const std::deque<Corner>& corners (const Planet&);
-const std::deque<Edge>& edges (const Planet&);
+const std::vector<Tile>& tiles (const Planet&);
+const std::vector<Corner>& corners (const Planet&);
+const std::vector<Edge>& edges (const Planet&);
 
 const Tile* nth_tile (const Planet&, int);
 const Corner* nth_corner (const Planet&, int);
