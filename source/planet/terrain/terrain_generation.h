@@ -25,7 +25,6 @@ int _tile_type (const Planet&, const Tile*);
 int _corner_type (const Planet&, const Corner*);
 int _edge_type (const Planet&, const Edge*);
 void _classify_terrain (Planet&);
-void _set_river_directions (Planet&);
 
 float _elevation_at_point (const Vector3&, const std::vector<std::array<Vector3, 3> >&);
 

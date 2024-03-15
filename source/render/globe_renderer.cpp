@@ -12,7 +12,6 @@ namespace earthgen {
 
 Globe_renderer::Globe_renderer () : Planet_renderer () {
 	reset_rotation();
-	show_rivers = false;
 }
 
 void Globe_renderer::set_matrix () {
@@ -32,29 +31,6 @@ void Globe_renderer::draw_tile (const Tile* t, const Matrix3& m, const Colour& c
 	glEnd();
 }
 
-void Globe_renderer::draw_river (const Tile* t, int edge, const Matrix3& m, const Colour& colour) {
-	glColor3f(colour);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(m*(vector(nth_corner(t, edge)) + (vector(nth_corner(t, edge-1)) - vector(nth_corner(t, edge)))*0.1));
-	glVertex3f(m*vector(nth_corner(t, edge)));
-	glVertex3f(m*vector(nth_corner(t, edge+1)));
-	glEnd();
-	glBegin(GL_TRIANGLES);
-	glVertex3f(m*vector(nth_corner(t, edge+1)));
-	glVertex3f(m*(vector(nth_corner(t, edge+1)) + (vector(nth_corner(t, edge+2)) - vector(nth_corner(t, edge+1)))*0.1));
-	glVertex3f(m*(vector(nth_corner(t, edge)) + (vector(nth_corner(t, edge-1)) - vector(nth_corner(t, edge)))*0.1));
-	glEnd();
-
-	/*
-	glColor3f(colour);
-	glBegin(GL_TRIANGLE_FAN);
-	auto& v = river_segment(t, edge);
-	for (int i=0; i<4; i++)
-		glVertex3f(m*v[i]);
-	glEnd();
-	*/
-}
-
 void Globe_renderer::draw (const Planet& planet, const Quaternion& q, const Planet_colours& colours) {
 	set_matrix();
 	glFrontFace(GL_CCW);
@@ -63,19 +39,6 @@ void Globe_renderer::draw (const Planet& planet, const Quaternion& q, const Plan
 	for (auto& t : tiles(planet.grid)) {
 		draw_tile(&t, m, colours.tiles[id(t)]);
 	}
-
-	if (show_rivers)
-		for (auto& t : tiles(planet.grid))
-			if (is_land(nth_tile(terrain(planet), id(t)))) {
-				for (int k=0; k<edge_count(&t); k++) {
-					auto e = nth_edge(t, k);
-					if (has_river(planet, e)) {
-						River r = river(planet, e);
-						if (left_tributary(planet, r) || right_tributary(planet, r))
-							draw_river(&t, k, m, Colour(0.04, 0.14, 0.72));
-					}
-				}
-			}
 }
 
 void Globe_renderer::change_scale (const Vector2&, double delta) {

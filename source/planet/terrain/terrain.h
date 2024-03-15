@@ -6,12 +6,12 @@
 #include "terrain_corner.h"
 #include "terrain_edge.h"
 #include "terrain_variables.h"
-#include "river.h"
 
 namespace earthgen {
 
 class Planet;
 class Tile;
+class Edge;
 class Quaternion;
 
 class Terrain {

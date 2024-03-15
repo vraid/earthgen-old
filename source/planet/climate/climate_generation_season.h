@@ -19,21 +19,11 @@ public:
 	float precipitation;
 };
 
-class Climate_generation_corner {
-public:
-	Climate_generation_corner () :
-		river_flow (0), river_flow_increase (0) {}
-		
-	float river_flow;
-	float river_flow_increase;
-};
-
 class Climate_generation_edge {
 public:
 	Climate_generation_edge () :
-		river_flow (0), wind_velocity (0) {}
+		wind_velocity (0) {}
 		
-	float river_flow;
 	float wind_velocity;
 };
 
@@ -46,7 +36,6 @@ public:
 	float tropical_equator;
 
 	std::deque<Climate_generation_tile> tiles;
-	std::deque<Climate_generation_corner> corners;
 	std::deque<Climate_generation_edge> edges;
 };
 

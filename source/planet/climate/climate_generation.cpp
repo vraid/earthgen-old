@@ -33,7 +33,6 @@ void copy_season (const Climate_generation_season& from, Season& to) {
 void generate_season (Planet& planet, const Climate_parameters& par, float time_of_year) {
 	Climate_generation_season season;
 	season.tiles.resize(tile_count(planet.grid));
-	season.corners.resize(corner_count(planet.grid));
 	season.edges.resize(edge_count(planet.grid));
 
 	season.var.time_of_year = time_of_year;
@@ -43,11 +42,9 @@ void generate_season (Planet& planet, const Climate_parameters& par, float time_
 	_set_temperature(planet, par, season);
 	_set_wind(planet, par, season);
 	_set_humidity(planet, par, season);
-//	_set_river_flow(planet, par, season);
 	
 	Season s;
 	s.tiles.resize(tile_count(planet.grid));
-	s.corners.resize(corner_count(planet.grid));
 	s.edges.resize(edge_count(planet.grid));
 	copy_season(season, s);
 	m_climate(planet).seasons.push_back(s);
@@ -252,26 +249,6 @@ void _set_humidity (const Planet& planet, const Climate_parameters& par, Climate
 
 int _lowest_corner (const Planet&, const Tile&) {
 	return 0;
-}
-
-void _set_river_flow (const Planet&, const Climate_parameters&, Climate_generation_season&) {
-	/*
-	for (auto& t : tiles(planet)) {
-		lowest_corner(t).river_flow_increase += t.precipitation;
-	}
-	std::multimap<int, const Corner*> river_sources;
-	for c : corners {
-		if distance_to_sea(c) > 0
-			river_sources.insert(-distance_to_sea(c), c);
-	}
-	for c : river_sources {
-		float flow = 0;
-		flow += climate_generation_corner(id(c)).river_flow_increase
-		if corner has river behind it..
-		flow += edge.river_flow;
-		climate_generation_edge(river_direction(c)).river_flow = flow;
-	}
-	*/
 }
 
 }

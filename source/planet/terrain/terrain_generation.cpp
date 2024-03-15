@@ -20,7 +20,6 @@ void generate_terrain (Planet& p, const Terrain_parameters& par) {
 	_set_elevation(p, par);
 	_create_sea(p, par);
 	_classify_terrain(p);
-	_set_river_directions(p);
 }
 
 void _set_variables (Planet& p, const Terrain_parameters& par) {
@@ -172,28 +171,6 @@ void _classify_terrain (Planet& p) {
 		m_corner(m_terrain(p), id(c)).type = _corner_type(p, &c);
 	for (auto& e : edges(p.grid))
 		m_edge(m_terrain(p), id(e)).type = _edge_type(p, &e);
-}
-
-void _set_river_directions (Planet& p) {
-	std::multimap<float, const Corner*> endpoints;
-	for (auto& c : corners(p.grid))
-		if (is_coast(nth_corner(terrain(p), id(c)))) {
-			m_corner(m_terrain(p), id(c)).distance_to_sea = 0;
-			endpoints.insert(std::make_pair(elevation(nth_corner(terrain(p), id(c))), &c));
-		}
-	while (endpoints.size() > 0) {
-		auto first = endpoints.begin();
-		const Corner* c = first->second;
-		for (auto n : corners(c)) {
-			Terrain_corner& ter = m_corner(m_terrain(p), id(n));
-			if (is_land(ter) && ter.river_direction == -1) {
-				ter.river_direction = position(n, c);
-				ter.distance_to_sea = 1 + distance_to_sea(nth_corner(terrain(p), id(c)));
-				endpoints.insert(std::make_pair(elevation(ter), n));
-			}
-		}
-		endpoints.erase(first);			
-	}
 }
 
 unsigned int hex_string_to_uint (std::string s) {

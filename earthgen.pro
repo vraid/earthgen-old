@@ -55,13 +55,10 @@ HEADERS += source/gui/axisBox.h \
            source/render/globe_renderer.h \
            source/render/hammer_projection.h \
            source/render/hammer_tile.h \
-           source/render/map_projection.h \
            source/render/map_renderer.h \
            source/render/planet_colours.h \
            source/render/planet_renderer.h \
-           source/render/river_geometry.h \
            source/planet/climate/climate.h \
-           source/planet/climate/climate_corner.h \
            source/planet/climate/climate_edge.h \
            source/planet/climate/climate_generation.h \
            source/planet/climate/climate_generation_season.h \
@@ -76,7 +73,6 @@ HEADERS += source/gui/axisBox.h \
            source/planet/grid/edge.h \
            source/planet/grid/grid.h \
            source/planet/grid/tile.h \
-           source/planet/terrain/river.h \
            source/planet/terrain/terrain.h \
            source/planet/terrain/terrain_corner.h \
            source/planet/terrain/terrain_edge.h \
@@ -111,7 +107,6 @@ SOURCES += source/main.cpp \
            source/render/planet_colours.cpp \
            source/render/planet_renderer.cpp \
            source/planet/climate/climate.cpp \
-           source/planet/climate/climate_corner.cpp \
            source/planet/climate/climate_edge.cpp \
            source/planet/climate/climate_generation.cpp \
            source/planet/climate/climate_tile.cpp \
@@ -122,7 +117,6 @@ SOURCES += source/main.cpp \
            source/planet/grid/edge.cpp \
            source/planet/grid/grid.cpp \
            source/planet/grid/tile.cpp \
-           source/planet/terrain/river.cpp \
            source/planet/terrain/terrain.cpp \
            source/planet/terrain/terrain_corner.cpp \
            source/planet/terrain/terrain_edge.cpp \

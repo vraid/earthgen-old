@@ -17,7 +17,6 @@ public:
 
 	void set_matrix ();
 	void draw_tile (const Tile*, const Matrix3&, const Colour&);
-	void draw_river (const Tile*, int, const Matrix3&, const Colour&);
 	void draw (const Planet&, const Quaternion&, const Planet_colours&);
 	void change_scale (const Vector2&, double);
 	void mouse_dragged (const Vector2&);
@@ -30,7 +29,6 @@ public:
 
 	double latitude;
 	double longitude;
-	bool show_rivers;
 };
 
 }

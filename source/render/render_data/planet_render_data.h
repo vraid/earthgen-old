@@ -4,7 +4,6 @@
 namespace earthgen {
 
 class Planet;
-class River_geometry;
 
 class Planet_render_data {
 public:
@@ -12,7 +11,6 @@ public:
 	~Planet_render_data () {}
 
 	const Planet* planet;
-	River_geometry* river_geometry;
 };
 
 }
