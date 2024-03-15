@@ -1,12 +1,14 @@
 #ifndef vector3_h
 #define vector3_h
 
+#include <array>
+
 namespace earthgen {
 
 class Vector3 {
 public:
 	Vector3 ();
-	Vector3 (float, float, float);
+	Vector3 (double, double, double);
 
 	bool operator == (const Vector3&) const;
 	bool operator != (const Vector3&) const;
@@ -14,9 +16,13 @@ public:
 	Vector3 operator - (const Vector3&) const;
 	Vector3 operator * (double) const;
 	
-	float x;
-	float y;
-	float z;
+	inline double at (int n) const { return values[n]; }
+	inline double x () const { return at(0); };
+	inline double y () const { return at(1); };
+	inline double z () const { return at(2); };
+
+private:
+	std::array<double, 3> values;
 };
 
 bool zero (const Vector3&);

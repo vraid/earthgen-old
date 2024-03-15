@@ -32,7 +32,7 @@ QString randomAlphaNumeric (int length) {
 
 QString string (const Vector3& v, int precision) {
 	std::ostringstream buffer;
-	buffer << std::fixed << std::setprecision(precision) << v.x << ", " << v.y << ", " << v.z;
+	buffer << std::fixed << std::setprecision(precision) << v.x() << ", " << v.y() << ", " << v.z();
 	std::string s = buffer.str();
 	return QString::fromStdString(s);
 }

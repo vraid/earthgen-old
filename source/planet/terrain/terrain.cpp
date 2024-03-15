@@ -19,12 +19,10 @@ void init_terrain (Planet& p) {
 }
 
 double latitude (const Vector3& v) {
-	return std::asin(v.z);
+	return std::asin(v.z());
 }
 double longitude (const Vector3& v) {
-	if (v.x == 0 && v.y == 0)
-		return 0;
-	return std::atan2(v.y, v.x);
+	return (v.x() == 0 && v.y() == 0) ? 0 : std::atan2(v.y(), v.x());
 }
 
 double latitude (const Planet& p, const Vector3& v) {
@@ -38,7 +36,7 @@ double longitude (const Planet& p, const Vector3& v) {
 
 double north (const Planet& p, const Tile* t) {
 	Vector3 v = reference_rotation(t, rotation_to_default(p)) * vector(nth_tile(t, 0));
-	return pi-atan2(v.y, v.x);
+	return pi-atan2(v.y(), v.x());
 }
 
 double area (const Planet& p, const Tile* t) {
@@ -70,11 +68,10 @@ double coriolis_coefficient (const Planet& p, double latitude) {
 
 Vector3 default_axis () {return Vector3(0,0,1);}
 Quaternion rotation (const Planet& p) {
-	return Quaternion(default_axis(), axis(p));
+	return rotation_between(default_axis(), axis(p));
 }
 Quaternion rotation_to_default (const Planet& p) {
 	return conjugate(rotation(p));
-	return Quaternion(axis(p), default_axis());
 }
 
 const Terrain& terrain (const Planet& p) {return p.terrain;}

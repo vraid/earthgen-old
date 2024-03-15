@@ -1,80 +1,81 @@
 #include "quaternion.h"
 #include "vector3.h"
 #include "matrix3.h"
+#include "math_common.h"
 #include <cmath>
 
 namespace earthgen {
 
 Quaternion::Quaternion () :
-	a (1), i (0), j (0), k(0) {}
-	
-Quaternion::Quaternion (const Vector3& axis, double angle) {
-	Vector3 v = normal(axis);
-	a = cos(angle*0.5);
-	v = v*sin(angle*0.5);
-	i = v.x;
-	j = v.y;
-	k = v.z;
-}
-Quaternion::Quaternion (const Vector3& a, const Vector3& b) {
-	Vector3 v = normal(a);
-	Vector3 u = normal(b);
-	Quaternion q = Quaternion();
-	if (parallel(v,u)) {
-		if (v != u) {
-			Vector3 inter = parallel(v,Vector3(1,0,0)) ? Vector3(0,1,0) : Vector3(1,0,0);
-			q = Quaternion(inter,u) * Quaternion(v,inter);
-		}
-	}
-	else
-		q = Quaternion(cross_product(u,v), -std::acos(dot_product(v,u)));
-	*this = q;
+	values ({1, 0, 0, 0}) {}
+
+Quaternion::Quaternion (double a, double i, double j, double k) :
+	values ({a, i, j, k}) {}
+
+Quaternion rotation_around (const Vector3& axis, double angle) {
+	Vector3 v = normal(axis)*sin(angle*0.5);
+	return Quaternion(cos(angle*0.5), v.x(), v.y(), v.z());
 }
 
-Quaternion::Quaternion (double alpha, double x, double y, double z) :
-	a (alpha), i (x), j (y), k (z) {
+Quaternion rotation_between_nonparallel (const Vector3& a, const Vector3& b) {
+	return rotation_around(cross_product(b,a), -std::acos(dot_product(a,b)));
+}
+
+Quaternion rotation_between_parallel (const Vector3& a, const Vector3& b) {
+	if (a != b) {
+		Vector3 intermediate = parallel(a,Vector3(1,0,0)) ? Vector3(0,1,0) : Vector3(1,0,0);
+		return rotation_between_nonparallel(intermediate,b) * rotation_between_nonparallel(a,intermediate);
+	}
+	else {
+		return Quaternion();
+	}
+}
+
+Quaternion rotation_between (const Vector3& a, const Vector3& b) {
+	Vector3 v = normal(a);
+	Vector3 u = normal(b);
+	return (parallel(v,u)) ? rotation_between_parallel(v, u) : rotation_between_nonparallel(v, u);
 }
 
 Quaternion Quaternion::operator * (const Quaternion& q) const {
-	return normal(Quaternion(a*q.a - dot_product(vector(*this), vector(q)),
-		j*q.k - k*q.j + a*q.i + i*q.a,
-		k*q.i - i*q.k + a*q.j + j*q.a,
-		i*q.j - j*q.i + a*q.k + k*q.a));
+	auto p = [=](int n, int k) { return at(n)*q.at(k); };
+	return normal(
+		Quaternion(
+			p(0,0) - p(1,1) - p(2,2) - p(3,3),
+			p(0,1) + p(1,0) + p(2,3) - p(3,2),
+			p(0,2) - p(1,3) + p(2,0) + p(3,1),
+			p(0,3) + p(1,2) - p(2,1) + p(3,0)));
 }
+
 Vector3 Quaternion::operator * (const Vector3 &v) const {
-	if (zero(v)) return v;
-	Quaternion vec_quat(0, v.x, v.y, v.z);
-	Quaternion res_quat;
-	
-	res_quat = vec_quat * conjugate(*this);
-	res_quat = (*this) * res_quat;
-	
-	return vector(res_quat);
+	return (zero(v)) ? v : vector((*this) * (Quaternion(0, v.x(), v.y(), v.z()) * conjugate(*this)));
 }
 
 Quaternion conjugate (const Quaternion& q) {
-	return Quaternion(q.a, -q.i, -q.j, -q.k);
+	return Quaternion(q.at(0), -q.at(1), -q.at(2), -q.at(3));
 }
+
 Vector3 vector (const Quaternion& q) {
-	return Vector3(q.i, q.j, q.k);
+	return Vector3(q.at(1), q.at(2), q.at(3));
 }
+
 Quaternion normal (const Quaternion& q) {
-	double d = sqrt(q.a*q.a + q.i*q.i + q.j*q.j + q.k*q.k);
-	return Quaternion(q.a/d, q.i/d, q.j/d, q.k/d);
+	double a = q.at(0);
+	double i = q.at(1);
+	double j = q.at(2);
+	double k = q.at(3);
+	double d = sqrt(square(a) + square(i) + square(j) + square(k));
+	return Quaternion(a/d, i/d, j/d, k/d);
 }
 
 Matrix3 matrix3 (const Quaternion& q) {
-	Matrix3 m;
-	m.m[0][0] = 1 - 2*q.j*q.j - 2*q.k*q.k;
-	m.m[0][1] = 2*q.i*q.j - 2*q.k*q.a;
-	m.m[0][2] = 2*q.i*q.k + 2*q.j*q.a;
-	m.m[1][0] = 2*q.i*q.j + 2*q.k*q.a;
-	m.m[1][1] = 1 - 2*q.i*q.i - 2*q.k*q.k;
-	m.m[1][2] = 2*q.j*q.k - 2*q.i*q.a;
-	m.m[2][0] = 2*q.i*q.k - 2*q.j*q.a;
-	m.m[2][1] = 2*q.j*q.k + 2*q.i*q.a;
-	m.m[2][2] = 1 - 2*q.i*q.i - 2*q.j*q.j;
-	return m;
+	auto p = [=](int n, int k) { return q.at(n)*q.at(k); };
+	Matrix3 m(
+		{{{-(p(2,2) + p(3,3)), p(1,2) - p(0,3), p(1,3) + p(0,2)},
+		  {p(1,2) + p(0,3), -(p(1,1) + p(3,3)), p(2,3) - p(0,1)},
+		  {p(1,3) - p(0,2), p(2,3) + p(0,1), -(p(1,1) + p(2,2))}}});
+
+	return Matrix3() + m + m;
 }
 
 }

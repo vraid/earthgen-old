@@ -96,13 +96,13 @@ void Globe_renderer::change_scale (const Vector2&, double delta) {
 }
 
 void Globe_renderer::mouse_dragged (const Vector2& delta) {
-	longitude -= 0.0035 * delta.x / scale;
+	longitude -= 0.0035 * delta.x() / scale;
 	while (longitude > pi)
 		longitude -= 2*pi;
 	while (longitude <= -pi)
 		longitude += 2*pi;
 	
-	latitude -= 0.0035 * delta.y / scale;
+	latitude -= 0.0035 * delta.y() / scale;
 	latitude = std::min(pi/2, latitude);
 	latitude = std::max(-pi/2, latitude);
 }
@@ -113,7 +113,7 @@ Vector3 Globe_renderer::to_coordinates (const Vector2& screen_position) const {
 	if (squared_length(v) > 1.0)
 		return Vector3();
 
-	return conjugate(rotation()) * Vector3(v.x, v.y, sqrt(1.0-squared_length(v)));
+	return conjugate(rotation()) * Vector3(v.x(), v.y(), sqrt(1.0-squared_length(v)));
 }
 
 void Globe_renderer::reset_rotation () {
@@ -126,16 +126,15 @@ Quaternion Globe_renderer::rotation () const {
 }
 
 Quaternion Globe_renderer::axis_rotation () const {
-	Quaternion q = Quaternion(default_axis(), Vector3(0,1,0));
-	return Quaternion(Vector3(1,0,0), Vector3(0,0,1)) * q;
+	return rotation_between(Vector3(1,0,0), Vector3(0,0,1)) * rotation_between(default_axis(), Vector3(0,1,0));
 }
 
 Quaternion Globe_renderer::longitude_rotation () const {
-	return Quaternion(Vector3(0,1,0), -longitude);
+	return rotation_around(Vector3(0,1,0), -longitude);
 }
 
 Quaternion Globe_renderer::latitude_rotation () const {
-	return Quaternion(Vector3(1,0,0), -latitude);
+	return rotation_around(Vector3(1,0,0), -latitude);
 }
 
 }

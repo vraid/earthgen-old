@@ -94,7 +94,7 @@ Wind _prevailing_wind (Vector2 pressure_gradient_force, double coriolis_coeffici
 	Vector2 v = rotation_matrix(angle(pressure_gradient_force) - angle_offset) * Vector2(1.0, 0.0);
 	Wind w;
 	w.speed = speed;
-	w.direction = std::atan2(v.y, v.x);
+	w.direction = std::atan2(v.y(), v.x());
 	return w;
 }
 
@@ -118,11 +118,11 @@ void _set_wind (const Planet& planet, const Climate_parameters&, Climate_generat
 		int e = edge_count(t);
 		for (int k=0; k<e; k++) {
 			int direction = sign(nth_edge(t, k), &t);
-			if (corners[k].x + corners[(k+1)%e].x < 0) direction *= -1;
+			if (corners[k].x() + corners[(k+1)%e].x() < 0) direction *= -1;
 			season.edges[id(nth_edge(t, k))].wind_velocity -=
 				0.5 * direction
 				* season.tiles[id(t)].wind.speed
-				* std::abs(corners[k].y - corners[(k+1)%e].y)
+				* std::abs(corners[k].y() - corners[(k+1)%e].y())
 				/ length(corners[k] - corners[(k+1)%e]);
 		}
 	}

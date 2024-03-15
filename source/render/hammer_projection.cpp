@@ -25,9 +25,9 @@ Vector3 from_lat_long(double latitude, double longitude) {
 }
 
 Vector3 from_hammer (const Vector2& v) {
-	double z = sqrt(1.0-pow(v.x/4.0,2.0)-pow(v.y/2.0,2.0));
-	double latitude = asin(z*v.y);
-	double longitude = 2.0*atan(z*v.x / (2.0*(2.0*z*z-1.0)));
+	double z = sqrt(1.0-pow(v.x()/4.0,2.0)-pow(v.y()/2.0,2.0));
+	double latitude = asin(z*v.y());
+	double longitude = 2.0*atan(z*v.x() / (2.0*(2.0*z*z-1.0)));
 	return from_lat_long(latitude, longitude);
 }
 Vector2 to_hammer (const Vector3& v) {

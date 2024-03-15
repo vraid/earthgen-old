@@ -14,7 +14,7 @@ void Map_renderer::set_matrix () {
 	glLoadIdentity();
 	Vector2 bottom_left = screen_to_map_position(Vector2(0,height), scale) + map_offset();
 	Vector2 top_right = screen_to_map_position(Vector2(width, 0), scale) + map_offset();
-	glOrtho(bottom_left.x, top_right.x, bottom_left.y, top_right.y, -2.0, 0.0);
+	glOrtho(bottom_left.x(), top_right.x(), bottom_left.y(), top_right.y(), -2.0, 0.0);
 }
 
 void Map_renderer::draw_tile (int i, const Colour& colour) {
@@ -39,16 +39,7 @@ void Map_renderer::draw (const Planet& planet, const Quaternion& q, const Planet
 }
 
 void Map_renderer::change_scale (const Vector2& screen_position, double delta) {
-	double new_scale = scale * delta;
-	
-	new_scale =
-		new_scale < scale ?
-			scale < min_scale() ?
-				scale :
-				std::max(new_scale, min_scale()) :
-				new_scale;
-	
-	new_scale = std::min(new_scale, max_scale());
+	double new_scale = std::min(max_scale(), std::max(min_scale(), scale * delta));
 	
 	camera_position = camera_position + screen_to_map_position(screen_position, new_scale) - screen_to_map_position(screen_position, scale);
 	scale = new_scale;
@@ -63,9 +54,7 @@ void Map_renderer::mouse_dragged (const Vector2& delta) {
 Vector3 Map_renderer::to_coordinates (const Vector2& screen_position) const {
 	Vector2 v = screen_to_map_position(screen_position, scale) + map_offset();
 	
-	if (squared_length(Vector2(v.x/hammer_width(), v.y/hammer_height())) > 1.0)
-		return Vector3();
-	return from_hammer(v);
+	return (squared_length(Vector2(v * (1 / hammer_width()))) > 1.0) ? Vector3() : from_hammer(v);
 }
 
 Vector2 Map_renderer::max_offset () const {
@@ -83,14 +72,11 @@ void Map_renderer::clamp_offset () {
 	else {
 		double w = hammer_width();
 		double h = hammer_height();
-		if (v.x + w < w*min_scale()/scale)
-			v.x = -w + w*min_scale()/scale;
-		else if (w - v.x < w*min_scale()/scale)
-			v.x = w - w*min_scale()/scale;
-		if (v.y + h < h*min_scale()/scale)
-			v.y = -h + h*min_scale()/scale;
-		else if (h - v.y < h*min_scale()/scale)
-			v.y = h - h*min_scale()/scale;
+		double w_scaled = w*min_scale()/scale;
+		double h_scaled = h*min_scale()/scale;
+		v = Vector2(
+			std::min(w - w_scaled, std::max(v.x(), w_scaled - w)),
+			std::min(h - h_scaled, std::max(v.y(), h_scaled - h)));
 	}
 	camera_position = v;
 }
@@ -121,7 +107,7 @@ Vector2 Map_renderer::map_offset () const {
 }
 
 Vector2 Map_renderer::invert_y (const Vector2& v) const {
-	return Vector2(v.x, -v.y);
+	return Vector2(v.x(), -v.y());
 }
 
 }
