@@ -60,12 +60,12 @@ void Globe_renderer::draw (const Planet& planet, const Quaternion& q, const Plan
 	glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
 	Matrix3 m = matrix3(rotation()*q);
-	for (auto& t : tiles(planet)) {
+	for (auto& t : tiles(planet.grid)) {
 		draw_tile(&t, m, colours.tiles[id(t)]);
 	}
 
 	if (show_rivers)
-		for (auto& t : tiles(planet))
+		for (auto& t : tiles(planet.grid))
 			if (is_land(nth_tile(terrain(planet), id(t)))) {
 				for (int k=0; k<edge_count(&t); k++) {
 					auto e = nth_edge(t, k);

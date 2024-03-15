@@ -32,9 +32,9 @@ void copy_season (const Climate_generation_season& from, Season& to) {
 
 void generate_season (Planet& planet, const Climate_parameters& par, float time_of_year) {
 	Climate_generation_season season;
-	season.tiles.resize(tile_count(planet));
-	season.corners.resize(corner_count(planet));
-	season.edges.resize(edge_count(planet));
+	season.tiles.resize(tile_count(planet.grid));
+	season.corners.resize(corner_count(planet.grid));
+	season.edges.resize(edge_count(planet.grid));
 
 	season.var.time_of_year = time_of_year;
 	season.var.solar_equator = axial_tilt(planet) * sin(2.0*pi*time_of_year);
@@ -46,9 +46,9 @@ void generate_season (Planet& planet, const Climate_parameters& par, float time_
 //	_set_river_flow(planet, par, season);
 	
 	Season s;
-	s.tiles.resize(tile_count(planet));
-	s.corners.resize(corner_count(planet));
-	s.edges.resize(edge_count(planet));
+	s.tiles.resize(tile_count(planet.grid));
+	s.corners.resize(corner_count(planet.grid));
+	s.edges.resize(edge_count(planet.grid));
 	copy_season(season, s);
 	m_climate(planet).seasons.push_back(s);
 }
@@ -58,7 +58,7 @@ void _set_temperature (const Planet& planet, const Climate_parameters&, Climate_
 		return freezing_point() - 25 + 50*cos(latitude);
 	};
 	
-	for (auto& t : tiles(planet)) {
+	for (auto& t : tiles(planet.grid)) {
 		float temperature = temperature_at_latitude(season.tropical_equator - latitude(planet, vector(t)));
 		if (is_land(nth_tile(terrain(planet), id(t)))) {
 			if (elevation(nth_tile(terrain(planet), id(t))) > sea_level(planet))
@@ -99,18 +99,18 @@ Wind _prevailing_wind (Vector2 pressure_gradient_force, double coriolis_coeffici
 }
 
 Wind _default_wind (const Planet& p, int i, double tropical_equator) {
-	Vector2 pressure_force = _default_pressure_gradient_force(tropical_equator, latitude(p, vector(nth_tile(p,i))));
-	double coriolis_coeff = coriolis_coefficient(p, latitude(p, vector(nth_tile(p,i))));
+	Vector2 pressure_force = _default_pressure_gradient_force(tropical_equator, latitude(p, vector(nth_tile(p.grid,i))));
+	double coriolis_coeff = coriolis_coefficient(p, latitude(p, vector(nth_tile(p.grid,i))));
 	double friction = is_land(nth_tile(terrain(p), i)) ? 0.000045 : 0.000045;
 	return _prevailing_wind(pressure_force, coriolis_coeff, friction);
 }
 
 void _set_wind (const Planet& planet, const Climate_parameters&, Climate_generation_season& season) {
-	for (auto& t : tiles(planet)) {
+	for (auto& t : tiles(planet.grid)) {
 		season.tiles[id(t)].wind = _default_wind(planet, id(t), season.tropical_equator);
 		season.tiles[id(t)].wind.direction += north(planet, &t);
 	}
-	for (auto& t : tiles(planet)) {
+	for (auto& t : tiles(planet.grid)) {
 		//tile shape in 2d, rotated according to wind direction
 		std::vector<Vector2> corners =
 			rotation_matrix(north(planet, &t) - season.tiles[id(t)].wind.direction) * polygon(&t, rotation_to_default(planet));
@@ -137,7 +137,7 @@ float _air_flow_volume (const Planet& planet, const Edge* e, float wind_velocity
 
 float _incoming_wind (const Planet& planet, const Climate_generation_season& season, int i) {
 	float sum = 0.0;
-	const Tile* t = nth_tile(planet, i);
+	const Tile* t = nth_tile(planet.grid, i);
 	for (auto& e : edges(t)) {
 		if (sign(e, t) * season.edges[id(e)].wind_velocity > 0) {
 			sum +=
@@ -150,7 +150,7 @@ float _incoming_wind (const Planet& planet, const Climate_generation_season& sea
 
 float _outgoing_wind (const Planet& planet, const Climate_generation_season& season, int i) {
 	float sum = 0.0;
-	const Tile* t = nth_tile(planet, i);
+	const Tile* t = nth_tile(planet.grid, i);
 	for (auto& e : edges(t)) {
 		if (sign(e, t) * season.edges[id(e)].wind_velocity < 0) {
 			sum +=
@@ -163,7 +163,7 @@ float _outgoing_wind (const Planet& planet, const Climate_generation_season& sea
 
 float _incoming_humidity (const Planet& planet, const Climate_generation_season& season, int i) {
 	float humidity = 0.0;
-	const Tile* t = nth_tile(planet, i);
+	const Tile* t = nth_tile(planet.grid, i);
 	for (int k=0; k<edge_count(t); k++) {
 		const Edge* e = nth_edge(t, k);
 		if (sign(e, t) * season.edges[id(e)].wind_velocity > 0) {
@@ -188,13 +188,13 @@ float _humidity_change (float first, float second) {
 void _iterate_humidity (const Planet& planet, const Climate_parameters& par, Climate_generation_season& season) {
 	std::deque<float> humidity;
 	std::deque<float> precipitation;
-	humidity.resize(tile_count(planet));
-	precipitation.resize(tile_count(planet));
+	humidity.resize(tile_count(planet.grid));
+	precipitation.resize(tile_count(planet.grid));
 	
 	float delta = 1.0;
 	while (delta > par.error_tolerance) {
 //		std::cout << "delta: " << delta << "\n";
-		for (int i=0; i<tile_count(planet); i++) {
+		for (int i=0; i<tile_count(planet.grid); i++) {
 			precipitation[i] = 0.0;
 			if (is_land(nth_tile(terrain(planet), i))) {
 				humidity[i] = 0.0;
@@ -222,17 +222,17 @@ void _iterate_humidity (const Planet& planet, const Climate_parameters& par, Cli
 					}
 				}
 				// scale by constant and area
-				precipitation[i] *= 3.0 / area(planet, nth_tile(planet, i));
+				precipitation[i] *= 3.0 / area(planet, nth_tile(planet.grid, i));
 			}
 			else
 				humidity[i] = season.tiles[i].humidity;
 		}
 		float largest_change = 0.0;
-		for (int i=0; i<tile_count(planet); i++) {
+		for (int i=0; i<tile_count(planet.grid); i++) {
 			largest_change = std::max(largest_change, _humidity_change(season.tiles[i].humidity, humidity[i]));
 		}
 		delta = largest_change;
-		for (int i=0; i<tile_count(planet); i++) {
+		for (int i=0; i<tile_count(planet.grid); i++) {
 			season.tiles[i].humidity = humidity[i];
 			season.tiles[i].precipitation = precipitation[i];
 		}
@@ -240,7 +240,7 @@ void _iterate_humidity (const Planet& planet, const Climate_parameters& par, Cli
 }
 
 void _set_humidity (const Planet& planet, const Climate_parameters& par, Climate_generation_season& season) {
-	for (auto& t : tiles(planet)) {
+	for (auto& t : tiles(planet.grid)) {
 		float humidity = 0.0;		
 		if (is_water(nth_tile(terrain(planet), id(t)))) {
 			humidity = saturation_humidity(season.tiles[id(t)].temperature);

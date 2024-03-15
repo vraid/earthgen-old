@@ -15,7 +15,7 @@ void clear (Hammer_projection& proj) {
 void create_geometry (Hammer_projection& proj, const Planet& p, const Quaternion& q) {
 	clear(proj);
 	Matrix3 m = matrix3(q);
-	for (auto& t : tiles(p)) {
+	for (auto& t : tiles(p.grid)) {
 		proj.tiles.push_back(Hammer_tile(&t, m));
 	}
 }

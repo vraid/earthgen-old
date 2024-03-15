@@ -13,9 +13,9 @@ void clear_terrain (Planet& p) {
 
 void init_terrain (Planet& p) {
 	clear_terrain(p);
-	p.terrain.tiles.resize(tile_count(p));
-	p.terrain.corners.resize(corner_count(p));
-	p.terrain.edges.resize(edge_count(p));
+	p.terrain.tiles.resize(tile_count(p.grid));
+	p.terrain.corners.resize(corner_count(p.grid));
+	p.terrain.edges.resize(edge_count(p.grid));
 }
 
 double latitude (const Vector3& v) {

@@ -34,7 +34,7 @@ void Map_renderer::draw (const Planet& planet, const Quaternion& q, const Planet
 	}
 
 	set_matrix();
-	for (int i=0; i<tile_count(planet); i++)
+	for (int i=0; i<tile_count(planet.grid); i++)
 		draw_tile(i, colours.tiles[i]);
 }
 

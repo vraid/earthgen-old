@@ -31,9 +31,9 @@ void _set_variables (Planet& p, const Terrain_parameters& par) {
 void _set_elevation (Planet& p, const Terrain_parameters& par) {
 	// can be made concurrent
 	auto d = _elevation_vectors(par);
-	for (auto& t : tiles(p))
+	for (auto& t : tiles(p.grid))
 		m_tile(m_terrain(p), id(t)).elevation = _elevation_at_point(t.v, d);
-	for (auto& c : corners(p))
+	for (auto& c : corners(p.grid))
 		m_corner(m_terrain(p), id(c)).elevation = _elevation_at_point(c.v, d);
 	_scale_elevation(p, par);
 }
@@ -51,20 +51,20 @@ void _scale_elevation (Planet& p, const Terrain_parameters&) {
 		highest = std::max(highest, elevation(c));
 	}
 	highest = std::max(1.0f, highest-lowest);
-	for (auto& t : tiles(p)) {
+	for (auto& t : tiles(p.grid)) {
 		m_tile(m_terrain(p), id(t)).elevation -= lowest;
 		m_tile(m_terrain(p), id(t)).elevation *= scale / highest;
 	}
-	for (auto& c : corners(p)) {
+	for (auto& c : corners(p.grid)) {
 		m_corner(m_terrain(p), id(c)).elevation -= lowest;
 		m_corner(m_terrain(p), id(c)).elevation *= scale / highest;
 	}
 }
 
 const Tile* lowest_tile (const Planet& p) {
-	const Tile* tile = nth_tile(p, 0);
+	const Tile* tile = nth_tile(p.grid, 0);
 	float lowest_elevation = elevation(nth_tile(terrain(p), 0));
-	for (const Tile& t : tiles(p)) {
+	for (const Tile& t : tiles(p.grid)) {
 		if (elevation(nth_tile(terrain(p), id(t))) < lowest_elevation) {
 			tile = &t;
 			lowest_elevation = elevation(nth_tile(terrain(p), id(t)));
@@ -76,13 +76,13 @@ const Tile* lowest_tile (const Planet& p) {
 void _create_sea (Planet& p, const Terrain_parameters& par) {
 	const Tile* const start_tile = lowest_tile(p);
 	float sea_level = elevation(nth_tile(terrain(p), id(start_tile)));
-	unsigned int water_tile_count = par.water_ratio * tile_count(p);
+	unsigned int water_tile_count = par.water_ratio * tile_count(p.grid);
 	std::set<const Tile*> water_tiles;
 	std::multimap<float, const Tile*> coast_tiles_elevation;
 	std::vector<bool> coast_tiles;
 	if (water_tile_count > 0) {
 		water_tiles.insert(start_tile);
-		coast_tiles.resize(tile_count(p), false);
+		coast_tiles.resize(tile_count(p.grid), false);
 		for (const Tile* i : tiles(start_tile)) {
 			coast_tiles[id(i)] = true;
 			coast_tiles_elevation.insert(std::make_pair(elevation(nth_tile(terrain(p) ,id(i))), i));
@@ -166,17 +166,17 @@ int _edge_type (const Planet& p, const Edge* e) {
 }
 
 void _classify_terrain (Planet& p) {
-	for (auto& t : tiles(p))
+	for (auto& t : tiles(p.grid))
 		m_tile(m_terrain(p), id(t)).type = _tile_type(p, &t);
-	for (auto& c : corners(p))
+	for (auto& c : corners(p.grid))
 		m_corner(m_terrain(p), id(c)).type = _corner_type(p, &c);
-	for (auto& e : edges(p))
+	for (auto& e : edges(p.grid))
 		m_edge(m_terrain(p), id(e)).type = _edge_type(p, &e);
 }
 
 void _set_river_directions (Planet& p) {
 	std::multimap<float, const Corner*> endpoints;
-	for (auto& c : corners(p))
+	for (auto& c : corners(p.grid))
 		if (is_coast(nth_corner(terrain(p), id(c)))) {
 			m_corner(m_terrain(p), id(c)).distance_to_sea = 0;
 			endpoints.insert(std::make_pair(elevation(nth_corner(terrain(p), id(c))), &c));
