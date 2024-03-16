@@ -5,7 +5,7 @@
 #include "terrain_tile.h"
 #include "terrain_corner.h"
 #include "terrain_edge.h"
-#include "terrain_variables.h"
+#include "../../math/vector3.h"
 
 namespace earthgen {
 
@@ -13,6 +13,16 @@ class Tile;
 class Edge;
 class Grid;
 class Quaternion;
+
+class Terrain_variables {
+public:
+	Terrain_variables () {}
+
+	Vector3 axis;
+	double axial_tilt;
+	double radius;
+	double sea_level;
+};
 
 class Terrain {
 public:
@@ -57,6 +67,11 @@ const Terrain_edge& nth_edge (const Terrain&, int);
 Terrain_tile& m_tile (Terrain&, int);
 Terrain_corner& m_corner (Terrain&, int);
 Terrain_edge& m_edge (Terrain&, int);
+
+inline const Vector3& axis (const Terrain& terrain) {return terrain.var.axis;}
+inline double axial_tilt (const Terrain& terrain) {return terrain.var.axial_tilt;}
+inline double radius (const Terrain& terrain) {return terrain.var.radius;}
+inline double sea_level (const Terrain& terrain) {return terrain.var.sea_level;}
 
 }
 

@@ -79,8 +79,6 @@ HEADERS += source/gui/axisBox.h \
            source/planet/terrain/terrain_generation.h \
            source/planet/terrain/terrain_parameters.h \
            source/planet/terrain/terrain_tile.h \
-           source/planet/terrain/terrain_variables.h \
-           source/planet/terrain/terrain_water.h \
            source/render/render_data/planet_render_data.h
 SOURCES += source/main.cpp \
            source/gui/axisBox.cpp \
@@ -118,8 +116,4 @@ SOURCES += source/main.cpp \
            source/planet/grid/grid.cpp \
            source/planet/grid/tile.cpp \
            source/planet/terrain/terrain.cpp \
-           source/planet/terrain/terrain_corner.cpp \
-           source/planet/terrain/terrain_edge.cpp \
            source/planet/terrain/terrain_generation.cpp \
-           source/planet/terrain/terrain_tile.cpp \
-           source/planet/terrain/terrain_variables.cpp

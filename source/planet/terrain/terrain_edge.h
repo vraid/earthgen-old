@@ -12,9 +12,9 @@ public:
 	enum {type_land = 1, type_water = 2, type_coast = 4};
 };
 
-bool is_land (const Terrain_edge&);
-bool is_water (const Terrain_edge&);
-bool is_coast (const Terrain_edge&);
+inline bool is_land (const Terrain_edge& e) {return e.type == e.type_land;}
+inline bool is_water (const Terrain_edge& e) {return e.type == e.type_water;}
+inline bool is_coast (const Terrain_edge& e) {return e.type == e.type_coast;}
 
 }
 
