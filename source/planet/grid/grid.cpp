@@ -5,17 +5,16 @@ namespace earthgen {
 Grid::Grid () :
 	size (0) {}
 
-void Grid::set_size (int size) {
-	this->size = size;
-	for (int i=0; i<tile_count(size); i++) {
-		this->tiles.push_back(Tile(i, i<12 ? 5 : 6));
+void Grid::set_size (int n) {
+	size = n;
+	tiles.clear();
+	corners.clear();
+	edges.clear();
+	for (int i=0; i<tile_count(n); i++) {
+		tiles.push_back(Tile(i, i<12 ? 5 : 6));
 	}
-	for (int i=0; i<corner_count(size); i++) {
-		this->corners.push_back(Corner(i));
-	}
-	for (int i=0; i<edge_count(size); i++) {
-		this->edges.push_back(Edge(i));
-	}
+	corners.reserve(corner_count(n));
+	edges.reserve(edge_count(n));
 }
 
 }
