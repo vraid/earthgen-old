@@ -72,11 +72,9 @@ HEADERS += source/gui/axisBox.h \
            source/planet/grid/grid.h \
            source/planet/grid/tile.h \
            source/planet/terrain/terrain.h \
-           source/planet/terrain/terrain_corner.h \
-           source/planet/terrain/terrain_edge.h \
            source/planet/terrain/terrain_generation.h \
            source/planet/terrain/terrain_parameters.h \
-           source/planet/terrain/terrain_tile.h
+           source/planet/terrain/terrain_structs.h
 SOURCES += source/main.cpp \
            source/gui/axisBox.cpp \
            source/gui/climateBox.cpp \

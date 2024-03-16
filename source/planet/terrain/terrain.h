@@ -2,9 +2,7 @@
 #define terrain_h
 
 #include <vector>
-#include "terrain_tile.h"
-#include "terrain_corner.h"
-#include "terrain_edge.h"
+#include "terrain_structs.h"
 #include "../../math/vector3.h"
 
 namespace earthgen {
