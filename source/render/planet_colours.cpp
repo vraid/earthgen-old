@@ -6,7 +6,7 @@
 namespace earthgen {
 
 void clear_colours (Planet_colours& c) {
-	std::deque<Colour>().swap(c.tiles);
+	std::vector<Colour>().swap(c.tiles);
 }
 
 void init_colours (Planet_colours& c, const Grid& grid) {

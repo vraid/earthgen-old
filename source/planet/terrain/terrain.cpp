@@ -77,9 +77,9 @@ Quaternion rotation_to_default (const Terrain& terrain) {
 	return conjugate(rotation(terrain));
 }
 
-const std::deque<Terrain_tile>& tiles (const Terrain& t) {return t.tiles;}
-const std::deque<Terrain_corner>& corners (const Terrain& t) {return t.corners;}
-const std::deque<Terrain_edge>& edges (const Terrain& t) {return t.edges;}
+const std::vector<Terrain_tile>& tiles (const Terrain& t) {return t.tiles;}
+const std::vector<Terrain_corner>& corners (const Terrain& t) {return t.corners;}
+const std::vector<Terrain_edge>& edges (const Terrain& t) {return t.edges;}
 
 const Terrain_tile& nth_tile (const Terrain& t, int n) {return t.tiles[n];}
 const Terrain_corner& nth_corner (const Terrain& t, int n) {return t.corners[n];}

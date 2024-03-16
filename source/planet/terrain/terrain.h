@@ -1,7 +1,7 @@
 #ifndef terrain_h
 #define terrain_h
 
-#include <deque>
+#include <vector>
 #include "terrain_tile.h"
 #include "terrain_corner.h"
 #include "terrain_edge.h"
@@ -29,9 +29,9 @@ public:
 	Terrain () {}
 	
 	Terrain_variables var;
-	std::deque<Terrain_tile> tiles;
-	std::deque<Terrain_corner> corners;
-	std::deque<Terrain_edge> edges;
+	std::vector<Terrain_tile> tiles;
+	std::vector<Terrain_corner> corners;
+	std::vector<Terrain_edge> edges;
 };
 
 void clear_terrain (Terrain&);
@@ -56,9 +56,9 @@ Quaternion rotation (const Terrain&);
 // rotation to bring planet axis into default position
 Quaternion rotation_to_default (const Terrain&);
 
-const std::deque<Terrain_tile>& tiles (const Terrain&);
-const std::deque<Terrain_corner>& corners (const Terrain&);
-const std::deque<Terrain_edge>& edges (const Terrain&);
+const std::vector<Terrain_tile>& tiles (const Terrain&);
+const std::vector<Terrain_corner>& corners (const Terrain&);
+const std::vector<Terrain_edge>& edges (const Terrain&);
 
 const Terrain_tile& nth_tile (const Terrain&, int);
 const Terrain_corner& nth_corner (const Terrain&, int);

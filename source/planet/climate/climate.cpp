@@ -4,7 +4,7 @@
 namespace earthgen {
 
 void clear_climate (Climate& climate) {
-	std::deque<Season>().swap(climate.seasons);
+	std::vector<Season>().swap(climate.seasons);
 	climate.var.season_count = 0;
 }
 

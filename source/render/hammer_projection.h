@@ -2,7 +2,7 @@
 #define hammer_projection_h
 
 #include "hammer_tile.h"
-#include <deque>
+#include <vector>
 
 namespace earthgen {
 
@@ -15,7 +15,7 @@ class Hammer_projection {
 public:
 	Hammer_projection () {}
 
-	std::deque<Hammer_tile> tiles;
+	std::vector<Hammer_tile> tiles;
 };
 
 void clear (Hammer_projection&);

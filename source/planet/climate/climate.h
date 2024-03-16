@@ -1,7 +1,7 @@
 #ifndef climate_h
 #define climate_h
 
-#include <deque>
+#include <vector>
 #include "season.h"
 #include "climate_parameters.h"
 
@@ -19,10 +19,10 @@ public:
 	Climate () {}
 
 	Climate_variables var;
-	std::deque<Season> seasons;
+	std::vector<Season> seasons;
 };
 
-inline const std::deque<Season> seasons (const Climate& climate) {return climate.seasons;}
+inline const std::vector<Season> seasons (const Climate& climate) {return climate.seasons;}
 inline const Season& nth_season (const Climate& climate, int n) {return climate.seasons[n];}
 inline Season& m_season (Climate& climate, int n) {return climate.seasons[n];}
 

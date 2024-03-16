@@ -186,8 +186,8 @@ float _humidity_change (float first, float second) {
 }
 
 void _iterate_humidity (const Terrain& terrain, const Grid& grid, const Climate_parameters& par, Climate_generation_season& season) {
-	std::deque<float> humidity;
-	std::deque<float> precipitation;
+	std::vector<float> humidity;
+	std::vector<float> precipitation;
 	humidity.resize(tile_count(grid));
 	precipitation.resize(tile_count(grid));
 	

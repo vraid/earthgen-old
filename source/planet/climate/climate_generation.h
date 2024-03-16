@@ -1,7 +1,7 @@
 #ifndef climate_generation_h
 #define climate_generation_h
 
-#include <deque>
+#include <vector>
 #include "wind.h"
 
 namespace earthgen {
@@ -48,8 +48,8 @@ public:
 	Season_variables var;
 	float tropical_equator;
 
-	std::deque<Climate_generation_tile> tiles;
-	std::deque<Climate_generation_edge> edges;
+	std::vector<Climate_generation_tile> tiles;
+	std::vector<Climate_generation_edge> edges;
 };
 
 void generate_climate (Climate&, Terrain&, const Grid&, const Climate_parameters&);

@@ -1,7 +1,7 @@
 #ifndef planet_colours_h
 #define planet_colours_h
 
-#include <deque>
+#include <vector>
 #include "colour.h"
 
 namespace earthgen {
@@ -15,7 +15,7 @@ class Planet_colours {
 public:
 	Planet_colours () {}
 
-	std::deque<Colour> tiles;
+	std::vector<Colour> tiles;
 
 	enum {TOPOGRAPHY, VEGETATION, TEMPERATURE, ARIDITY, HUMIDITY, PRECIPITATION};
 };

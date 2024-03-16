@@ -10,7 +10,7 @@
 namespace earthgen {
 
 void clear (Hammer_projection& proj) {
-	std::deque<Hammer_tile>().swap(proj.tiles);
+	std::vector<Hammer_tile>().swap(proj.tiles);
 }
 
 void create_geometry (Hammer_projection& proj, const Grid& grid, const Quaternion& q) {
