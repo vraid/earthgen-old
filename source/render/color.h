@@ -1,26 +1,25 @@
 #ifndef color_h
 #define color_h
 
+#include <array>
+
 namespace earthgen {
 
 class Color {
 public:
 	Color () :
-		r (0), g (0), b (0) {}
+		values ({0, 0, 0}) {}
 		
-	Color (float rv, float gv, float bv) :
-		r (rv), g (gv), b (bv) {}
+	Color (float r, float g, float b) :
+		values ({r, g, b}) {}
 
-	Color& operator = (const Color& c) {
-		r = c.r;
-		g = c.g;
-		b = c.b;
-		return *this;
-	}
+	double at (int n) const {return values[n];};
+	double r () const {return at(0);};
+	double g () const {return at(1);};
+	double b () const {return at(2);};
 
-	float r;
-	float g;
-	float b;
+private:
+	std::array<double, 3> values;
 };
 
 Color interpolate (const Color&, const Color&, double);

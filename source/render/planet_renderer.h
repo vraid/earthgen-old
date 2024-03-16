@@ -30,7 +30,7 @@ public:
 
 inline void glVertex2f (const Vector2& v) {::glVertex2f(v.x(), v.y());}
 inline void glVertex3f (const Vector3& v) {::glVertex3f(v.x(), v.y(), v.z());}
-inline void glColor3f (const Color& c) {::glColor3f(c.r, c.g, c.b);}
+inline void glColor3f (const Color& c) {::glColor3f(c.r(), c.g(), c.b());}
 
 }
 
