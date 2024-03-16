@@ -2,7 +2,7 @@
 #define climate_generation_h
 
 #include <vector>
-#include "wind.h"
+#include "climate_structs.h"
 
 namespace earthgen {
 

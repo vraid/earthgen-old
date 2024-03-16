@@ -58,14 +58,10 @@ HEADERS += source/gui/axisBox.h \
            source/render/planet_colors.h \
            source/render/planet_renderer.h \
            source/planet/climate/climate.h \
-           source/planet/climate/climate_edge.h \
            source/planet/climate/climate_generation.h \
-           source/planet/climate/climate_generation_season.h \
            source/planet/climate/climate_parameters.h \
-           source/planet/climate/climate_tile.h \
+           source/planet/climate/climate_structs.h \
            source/planet/climate/season.h \
-           source/planet/climate/season_variables.h \
-           source/planet/climate/wind.h \
            source/planet/grid/corner.h \
            source/planet/grid/create_grid.h \
            source/planet/grid/edge.h \
@@ -100,7 +96,7 @@ SOURCES += source/main.cpp \
            source/render/planet_renderer.cpp \
            source/planet/climate/climate.cpp \
            source/planet/climate/climate_generation.cpp \
-           source/planet/climate/climate_tile.cpp \
+           source/planet/climate/climate_structs.cpp \
            source/planet/grid/corner.cpp \
            source/planet/grid/create_grid.cpp \
            source/planet/grid/edge.cpp \

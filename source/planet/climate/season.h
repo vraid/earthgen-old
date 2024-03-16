@@ -2,8 +2,7 @@
 #define season_h
 
 #include <vector>
-#include "climate_tile.h"
-#include "climate_edge.h"
+#include "climate_structs.h"
 
 namespace earthgen {
 

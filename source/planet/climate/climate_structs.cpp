@@ -1,4 +1,4 @@
-#include "climate_tile.h"
+#include "climate_structs.h"
 #include "climate.h"
 
 namespace earthgen {
@@ -12,4 +12,3 @@ float potential_evapotranspiration (const Climate_tile& t) {
 }
 
 }
-
