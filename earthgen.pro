@@ -49,7 +49,6 @@ HEADERS += source/gui/axisBox.h \
            source/math/quaternion.h \
            source/math/vector2.h \
            source/math/vector3.h \
-           source/planet/planet.h \
            source/render/colour.h \
            source/render/empty_renderer.h \
            source/render/globe_renderer.h \
@@ -64,7 +63,6 @@ HEADERS += source/gui/axisBox.h \
            source/planet/climate/climate_generation_season.h \
            source/planet/climate/climate_parameters.h \
            source/planet/climate/climate_tile.h \
-           source/planet/climate/climate_variables.h \
            source/planet/climate/season.h \
            source/planet/climate/season_variables.h \
            source/planet/climate/wind.h \
@@ -96,7 +94,6 @@ SOURCES += source/main.cpp \
            source/math/quaternion.cpp \
            source/math/vector2.cpp \
            source/math/vector3.cpp \
-           source/planet/planet.cpp \
            source/render/colour.cpp \
            source/render/globe_renderer.cpp \
            source/render/hammer_projection.cpp \
@@ -105,11 +102,8 @@ SOURCES += source/main.cpp \
            source/render/planet_colours.cpp \
            source/render/planet_renderer.cpp \
            source/planet/climate/climate.cpp \
-           source/planet/climate/climate_edge.cpp \
            source/planet/climate/climate_generation.cpp \
            source/planet/climate/climate_tile.cpp \
-           source/planet/climate/climate_variables.cpp \
-           source/planet/climate/season.cpp \
            source/planet/grid/corner.cpp \
            source/planet/grid/create_grid.cpp \
            source/planet/grid/edge.cpp \

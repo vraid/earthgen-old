@@ -11,7 +11,7 @@ public:
 	float wind_velocity;
 };
 
-float wind_velocity (const Climate_edge&);
+inline float wind_velocity (const Climate_edge& e) {return e.wind_velocity;}
 
 }
 

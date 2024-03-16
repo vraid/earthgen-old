@@ -6,8 +6,10 @@
 
 namespace earthgen {
 
-class Planet;
+class Grid;
+class Terrain;
 class Season;
+class Climate;
 
 class Planet_colours {
 public:
@@ -19,15 +21,15 @@ public:
 };
 
 void clear_colours (Planet_colours&);
-void init_colours (Planet_colours&, const Planet&);
-void set_colours (Planet_colours&, const Planet&, int);
-void set_colours (Planet_colours&, const Planet&, const Season*, int);
-void colour_topography (Planet_colours&, const Planet&);
-void colour_vegetation (Planet_colours&, const Planet&, const Season&);
-void colour_temperature (Planet_colours&, const Planet&, const Season&);
-void colour_aridity (Planet_colours&, const Planet&, const Season&);
-void colour_humidity (Planet_colours&, const Planet&, const Season&);
-void colour_precipitation (Planet_colours&, const Planet&, const Season&);
+void init_colours (Planet_colours&, const Grid&);
+void set_colours (Planet_colours&, const Grid&, const Terrain&, int);
+void set_colours (Planet_colours&, const Grid&, const Terrain&, const Season*, int);
+void colour_topography (Planet_colours&, const Grid&, const Terrain&);
+void colour_vegetation (Planet_colours&, const Grid&, const Terrain&, const Season&);
+void colour_temperature (Planet_colours&, const Grid&, const Season&);
+void colour_aridity (Planet_colours&, const Grid&, const Terrain&, const Season&);
+void colour_humidity (Planet_colours&, const Grid&, const Terrain&, const Season&);
+void colour_precipitation (Planet_colours&, const Grid&, const Terrain&, const Season&);
 
 }
 

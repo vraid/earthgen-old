@@ -3,7 +3,8 @@
 #include "../math/vector3.h"
 #include "../math/matrix3.h"
 #include "../math/quaternion.h"
-#include "../planet/planet.h"
+#include "../grid/grid.h"
+#include "../terrain/terrain.h"
 #include <cmath>
 
 namespace earthgen {
@@ -12,10 +13,10 @@ void clear (Hammer_projection& proj) {
 	std::deque<Hammer_tile>().swap(proj.tiles);
 }
 
-void create_geometry (Hammer_projection& proj, const Planet& p, const Quaternion& q) {
+void create_geometry (Hammer_projection& proj, const Grid& grid, const Quaternion& q) {
 	clear(proj);
 	Matrix3 m = matrix3(q);
-	for (auto& t : tiles(p.grid)) {
+	for (auto& t : tiles(grid)) {
 		proj.tiles.push_back(Hammer_tile(&t, m));
 	}
 }
@@ -30,9 +31,11 @@ Vector3 from_hammer (const Vector2& v) {
 	double longitude = 2.0*atan(z*v.x() / (2.0*(2.0*z*z-1.0)));
 	return from_lat_long(latitude, longitude);
 }
+
 Vector2 to_hammer (const Vector3& v) {
 	return to_hammer(latitude(v), longitude(v));
 }
+
 Vector2 to_hammer (double latitude, double longitude) {
 	return Vector2(2.0*cos(latitude)*sin(longitude/2.0), sin(latitude)) * (sqrt(2.0)/sqrt(1.0+cos(latitude)*cos(longitude/2.0)));
 }

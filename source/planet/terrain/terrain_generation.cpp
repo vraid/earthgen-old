@@ -1,5 +1,7 @@
 #include "terrain_generation.h"
-#include "../planet.h"
+#include "terrain.h"
+#include "../grid/grid.h"
+#include "../grid/create_grid.h"
 #include <cmath>
 #include <cstdlib>
 #include <map>
@@ -12,11 +14,8 @@
 
 namespace earthgen {
 
-void generate_terrain (Planet& p, const Terrain_parameters& par) {
-	clear(p);
-	set_grid_size(p, par.grid_size);
-	Grid& grid = p.grid;
-	Terrain& terrain = p.terrain;
+void generate_terrain (Terrain& terrain, Grid& grid, const Terrain_parameters& par) {
+	grid = size_n_grid(par.grid_size);
 	init_terrain(terrain, grid);
 	_set_variables(terrain, par);
 	_set_elevation(terrain, grid, par);

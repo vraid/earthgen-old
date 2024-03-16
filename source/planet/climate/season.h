@@ -17,14 +17,14 @@ public:
 	std::deque<Climate_edge> edges;
 };
 
-const std::deque<Climate_tile>& tiles (const Season&);
-const std::deque<Climate_edge>& edges (const Season&);
+inline const std::deque<Climate_tile>& tiles (const Season& s) {return s.tiles;}
+inline const std::deque<Climate_edge>& edges (const Season& s) {return s.edges;}
 
-const Climate_tile& nth_tile (const Season&, int);
-const Climate_edge& nth_edge (const Season&, int);
+inline const Climate_tile& nth_tile (const Season& s, int n) {return s.tiles[n];}
+inline const Climate_edge& nth_edge (const Season& s, int n) {return s.edges[n];}
 
-Climate_tile& m_tile (Season&, int);
-Climate_edge& m_edge (Season&, int);
+inline Climate_tile& m_tile (Season& s, int n) {return s.tiles[n];}
+inline Climate_edge& m_edge (Season& s, int n) {return s.edges[n];}
 
 }
 

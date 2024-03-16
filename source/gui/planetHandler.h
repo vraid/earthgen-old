@@ -3,7 +3,9 @@
 
 #include <QObject>
 #include "../math/vector3.h"
-#include "../planet/planet.h"
+#include "../planet/grid/grid.h"
+#include "../planet/terrain/terrain.h"
+#include "../planet/climate/climate.h"
 #include "../planet/terrain/terrain_generation.h"
 #include "../planet/climate/climate_generation.h"
 
@@ -15,9 +17,9 @@ public:
 	PlanetHandler ();
 	~PlanetHandler ();
 
-	const Planet& planet () const {return _planet;};
-	const Terrain& terrain () const {return planet().terrain;};
-	const Climate& climate () const {return planet().climate;};
+	const Grid& grid () const {return grid_;};
+	const Terrain& terrain () const {return terrain_;};
+	const Climate& climate () const {return climate_;};
 	const Season* currentSeason ();
 	void setCurrentSeason (int);
 public slots:
@@ -31,8 +33,10 @@ signals:
 	void climateDestroyed ();
 
 private:
-	Planet _planet;
-	unsigned _currentSeason;
+	Grid grid_;
+	Terrain terrain_;
+	Climate climate_;
+	unsigned currentSeason_;
 };
 
 }

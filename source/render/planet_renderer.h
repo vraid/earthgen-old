@@ -8,9 +8,8 @@
 
 namespace earthgen {
 
-class Planet;
 class Quaternion;
-
+class Grid;
 class Planet_colours;
 
 class Planet_renderer {
@@ -21,7 +20,7 @@ public:
 	virtual void change_scale (const Vector2&, double);
 	virtual void mouse_dragged (const Vector2&);
 	virtual Vector3 to_coordinates (const Vector2&) const;
-	virtual void draw (const Planet&, const Quaternion&, const Planet_colours&) = 0;
+	virtual void draw (const Grid&, const Quaternion&, const Planet_colours&) = 0;
 
 	int width;
 	int height;

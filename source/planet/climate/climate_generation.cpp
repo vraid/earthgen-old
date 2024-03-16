@@ -2,7 +2,6 @@
 #include "../grid/grid.h"
 #include "../terrain/terrain.h"
 #include "climate.h"
-#include "../planet.h"
 #include "../../math/matrix2.h"
 #include <cmath>
 #include <algorithm>
@@ -10,14 +9,14 @@
 
 namespace earthgen {
 
-void generate_climate (Planet& planet, const Climate_parameters& par) {
-	clear_climate(planet.climate);
-	planet.terrain.var.axial_tilt = par.axial_tilt;
-	planet.climate.var.season_count = par.seasons;
+void generate_climate (Climate& climate, Terrain& terrain, const Grid& grid, const Climate_parameters& par) {
+	clear_climate(climate);
+	terrain.var.axial_tilt = par.axial_tilt;
+	climate.var.season_count = par.seasons;
 	std::cout << "seasons: ";
 	for (int i=0; i<par.seasons; i++) {
 		std::cout << i << std::flush;
-		generate_season(planet.climate, planet.terrain, planet.grid, par, (float)i/par.seasons);
+		generate_season(climate, terrain, grid, par, (float)i/par.seasons);
 		std::cout << ", ";
 	}
 	std::cout << "done\n";

@@ -3,10 +3,16 @@
 
 #include <deque>
 #include "season.h"
-#include "climate_variables.h"
 #include "climate_parameters.h"
 
 namespace earthgen {
+
+class Climate_variables {
+public:
+	Climate_variables () {}
+
+	int season_count;
+};
 
 class Climate {
 public:
@@ -16,9 +22,11 @@ public:
 	std::deque<Season> seasons;
 };
 
-const std::deque<Season> seasons (const Climate&);
-const Season& nth_season (const Climate&, int);
-Season& m_season (Climate&, int);
+inline const std::deque<Season> seasons (const Climate& climate) {return climate.seasons;}
+inline const Season& nth_season (const Climate& climate, int n) {return climate.seasons[n];}
+inline Season& m_season (Climate& climate, int n) {return climate.seasons[n];}
+
+inline int season_count (const Climate& climate) {return climate.var.season_count;}
 
 void clear_climate (Climate&);
 

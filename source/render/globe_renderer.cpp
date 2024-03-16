@@ -3,7 +3,8 @@
 #include "../math/vector2.h"
 #include "../math/matrix3.h"
 #include "../math/quaternion.h"
-#include "../planet/planet.h"
+#include "../grid/grid.h"
+#include "../terrain/terrain.h"
 #include "planet_colours.h"
 #include <iostream>
 #include <math.h>
@@ -31,12 +32,12 @@ void Globe_renderer::draw_tile (const Tile* t, const Matrix3& m, const Colour& c
 	glEnd();
 }
 
-void Globe_renderer::draw (const Planet& planet, const Quaternion& q, const Planet_colours& colours) {
+void Globe_renderer::draw (const Grid& grid, const Quaternion& q, const Planet_colours& colours) {
 	set_matrix();
 	glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
 	Matrix3 m = matrix3(rotation()*q);
-	for (auto& t : tiles(planet.grid)) {
+	for (auto& t : tiles(grid)) {
 		draw_tile(&t, m, colours.tiles[id(t)]);
 	}
 }

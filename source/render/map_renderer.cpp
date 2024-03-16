@@ -1,7 +1,7 @@
 #include "map_renderer.h"
 #include "planet_colours.h"
-#include "../planet/planet.h"
 #include "../math/quaternion.h"
+#include "../planet/grid/grid.h"
 
 namespace earthgen {
 
@@ -27,14 +27,14 @@ void Map_renderer::draw_tile (int i, const Colour& colour) {
 	glEnd();
 }
 
-void Map_renderer::draw (const Planet& planet, const Quaternion& q, const Planet_colours& colours) {
+void Map_renderer::draw (const Grid& grid, const Quaternion& q, const Planet_colours& colours) {
 	if (!geometry_updated) {
-		create_geometry(projection, planet, q);
+		create_geometry(projection, grid, q);
 		geometry_updated = true;
 	}
 
 	set_matrix();
-	for (int i=0; i<tile_count(planet.grid); i++)
+	for (int i=0; i<tile_count(grid); i++)
 		draw_tile(i, colours.tiles[i]);
 }
 

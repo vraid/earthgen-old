@@ -9,7 +9,6 @@ namespace earthgen {
 class Grid;
 class Terrain;
 class Climate;
-class Planet;
 class Climate_parameters;
 
 class Climate_generation_tile {
@@ -53,7 +52,7 @@ public:
 	std::deque<Climate_generation_edge> edges;
 };
 
-void generate_climate (Planet&, const Climate_parameters&);
+void generate_climate (Climate&, Terrain&, const Grid&, const Climate_parameters&);
 void generate_season (Climate&, const Terrain&, const Grid&, const Climate_parameters&, float);
 
 void _set_temperature (const Terrain&, const Grid&, const Climate_parameters&, Climate_generation_season&);

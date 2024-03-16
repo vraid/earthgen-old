@@ -5,38 +5,39 @@
 namespace earthgen {
 
 PlanetHandler::PlanetHandler () {
-	_currentSeason = 0;
+	currentSeason_ = 0;
 }
 
 PlanetHandler::~PlanetHandler () {
 }
 
 void PlanetHandler::setCurrentSeason (int n) {
-	_currentSeason = std::max(0, n);
+	currentSeason_ = std::max(0, n);
 }
 
 const Season* PlanetHandler::currentSeason () {
-	if (_currentSeason >= planet().climate.seasons.size())
+	if (currentSeason_ >= climate().seasons.size())
 		return nullptr;
-	return &nth_season(climate(), _currentSeason);
+	return &nth_season(climate(), currentSeason_);
 }
 
 void PlanetHandler::setAxis (const Vector3& v) {
-	_planet.terrain.var.axis = zero(v) ? default_axis() : normal(v);
+	terrain_.var.axis = zero(v) ? default_axis() : normal(v);
 	climateDestroyed();
-	clear_climate(_planet.climate);
+	clear_climate(climate_);
 	axisChanged();
 }
 
 void PlanetHandler::generateTerrain (const Terrain_parameters& par) {
 	climateDestroyed();
-	generate_terrain(_planet, par);
+	clear_climate(climate_);
+	generate_terrain(terrain_, grid_, par);
 	terrainCreated();
 	axisChanged();
 }
 
 void PlanetHandler::generateClimate (const Climate_parameters& par) {
-	generate_climate(_planet, par);
+	generate_climate(climate_, terrain_, grid_, par);
 	climateCreated();
 }
 

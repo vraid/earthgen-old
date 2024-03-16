@@ -72,7 +72,7 @@ void DisplayBox::globeButtonClicked () {
 }
 
 void DisplayBox::colourChanged () {
-	set_colours(*planetWidget->colours, planetHandler->planet(), planetHandler->currentSeason(), colourBox->currentIndex());
+	set_colours(*planetWidget->colours, planetHandler->grid(), planetHandler->terrain(), planetHandler->currentSeason(), colourBox->currentIndex());
 	planetWidget->update();
 }
 

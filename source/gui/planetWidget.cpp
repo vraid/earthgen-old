@@ -43,7 +43,7 @@ void PlanetWidget::paintGL () {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0,0,0,0);
 	if (width() && height()) {
-		activeRenderer->draw(planetHandler->planet(), rotation_to_default(planetHandler->terrain()), *colours);
+		activeRenderer->draw(planetHandler->grid(), rotation_to_default(planetHandler->terrain()), *colours);
 	}
 }
 
@@ -107,8 +107,8 @@ void PlanetWidget::updateGeometry () {
 }
 
 void PlanetWidget::initColours () {
-	init_colours(*colours, planetHandler->planet());
-	set_colours(*colours, planetHandler->planet(), 0);
+	init_colours(*colours, planetHandler->grid());
+	set_colours(*colours, planetHandler->grid(), planetHandler->terrain(), planetHandler->currentSeason(), 0);
 }
 
 }

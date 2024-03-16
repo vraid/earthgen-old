@@ -9,7 +9,7 @@ namespace earthgen {
 class Vector2;
 class Vector3;
 class Quaternion;
-class Planet;
+class Grid;
 
 class Hammer_projection {
 public:
@@ -19,7 +19,7 @@ public:
 };
 
 void clear (Hammer_projection&);
-void create_geometry (Hammer_projection&, const Planet&, const Quaternion&);
+void create_geometry (Hammer_projection&, const Grid&, const Quaternion&);
 
 Vector3 from_hammer (const Vector2&);
 Vector2 to_hammer (const Vector3&);
