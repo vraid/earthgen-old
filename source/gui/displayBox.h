@@ -19,7 +19,7 @@ public:
 public slots:
 	void mapButtonClicked ();
 	void globeButtonClicked ();
-	void colourChanged ();
+	void colorChanged ();
 	void enableTerrain ();
 	void enableClimate ();
 	void disableClimate ();
@@ -30,7 +30,7 @@ public:
 	QGridLayout* layout;
 	QPushButton* mapButton;
 	QPushButton* globeButton;
-	QComboBox* colourBox;
+	QComboBox* colorBox;
 	QLineEdit* seasonEdit;
 	QPushButton* incrementSeasonButton;
 	QPushButton* decrementSeasonButton;

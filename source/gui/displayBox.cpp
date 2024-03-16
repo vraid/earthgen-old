@@ -7,7 +7,7 @@
 #include <QLabel>
 #include "planetHandler.h"
 #include "planetWidget.h"
-#include "../render/planet_colours.h"
+#include "../render/planet_colors.h"
 #include <iostream>
 
 namespace earthgen {
@@ -26,12 +26,12 @@ DisplayBox::DisplayBox (PlanetHandler* p, PlanetWidget* w) : QGroupBox(QString("
 		QObject::connect(globeButton, SIGNAL(clicked()), this, SLOT(globeButtonClicked()));
 		layout->addWidget(globeButton, 0, 2, 1, 2);
 
-		layout->addWidget(new QLabel("Colour:"), 1, 0, 1, 1, Qt::AlignRight);
-		colourBox = new QComboBox();
-		colourBox->insertItem(0, "Topography");
-		colourBox->setEnabled(false);
-		QObject::connect(colourBox, SIGNAL(currentIndexChanged(int)), this, SLOT(colourChanged()));
-		layout->addWidget(colourBox, 1, 1, 1, 3);
+		layout->addWidget(new QLabel("Color:"), 1, 0, 1, 1, Qt::AlignRight);
+		colorBox = new QComboBox();
+		colorBox->insertItem(0, "Topography");
+		colorBox->setEnabled(false);
+		QObject::connect(colorBox, SIGNAL(currentIndexChanged(int)), this, SLOT(colorChanged()));
+		layout->addWidget(colorBox, 1, 1, 1, 3);
 
 		layout->addWidget(new QLabel("Season:"), 2, 0, 1, 1, Qt::AlignRight);
 		seasonEdit = new QLineEdit();
@@ -71,16 +71,16 @@ void DisplayBox::globeButtonClicked () {
 	planetWidget->update();
 }
 
-void DisplayBox::colourChanged () {
-	set_colours(*planetWidget->colours, planetHandler->grid(), planetHandler->terrain(), planetHandler->currentSeason(), colourBox->currentIndex());
+void DisplayBox::colorChanged () {
+	set_colors(*planetWidget->colors, planetHandler->grid(), planetHandler->terrain(), planetHandler->currentSeason(), colorBox->currentIndex());
 	planetWidget->update();
 }
 
 void DisplayBox::enableTerrain () {
 	mapButton->setEnabled(true);
 	globeButton->setEnabled(true);
-	colourBox->setCurrentIndex(0);
-	colourBox->setEnabled(true);
+	colorBox->setCurrentIndex(0);
+	colorBox->setEnabled(true);
 	if (!terrainEnabled)
 		globeButtonClicked();
 	terrainEnabled = true;
@@ -91,12 +91,12 @@ void DisplayBox::enableClimate () {
 		seasonEdit->setText("0");
 		decrementSeasonButton->setEnabled(true);
 		incrementSeasonButton->setEnabled(true);
-		colourBox->insertItem(1, "Vegetation");
-		colourBox->insertItem(2, "Temperature");
-		colourBox->insertItem(3, "Aridity");
-		colourBox->insertItem(4, "Humidity");
-		colourBox->insertItem(5, "Precipitation");
-		colourBox->setCurrentIndex(1);
+		colorBox->insertItem(1, "Vegetation");
+		colorBox->insertItem(2, "Temperature");
+		colorBox->insertItem(3, "Aridity");
+		colorBox->insertItem(4, "Humidity");
+		colorBox->insertItem(5, "Precipitation");
+		colorBox->setCurrentIndex(1);
 	}
 	climateEnabled = true;
 	if (currentSeason >= season_count(planetHandler->climate()))
@@ -107,10 +107,10 @@ void DisplayBox::disableClimate () {
 	seasonEdit->setText("");
 	decrementSeasonButton->setEnabled(false);
 	incrementSeasonButton->setEnabled(false);
-	colourBox->setCurrentIndex(0);
+	colorBox->setCurrentIndex(0);
 	int removeFrom = 1;
-	while (colourBox->count() > removeFrom)
-		colourBox->removeItem(removeFrom);
+	while (colorBox->count() > removeFrom)
+		colorBox->removeItem(removeFrom);
 	climateEnabled = false;
 }
 
@@ -118,7 +118,7 @@ void DisplayBox::setSeason (int s) {
 	currentSeason = s;
 	planetHandler->setCurrentSeason(currentSeason);
 	seasonEdit->setText(QString::number(currentSeason));
-	colourChanged();
+	colorChanged();
 }
 
 void DisplayBox::incrementSeason () {

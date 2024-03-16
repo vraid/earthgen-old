@@ -5,7 +5,7 @@
 #include "../math/quaternion.h"
 #include "../grid/grid.h"
 #include "../terrain/terrain.h"
-#include "planet_colours.h"
+#include "planet_colors.h"
 #include <iostream>
 #include <math.h>
 
@@ -22,8 +22,8 @@ void Globe_renderer::set_matrix () {
 	glOrtho(-x, x, -y, y, -2.0, 0.0);
 }	
 
-void Globe_renderer::draw_tile (const Tile* t, const Matrix3& m, const Colour& colour) {
-	glColor3f(colour);
+void Globe_renderer::draw_tile (const Tile* t, const Matrix3& m, const Color& color) {
+	glColor3f(color);
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex3f(m*vector(t));
 	for (const Corner* c : corners(t))
@@ -32,13 +32,13 @@ void Globe_renderer::draw_tile (const Tile* t, const Matrix3& m, const Colour& c
 	glEnd();
 }
 
-void Globe_renderer::draw (const Grid& grid, const Quaternion& q, const Planet_colours& colours) {
+void Globe_renderer::draw (const Grid& grid, const Quaternion& q, const Planet_colors& colors) {
 	set_matrix();
 	glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
 	Matrix3 m = matrix3(rotation()*q);
 	for (auto& t : tiles(grid)) {
-		draw_tile(&t, m, colours.tiles[id(t)]);
+		draw_tile(&t, m, colors.tiles[id(t)]);
 	}
 }
 

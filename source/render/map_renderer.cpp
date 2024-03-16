@@ -1,5 +1,5 @@
 #include "map_renderer.h"
-#include "planet_colours.h"
+#include "planet_colors.h"
 #include "../math/quaternion.h"
 #include "../planet/grid/grid.h"
 
@@ -17,8 +17,8 @@ void Map_renderer::set_matrix () {
 	glOrtho(bottom_left.x(), top_right.x(), bottom_left.y(), top_right.y(), -2.0, 0.0);
 }
 
-void Map_renderer::draw_tile (int i, const Colour& colour) {
-	glColor3f(colour);
+void Map_renderer::draw_tile (int i, const Color& color) {
+	glColor3f(color);
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex2f(projection.tiles[i].centre);
 	for (auto& c : projection.tiles[i].corners)
@@ -27,7 +27,7 @@ void Map_renderer::draw_tile (int i, const Colour& colour) {
 	glEnd();
 }
 
-void Map_renderer::draw (const Grid& grid, const Quaternion& q, const Planet_colours& colours) {
+void Map_renderer::draw (const Grid& grid, const Quaternion& q, const Planet_colors& colors) {
 	if (!geometry_updated) {
 		create_geometry(projection, grid, q);
 		geometry_updated = true;
@@ -35,7 +35,7 @@ void Map_renderer::draw (const Grid& grid, const Quaternion& q, const Planet_col
 
 	set_matrix();
 	for (int i=0; i<tile_count(grid); i++)
-		draw_tile(i, colours.tiles[i]);
+		draw_tile(i, colors.tiles[i]);
 }
 
 void Map_renderer::change_scale (const Vector2& screen_position, double delta) {

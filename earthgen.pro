@@ -49,13 +49,13 @@ HEADERS += source/gui/axisBox.h \
            source/math/quaternion.h \
            source/math/vector2.h \
            source/math/vector3.h \
-           source/render/colour.h \
+           source/render/color.h \
            source/render/empty_renderer.h \
            source/render/globe_renderer.h \
            source/render/hammer_projection.h \
            source/render/hammer_tile.h \
            source/render/map_renderer.h \
-           source/render/planet_colours.h \
+           source/render/planet_colors.h \
            source/render/planet_renderer.h \
            source/planet/climate/climate.h \
            source/planet/climate/climate_edge.h \
@@ -94,12 +94,12 @@ SOURCES += source/main.cpp \
            source/math/quaternion.cpp \
            source/math/vector2.cpp \
            source/math/vector3.cpp \
-           source/render/colour.cpp \
+           source/render/color.cpp \
            source/render/globe_renderer.cpp \
            source/render/hammer_projection.cpp \
            source/render/hammer_tile.cpp \
            source/render/map_renderer.cpp \
-           source/render/planet_colours.cpp \
+           source/render/planet_colors.cpp \
            source/render/planet_renderer.cpp \
            source/planet/climate/climate.cpp \
            source/planet/climate/climate_generation.cpp \

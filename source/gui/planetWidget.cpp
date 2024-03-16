@@ -3,7 +3,7 @@
 #include "../render/empty_renderer.h"
 #include "../render/globe_renderer.h"
 #include "../render/map_renderer.h"
-#include "../render/planet_colours.h"
+#include "../render/planet_colors.h"
 #include <iostream>
 
 namespace earthgen {
@@ -13,10 +13,10 @@ PlanetWidget::PlanetWidget (PlanetHandler* p) : planetHandler(p) {
 	globeRenderer = new Globe_renderer();
 	mapRenderer = new Map_renderer();
 	activeRenderer = emptyRenderer;
-	colours = new Planet_colours();
+	colors = new Planet_colors();
 	mouseMoving = false;
 	
-	QObject::connect(planetHandler, SIGNAL(terrainCreated()), this, SLOT(initColours()));
+	QObject::connect(planetHandler, SIGNAL(terrainCreated()), this, SLOT(initColors()));
 	QObject::connect(planetHandler, SIGNAL(terrainCreated()), this, SLOT(updateGeometry()));
 	QObject::connect(planetHandler, SIGNAL(axisChanged()), this, SLOT(updateGeometry()));
 }
@@ -43,7 +43,7 @@ void PlanetWidget::paintGL () {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0,0,0,0);
 	if (width() && height()) {
-		activeRenderer->draw(planetHandler->grid(), rotation_to_default(planetHandler->terrain()), *colours);
+		activeRenderer->draw(planetHandler->grid(), rotation_to_default(planetHandler->terrain()), *colors);
 	}
 }
 
@@ -106,9 +106,9 @@ void PlanetWidget::updateGeometry () {
 	update();
 }
 
-void PlanetWidget::initColours () {
-	init_colours(*colours, planetHandler->grid());
-	set_colours(*colours, planetHandler->grid(), planetHandler->terrain(), planetHandler->currentSeason(), 0);
+void PlanetWidget::initColors () {
+	init_colors(*colors, planetHandler->grid());
+	set_colors(*colors, planetHandler->grid(), planetHandler->terrain(), planetHandler->currentSeason(), 0);
 }
 
 }

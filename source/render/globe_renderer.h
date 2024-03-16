@@ -16,8 +16,8 @@ public:
 	Globe_renderer ();
 
 	void set_matrix ();
-	void draw_tile (const Tile*, const Matrix3&, const Colour&);
-	void draw (const Grid&, const Quaternion&, const Planet_colours&);
+	void draw_tile (const Tile*, const Matrix3&, const Color&);
+	void draw (const Grid&, const Quaternion&, const Planet_colors&);
 	void change_scale (const Vector2&, double);
 	void mouse_dragged (const Vector2&);
 	Vector3 to_coordinates (const Vector2&) const;

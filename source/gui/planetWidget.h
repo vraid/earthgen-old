@@ -14,7 +14,7 @@ class Planet_renderer;
 class Globe_renderer;
 class Map_renderer;
 class Empty_renderer;
-class Planet_colours;
+class Planet_colors;
 
 class PlanetWidget : public QGLWidget {
 	Q_OBJECT
@@ -38,7 +38,7 @@ public slots:
 	void activateGlobeRenderer ();
 	void activateMapRenderer ();
 	void updateGeometry ();
-	void initColours ();
+	void initColors ();
 signals:
 	void pointSelected (const Vector3&);
 public:
@@ -49,7 +49,7 @@ public:
 	Globe_renderer* globeRenderer;
 	Map_renderer* mapRenderer;
 	Empty_renderer* emptyRenderer;
-	Planet_colours* colours;
+	Planet_colors* colors;
 };
 
 }
