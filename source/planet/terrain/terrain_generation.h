@@ -8,23 +8,25 @@
 
 namespace earthgen {
 
-class Planet;
 class Tile;
 class Corner;
 class Edge;
+class Grid;
+class Terrain;
+class Planet;
 
 void generate_terrain (Planet&, const Terrain_parameters&);
 
-void _set_variables (Planet&, const Terrain_parameters&);
-void _set_elevation (Planet&, const Terrain_parameters&);
-void _scale_elevation (Planet&, const Terrain_parameters&);
-void _create_sea (Planet&, const Terrain_parameters&);
+void _set_variables (Terrain&, const Terrain_parameters&);
+void _set_elevation (Terrain&, const Grid&, const Terrain_parameters&);
+void _scale_elevation (Terrain&, const Grid&, const Terrain_parameters&);
+void _create_sea (Terrain&, const Grid&, const Terrain_parameters&);
 std::vector<std::array<Vector3, 3> > _elevation_vectors (const Terrain_parameters&);
 
-int _tile_type (const Planet&, const Tile*);
-int _corner_type (const Planet&, const Corner*);
-int _edge_type (const Planet&, const Edge*);
-void _classify_terrain (Planet&);
+int _tile_type (const Terrain&, const Tile*);
+int _corner_type (const Terrain&, const Corner*);
+int _edge_type (const Terrain&, const Edge*);
+void _classify_terrain (Terrain&, const Grid&);
 
 float _elevation_at_point (const Vector3&, const std::vector<std::array<Vector3, 3> >&);
 

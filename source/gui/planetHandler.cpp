@@ -22,7 +22,7 @@ const Season* PlanetHandler::currentSeason () {
 }
 
 void PlanetHandler::setAxis (const Vector3& v) {
-	m_terrain(_planet).var.axis = zero(v) ? default_axis() : normal(v);
+	_planet.terrain.var.axis = zero(v) ? default_axis() : normal(v);
 	climateDestroyed();
 	clear_climate(_planet);
 	axisChanged();

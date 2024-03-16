@@ -9,9 +9,9 @@
 
 namespace earthgen {
 
-class Planet;
 class Tile;
 class Edge;
+class Grid;
 class Quaternion;
 
 class Terrain {
@@ -24,30 +24,27 @@ public:
 	std::deque<Terrain_edge> edges;
 };
 
-void clear_terrain (Planet&);
-void init_terrain (Planet&);
+void clear_terrain (Terrain&);
+void init_terrain (Terrain&, const Grid&);
 
 double latitude (const Vector3&);
 double longitude (const Vector3&);
 
-double latitude (const Planet&, const Vector3&);
-double longitude (const Planet&, const Vector3&);
+double latitude (const Terrain&, const Vector3&);
+double longitude (const Terrain&, const Vector3&);
 
 // angle from corner 0 to north
-double north (const Planet&, const Tile*);
+double north (const Terrain&, const Tile*);
 
-double area (const Planet&, const Tile*);
-double length (const Planet&, const Edge*);
+double area (const Terrain&, const Tile*);
+double length (const Terrain&, const Edge*);
 
-double coriolis_coefficient (const Planet&, double);
+double coriolis_coefficient (const Terrain&, double);
 
 Vector3 default_axis ();
-Quaternion rotation (const Planet&);
+Quaternion rotation (const Terrain&);
 // rotation to bring planet axis into default position
-Quaternion rotation_to_default (const Planet&);
-
-const Terrain& terrain (const Planet&);
-Terrain& m_terrain (Planet&);
+Quaternion rotation_to_default (const Terrain&);
 
 const std::deque<Terrain_tile>& tiles (const Terrain&);
 const std::deque<Terrain_corner>& corners (const Terrain&);

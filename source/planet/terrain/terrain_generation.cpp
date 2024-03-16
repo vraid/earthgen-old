@@ -15,76 +15,78 @@ namespace earthgen {
 void generate_terrain (Planet& p, const Terrain_parameters& par) {
 	clear(p);
 	set_grid_size(p, par.grid_size);
-	init_terrain(p);
-	_set_variables(p, par);
-	_set_elevation(p, par);
-	_create_sea(p, par);
-	_classify_terrain(p);
+	Grid& grid = p.grid;
+	Terrain& terrain = p.terrain;
+	init_terrain(terrain, grid);
+	_set_variables(terrain, par);
+	_set_elevation(terrain, grid, par);
+	_create_sea(terrain, grid, par);
+	_classify_terrain(terrain, grid);
 }
 
-void _set_variables (Planet& p, const Terrain_parameters& par) {
-	m_terrain(p).var.axis = par.axis;
-	m_terrain(p).var.radius = 40000000;
+void _set_variables (Terrain& terrain, const Terrain_parameters& par) {
+	terrain.var.axis = par.axis;
+	terrain.var.radius = 40000000;
 }
 
-void _set_elevation (Planet& p, const Terrain_parameters& par) {
+void _set_elevation (Terrain& terrain, const Grid& grid, const Terrain_parameters& par) {
 	// can be made concurrent
 	auto d = _elevation_vectors(par);
-	for (auto& t : tiles(p.grid))
-		m_tile(m_terrain(p), id(t)).elevation = _elevation_at_point(t.v, d);
-	for (auto& c : corners(p.grid))
-		m_corner(m_terrain(p), id(c)).elevation = _elevation_at_point(c.v, d);
-	_scale_elevation(p, par);
+	for (auto& t : tiles(grid))
+		m_tile(terrain, id(t)).elevation = _elevation_at_point(t.v, d);
+	for (auto& c : corners(grid))
+		m_corner(terrain, id(c)).elevation = _elevation_at_point(c.v, d);
+	_scale_elevation(terrain, grid, par);
 }
 
-void _scale_elevation (Planet& p, const Terrain_parameters&) {
-	float lowest = elevation(nth_tile(terrain(p),0));
+void _scale_elevation (Terrain& terrain, const Grid& grid, const Terrain_parameters&) {
+	float lowest = elevation(nth_tile(terrain,0));
 	float highest = lowest;
 	float scale = 3000;
-	for (auto& t : tiles(terrain(p))) {
+	for (auto& t : tiles(terrain)) {
 		lowest = std::min(lowest, elevation(t));
 		highest = std::max(highest, elevation(t));
 	}
-	for (auto& c : corners(terrain(p))) {
+	for (auto& c : corners(terrain)) {
 		lowest = std::min(lowest, elevation(c));
 		highest = std::max(highest, elevation(c));
 	}
 	highest = std::max(1.0f, highest-lowest);
-	for (auto& t : tiles(p.grid)) {
-		m_tile(m_terrain(p), id(t)).elevation -= lowest;
-		m_tile(m_terrain(p), id(t)).elevation *= scale / highest;
+	for (auto& t : tiles(grid)) {
+		m_tile(terrain, id(t)).elevation -= lowest;
+		m_tile(terrain, id(t)).elevation *= scale / highest;
 	}
-	for (auto& c : corners(p.grid)) {
-		m_corner(m_terrain(p), id(c)).elevation -= lowest;
-		m_corner(m_terrain(p), id(c)).elevation *= scale / highest;
+	for (auto& c : corners(grid)) {
+		m_corner(terrain, id(c)).elevation -= lowest;
+		m_corner(terrain, id(c)).elevation *= scale / highest;
 	}
 }
 
-const Tile* lowest_tile (const Planet& p) {
-	const Tile* tile = nth_tile(p.grid, 0);
-	float lowest_elevation = elevation(nth_tile(terrain(p), 0));
-	for (const Tile& t : tiles(p.grid)) {
-		if (elevation(nth_tile(terrain(p), id(t))) < lowest_elevation) {
+const Tile* lowest_tile (const Terrain& terrain, const Grid& grid) {
+	const Tile* tile = nth_tile(grid, 0);
+	float lowest_elevation = elevation(nth_tile(terrain, 0));
+	for (const Tile& t : tiles(grid)) {
+		if (elevation(nth_tile(terrain, id(t))) < lowest_elevation) {
 			tile = &t;
-			lowest_elevation = elevation(nth_tile(terrain(p), id(t)));
+			lowest_elevation = elevation(nth_tile(terrain, id(t)));
 		}
 	}
 	return tile;
 }
 
-void _create_sea (Planet& p, const Terrain_parameters& par) {
-	const Tile* const start_tile = lowest_tile(p);
-	float sea_level = elevation(nth_tile(terrain(p), id(start_tile)));
-	unsigned int water_tile_count = par.water_ratio * tile_count(p.grid);
+void _create_sea (Terrain& terrain, const Grid& grid, const Terrain_parameters& par) {
+	const Tile* const start_tile = lowest_tile(terrain, grid);
+	float sea_level = elevation(nth_tile(terrain, id(start_tile)));
+	unsigned int water_tile_count = par.water_ratio * tile_count(grid);
 	std::set<const Tile*> water_tiles;
 	std::multimap<float, const Tile*> coast_tiles_elevation;
 	std::vector<bool> coast_tiles;
 	if (water_tile_count > 0) {
 		water_tiles.insert(start_tile);
-		coast_tiles.resize(tile_count(p.grid), false);
+		coast_tiles.resize(tile_count(grid), false);
 		for (const Tile* i : tiles(start_tile)) {
 			coast_tiles[id(i)] = true;
-			coast_tiles_elevation.insert(std::make_pair(elevation(nth_tile(terrain(p) ,id(i))), i));
+			coast_tiles_elevation.insert(std::make_pair(elevation(nth_tile(terrain ,id(i))), i));
 		}
 		const Tile* tile;
 		auto insert_next_tile = [&]() {
@@ -95,13 +97,13 @@ void _create_sea (Planet& p, const Terrain_parameters& par) {
 			for (auto i : tiles(tile)) {
 				if (water_tiles.find(i) == water_tiles.end() && !coast_tiles[id(i)]) {
 					coast_tiles[id(i)] = true;
-					coast_tiles_elevation.insert(std::make_pair(elevation(nth_tile(terrain(p), id(i))), i));
+					coast_tiles_elevation.insert(std::make_pair(elevation(nth_tile(terrain, id(i))), i));
 				}
 			}
 		};
 		while (water_tiles.size() < water_tile_count) {
 			insert_next_tile();
-			sea_level = elevation(nth_tile(terrain(p), id(tile)));
+			sea_level = elevation(nth_tile(terrain, id(tile)));
 			while (coast_tiles_elevation.size() > 0 && coast_tiles_elevation.begin()->first <= sea_level) {
 				insert_next_tile();
 			}
@@ -109,35 +111,36 @@ void _create_sea (Planet& p, const Terrain_parameters& par) {
 		if (coast_tiles_elevation.size() > 0)
 			sea_level = (sea_level + coast_tiles_elevation.begin()->first) / 2;
 	}
-	m_terrain(p).var.sea_level = sea_level;
+	terrain.var.sea_level = sea_level;
 	for (auto t : water_tiles) {
-		m_tile(m_terrain(p), id(t)).water.surface = sea_level;
-		m_tile(m_terrain(p), id(t)).water.depth = sea_level - elevation(nth_tile(terrain(p), id(t)));
+		m_tile(terrain, id(t)).water.surface = sea_level;
+		m_tile(terrain, id(t)).water.depth = sea_level - elevation(nth_tile(terrain, id(t)));
 	}
 }
 
-int _tile_type (const Planet& p, const Tile* t) {
+int _tile_type (const Terrain& terrain, const Tile* t) {
 	int land = 0;
 	int water = 0;
 	for (auto i : tiles(t)) {
-		if (water_depth(nth_tile(terrain(p) ,id(i))) > 0) water++;
-		else land++;
+		if (water_depth(nth_tile(terrain ,id(i))) > 0) {water++;}
+		else {land++;}
 	}
 	int type =
-		water_depth(nth_tile(terrain(p) ,id(t))) > 0 ?
+		water_depth(nth_tile(terrain ,id(t))) > 0 ?
 			Terrain_tile::type_water :
 			Terrain_tile::type_land;
-	if (land && water)
+	if (land && water) {
 		type += Terrain_tile::type_coast;
+	}
 	return type;
 }
 
-int _corner_type (const Planet& p, const Corner* c) {
+int _corner_type (const Terrain& terrain, const Corner* c) {
 	int land = 0;
 	int water = 0;
 	for (auto i : tiles(c)) {
-		if (water_depth(nth_tile(terrain(p) ,id(i))) > 0) water++;
-		else land++;
+		if (water_depth(nth_tile(terrain ,id(i))) > 0) {water++;}
+		else {land++;}
 	}
 	int type =
 		land && water ?
@@ -148,12 +151,12 @@ int _corner_type (const Planet& p, const Corner* c) {
 	return type;
 }
 
-int _edge_type (const Planet& p, const Edge* e) {
+int _edge_type (const Terrain& terrain, const Edge* e) {
 	int land = 0;
 	int water = 0;
 	for (auto i : tiles(e)) {
-		if (water_depth(nth_tile(terrain(p) ,id(i))) > 0) water++;
-			else land++;
+		if (water_depth(nth_tile(terrain ,id(i))) > 0) {water++;}
+		else {land++;}
 	}
 	int type =
 		land && water ?
@@ -164,13 +167,16 @@ int _edge_type (const Planet& p, const Edge* e) {
 	return type;
 }
 
-void _classify_terrain (Planet& p) {
-	for (auto& t : tiles(p.grid))
-		m_tile(m_terrain(p), id(t)).type = _tile_type(p, &t);
-	for (auto& c : corners(p.grid))
-		m_corner(m_terrain(p), id(c)).type = _corner_type(p, &c);
-	for (auto& e : edges(p.grid))
-		m_edge(m_terrain(p), id(e)).type = _edge_type(p, &e);
+void _classify_terrain (Terrain& terrain, const Grid& grid) {
+	for (auto& t : tiles(grid)) {
+		m_tile(terrain, id(t)).type = _tile_type(terrain, &t);
+	}
+	for (auto& c : corners(grid)) {
+		m_corner(terrain, id(c)).type = _corner_type(terrain, &c);
+	}
+	for (auto& e : edges(grid)) {
+		m_edge(terrain, id(e)).type = _edge_type(terrain, &e);
+	}
 }
 
 unsigned int hex_string_to_uint (std::string s) {

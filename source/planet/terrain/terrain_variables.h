@@ -5,7 +5,7 @@
 
 namespace earthgen {
 
-class Planet;
+class Terrain;
 
 class Terrain_variables {
 public:
@@ -17,10 +17,10 @@ public:
 	double sea_level;
 };
 
-const Vector3& axis (const Planet&);
-double axial_tilt (const Planet&);
-double radius (const Planet&);
-double sea_level (const Planet&);
+const Vector3& axis (const Terrain&);
+double axial_tilt (const Terrain&);
+double radius (const Terrain&);
+double sea_level (const Terrain&);
 
 }
 

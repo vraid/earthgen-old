@@ -43,7 +43,7 @@ void PlanetWidget::paintGL () {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0,0,0,0);
 	if (width() && height()) {
-		activeRenderer->draw(planetHandler->planet(), rotation_to_default(planetHandler->planet()), *colours);
+		activeRenderer->draw(planetHandler->planet(), rotation_to_default(planetHandler->terrain()), *colours);
 	}
 }
 
@@ -63,7 +63,7 @@ void PlanetWidget::mousePressEvent (QMouseEvent*) {
 
 void PlanetWidget::mouseReleaseEvent (QMouseEvent*) {
 	if (!mouseMoving) {
-		pointSelected(conjugate(rotation_to_default(planetHandler->planet())) * activeRenderer->to_coordinates(vector(mousePosition)));
+		pointSelected(conjugate(rotation_to_default(planetHandler->terrain())) * activeRenderer->to_coordinates(vector(mousePosition)));
 	}
 	mouseMoving = false;
 }

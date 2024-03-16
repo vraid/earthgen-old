@@ -46,8 +46,8 @@ void colour_topography (Planet_colours& c, const Planet& p) {
 		Colour(0.1, 0.1, 0.1)};
 	double land_limits[7] = {-500, 0, 500, 1000, 1500, 2000, 2500};
 	for (const Tile& t : tiles(p.grid)) {
-		const Terrain_tile& ter = nth_tile(terrain(p), id(t));
-		double elev = elevation(ter) - sea_level(p);
+		const Terrain_tile& ter = nth_tile(p.terrain, id(t));
+		double elev = elevation(ter) - sea_level(p.terrain);
 		if (is_water(ter)) {
 			if (elev < -1000) {
 				c.tiles[id(t)] = water_deep;
@@ -82,9 +82,11 @@ void colour_vegetation (Planet_colours& c, const Planet& p, const Season& s) {
 	static const Colour land_high = Colour(0.1, 0.1, 0.1);
 	static const Colour vegetation = Colour(0.176, 0.32, 0.05);
 
+	const Terrain& terrain = p.terrain;
+
 	for (const Tile& t : tiles(p.grid)) {
-		if (is_water(nth_tile(terrain(p) ,id(t)))) {
-			double d = std::min(1.0f, water_depth(nth_tile(terrain(p), id(t)))/400);
+		if (is_water(nth_tile(terrain ,id(t)))) {
+			double d = std::min(1.0f, water_depth(nth_tile(terrain, id(t)))/400);
 			c.tiles[id(t)] = interpolate(water_shallow, water_deep, d);
 		}
 		else {
@@ -92,7 +94,7 @@ void colour_vegetation (Planet_colours& c, const Planet& p, const Season& s) {
 			if (temperature(climate) <= freezing_point())
 				c.tiles[id(t)] = snow;
 			else {
-				double d = std::min(1.0, (elevation(nth_tile(terrain(p), id(t))) - sea_level(p))/2500);
+				double d = std::min(1.0, (elevation(nth_tile(terrain, id(t))) - sea_level(terrain))/2500);
 				Colour ground = interpolate(land_low, land_high, d);
 				double v = std::min(1.0f, aridity(climate)/1.5f);
 				c.tiles[id(t)] = interpolate(vegetation, ground, v);
@@ -143,7 +145,7 @@ void colour_aridity (Planet_colours& c, const Planet& p, const Season& s) {
 	float limits[4] = {2.0f, 1.0f, 0.5f, 0.0f};
 
 	for (const Tile& t : tiles(p.grid)) {
-		if (is_water(nth_tile(terrain(p) ,id(t))))
+		if (is_water(nth_tile(p.terrain ,id(t))))
 			c.tiles[id(t)] = water;
 		else {
 			float ar = aridity(nth_tile(s, id(t)));
@@ -167,7 +169,7 @@ void colour_humidity (Planet_colours& c, const Planet& p, const Season& s) {
 	
 	for (const Tile& t : tiles(p.grid)) {
 		double h = humidity(nth_tile(s, id(t))) / saturation_humidity(temperature(nth_tile(s, id(t))));
-		if (is_water(nth_tile(terrain(p), id(t)))) {
+		if (is_water(nth_tile(p.terrain, id(t)))) {
 			c.tiles[id(t)] = water;
 		}
 		else {
@@ -192,7 +194,7 @@ void colour_precipitation (Planet_colours& c, const Planet& p, const Season& s) 
 	for (const Tile& t : tiles(p.grid)) {
 		double high = 7e-8;
 		double low = high/10;
-		if (is_water(nth_tile(terrain(p), id(t))))
+		if (is_water(nth_tile(p.terrain, id(t))))
 			c.tiles[id(t)] = water;
 		else {
 			float prec = precipitation(nth_tile(s, id(t)));

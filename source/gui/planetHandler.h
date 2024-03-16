@@ -15,7 +15,8 @@ public:
 	PlanetHandler ();
 	~PlanetHandler ();
 
-	const Planet& planet () const {return _planet;}
+	const Planet& planet () const {return _planet;};
+	const Terrain& terrain () const {return planet().terrain;};
 	const Season* currentSeason ();
 	void setCurrentSeason (int);
 public slots:

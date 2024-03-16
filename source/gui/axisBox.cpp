@@ -42,7 +42,7 @@ void AxisBox::setSelection (const Vector3& v) {
 }
 
 void AxisBox::setAxis () {
-	axisEdit->setText(string(axis(planetHandler->planet())));
+	axisEdit->setText(string(axis(planetHandler->terrain())));
 }
 
 void AxisBox::enableButton () {
