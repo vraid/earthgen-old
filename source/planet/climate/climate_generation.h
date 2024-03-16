@@ -1,19 +1,65 @@
 #ifndef climate_generation_h
 #define climate_generation_h
 
-#include "../planet.h"
-#include "climate.h"
-#include "climate_generation_season.h"
+#include <deque>
+#include "wind.h"
 
 namespace earthgen {
 
-void generate_climate (Planet&, const Climate_parameters&);
-void generate_season (Planet&, const Climate_parameters&, float);
+class Grid;
+class Terrain;
+class Climate;
+class Planet;
+class Climate_parameters;
 
-void _set_temperature (const Planet&, const Climate_parameters&, Climate_generation_season&);
-void _set_wind (const Planet&, const Climate_parameters&, Climate_generation_season&);
-void _set_humidity (const Planet&, const Climate_parameters&, Climate_generation_season&);
+class Climate_generation_tile {
+public:
+	Climate_generation_tile () :
+		latitude (0), temperature (0), humidity (0), precipitation (0) {}
+
+	Wind wind;
+	float latitude;
+	float temperature;
+	float humidity;
+	float precipitation;
+};
+
+class Climate_generation_edge {
+public:
+	Climate_generation_edge () :
+		wind_velocity (0) {}
+
+	float wind_velocity;
+};
+
+class Season_variables {
+public:
+	Season_variables () {}
+	~Season_variables () {}
+
+	float time_of_year;
+	float solar_equator;
+};
+
+class Climate_generation_season {
+public:
+	Climate_generation_season () :
+		tropical_equator (0) {}
+
+	Season_variables var;
+	float tropical_equator;
+
+	std::deque<Climate_generation_tile> tiles;
+	std::deque<Climate_generation_edge> edges;
+};
+
+void generate_climate (Planet&, const Climate_parameters&);
+void generate_season (Climate&, const Terrain&, const Grid&, const Climate_parameters&, float);
+
+void _set_temperature (const Terrain&, const Grid&, const Climate_parameters&, Climate_generation_season&);
+void _set_wind (const Terrain&, const Grid&, const Climate_parameters&, Climate_generation_season&);
+void _set_humidity (const Terrain&, const Grid&, const Climate_parameters&, Climate_generation_season&);
 
 }
-	
+
 #endif

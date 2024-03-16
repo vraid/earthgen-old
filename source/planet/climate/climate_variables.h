@@ -3,7 +3,7 @@
 
 namespace earthgen {
 
-class Planet;
+class Climate;
 
 class Climate_variables {
 public:
@@ -12,7 +12,7 @@ public:
 	int season_count;
 };
 
-int season_count (const Planet&);
+int season_count (const Climate&);
 
 }
 

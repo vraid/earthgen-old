@@ -8,8 +8,6 @@
 
 namespace earthgen {
 
-class Planet;
-
 class Climate {
 public:
 	Climate () {}
@@ -18,14 +16,11 @@ public:
 	std::deque<Season> seasons;
 };
 
-const Climate& climate (const Planet&);
-Climate& m_climate (Planet&);
+const std::deque<Season> seasons (const Climate&);
+const Season& nth_season (const Climate&, int);
+Season& m_season (Climate&, int);
 
-const std::deque<Season> seasons (const Planet&);
-const Season& nth_season (const Planet&, int);
-Season& m_season (Planet&, int);
-
-void clear_climate (Planet&);
+void clear_climate (Climate&);
 
 float freezing_point ();
 float temperature_lapse_rate ();

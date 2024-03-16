@@ -18,13 +18,13 @@ void PlanetHandler::setCurrentSeason (int n) {
 const Season* PlanetHandler::currentSeason () {
 	if (_currentSeason >= planet().climate.seasons.size())
 		return nullptr;
-	return &nth_season(planet(), _currentSeason);
+	return &nth_season(climate(), _currentSeason);
 }
 
 void PlanetHandler::setAxis (const Vector3& v) {
 	_planet.terrain.var.axis = zero(v) ? default_axis() : normal(v);
 	climateDestroyed();
-	clear_climate(_planet);
+	clear_climate(_planet.climate);
 	axisChanged();
 }
 

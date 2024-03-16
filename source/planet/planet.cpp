@@ -10,7 +10,7 @@ Planet::Planet () {
 void clear (Planet& p) {
 	set_grid_size(p, 0);
 	clear_terrain(p.terrain);
-	clear_climate(p);
+	clear_climate(p.climate);
 }
 
 void set_grid_size (Planet& p, int size) {

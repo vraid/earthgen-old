@@ -3,14 +3,6 @@
 
 namespace earthgen {
 
-class Season_variables {
-public:
-	Season_variables () {}
-	~Season_variables () {}
-
-	float time_of_year;
-	float solar_equator;
-};
 
 }
 

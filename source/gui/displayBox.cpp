@@ -99,7 +99,7 @@ void DisplayBox::enableClimate () {
 		colourBox->setCurrentIndex(1);
 	}
 	climateEnabled = true;
-	if (currentSeason >= season_count(planetHandler->planet()))
+	if (currentSeason >= season_count(planetHandler->climate()))
 		currentSeason = 0;
 	setSeason(currentSeason);
 }
@@ -122,11 +122,11 @@ void DisplayBox::setSeason (int s) {
 }
 
 void DisplayBox::incrementSeason () {
-	setSeason((currentSeason+1) % season_count(planetHandler->planet()));
+	setSeason((currentSeason+1) % season_count(planetHandler->climate()));
 }
 
 void DisplayBox::decrementSeason () {
-	setSeason(currentSeason - 1 < 0 ? season_count(planetHandler->planet()) - 1 : currentSeason - 1);
+	setSeason(currentSeason - 1 < 0 ? season_count(planetHandler->climate()) - 1 : currentSeason - 1);
 }
 
 }
