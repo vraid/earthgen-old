@@ -143,26 +143,18 @@ void complete_grid (Grid& grid) {
 	add_edges(grid);
 }
 
-Grid size_0_grid () {
-	Grid grid;
+void size_0_grid (Grid& grid) {
 	grid.set_size(0);
 
 	add_icos_tiles(grid);
 	complete_grid(grid);
-	return grid;
 }
 
-Grid subdivide (const Grid& prev) {
-	Grid grid;
+void subdivide (Grid& grid, const Grid& prev) {
 	grid.set_size(prev.size + 1);
 
 	add_tiles(grid, prev);
 	complete_grid(grid);
-	return grid;
-}
-
-Grid size_n_grid (int size) {
-	return (size <= 0) ? size_0_grid() : subdivide(size_n_grid(size - 1));
 }
 
 }

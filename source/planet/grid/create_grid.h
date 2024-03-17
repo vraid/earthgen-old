@@ -5,7 +5,8 @@ namespace earthgen {
 
 class Grid;
 
-Grid size_n_grid (int);
+void size_0_grid (Grid&);
+void subdivide (Grid&, const Grid&);
 
 }
 

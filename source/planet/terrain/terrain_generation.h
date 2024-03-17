@@ -14,7 +14,7 @@ class Edge;
 class Grid;
 class Terrain;
 
-void generate_terrain (Terrain&, Grid&, const Terrain_parameters&);
+void generate_terrain (Terrain&, const Grid&, const Terrain_parameters&);
 
 void _set_variables (Terrain&, const Terrain_parameters&);
 void _set_elevation (Terrain&, const Grid&, const Terrain_parameters&);

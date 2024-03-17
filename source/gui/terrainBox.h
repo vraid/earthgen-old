@@ -22,7 +22,7 @@ public slots:
 	void generateButtonClicked ();
 private:
 	bool noSeed ();
-	void setValues (const Terrain_parameters&);
+	void setValues (const Terrain_parameters&, int);
 
 public:
 	QPushButton* generateButton;

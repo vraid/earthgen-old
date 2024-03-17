@@ -7,9 +7,6 @@ Grid::Grid () :
 
 void Grid::set_size (int n) {
 	size = n;
-	tiles.clear();
-	corners.clear();
-	edges.clear();
 	for (int i=0; i<tile_count(n); i++) {
 		tiles.push_back(Tile(i, i<12 ? 5 : 6));
 	}

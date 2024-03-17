@@ -8,6 +8,8 @@
 #include "../planet/climate/climate.h"
 #include "../planet/terrain/terrain_generation.h"
 #include "../planet/climate/climate_generation.h"
+#include <vector>
+#include <memory>
 
 namespace earthgen {
 
@@ -17,13 +19,14 @@ public:
 	PlanetHandler ();
 	~PlanetHandler ();
 
-	const Grid& grid () const {return grid_;};
+	const Grid& grid () const {return *(grids[current_grid_size]);};
 	const Terrain& terrain () const {return terrain_;};
 	const Climate& climate () const {return climate_;};
 	const Season* currentSeason ();
 	void setCurrentSeason (int);
 public slots:
 	void setAxis (const Vector3&);
+	void setGridSize(int);
 	void generateTerrain (const Terrain_parameters&);
 	void generateClimate (const Climate_parameters&);
 signals:
@@ -33,7 +36,8 @@ signals:
 	void climateDestroyed ();
 
 private:
-	Grid grid_;
+	unsigned int current_grid_size;
+	std::vector<std::unique_ptr<Grid>> grids;
 	Terrain terrain_;
 	Climate climate_;
 	unsigned currentSeason_;
