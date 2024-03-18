@@ -5,7 +5,9 @@
 namespace earthgen {
 
 Tile::Tile (int i, int e) :
-	id (i), edge_count (e) {
+	id (i),
+	edge_count (e),
+	area (0) {
 	tiles.resize(edge_count, nullptr);
 	corners.resize(edge_count, nullptr);
 	edges.resize(edge_count, nullptr);
