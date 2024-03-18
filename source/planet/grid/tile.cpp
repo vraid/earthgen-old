@@ -11,6 +11,13 @@ Tile::Tile (int i, int e) :
 	edges.resize(edge_count, nullptr);
 }
 
+std::vector<int> tile_index_vector_5 {0, 1, 2, 3, 4};
+std::vector<int> tile_index_vector_6 {0, 1, 2, 3, 4, 5};
+
+const std::vector<int>& indices (const Tile& t) {
+	return edge_count(t) == 5 ? tile_index_vector_5 : tile_index_vector_6;
+}
+
 const Tile* nth_tile (const Tile& t, int n) {
 	int k = n < 0 ?
 		n % edge_count(t) + edge_count(t) :
@@ -33,7 +40,7 @@ const Edge* nth_edge (const Tile& t, int n) {
 }
 
 int position (const Tile& t, const Tile* n) {
-	for (int i=0; i<t.edge_count; i++) {
+	for (int i : indices(t)) {
 		if (t.tiles[i] == n) {
 			return i;
 		}
@@ -42,7 +49,7 @@ int position (const Tile& t, const Tile* n) {
 }
 
 int position (const Tile& t, const Corner* c) {
-	for (int i=0; i<t.edge_count; i++) {
+	for (int i : indices(t)) {
 		if (t.corners[i] == c) {
 			return i;
 		}
@@ -51,7 +58,7 @@ int position (const Tile& t, const Corner* c) {
 }
 
 int position (const Tile& t, const Edge* e) {
-	for (int i=0; i<t.edge_count; i++) {
+	for (int i : indices(t)) {
 		if (t.edges[i] == e) {
 			return i;
 		}
@@ -79,7 +86,7 @@ Quaternion reference_rotation (const Tile* t, Quaternion d) {
 std::vector<Vector2> polygon (const Tile* t, Quaternion d) {
 	std::vector<Vector2> p;
 	Quaternion q = reference_rotation(t, d);
-	for (int i=0; i<edge_count(t); i++) {
+	for (int i : indices(t)) {
 		Vector3 c = q * vector(nth_corner(t, i));
 		p.push_back(Vector2(c.x(), c.y()));
 	}

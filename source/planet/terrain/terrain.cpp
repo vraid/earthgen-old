@@ -42,7 +42,7 @@ double north (const Terrain& terrain, const Tile* t) {
 
 double area (const Terrain& terrain, const Tile* t) {
 	double a = 0.0;
-	for (int k=0; k<edge_count(t); k++) {
+	for (int k : indices(t)) {
 		double angle = acos(dot_product(normal(vector(t) - vector(nth_corner(t,k))), normal(vector(t) - vector(nth_corner(t,k+1)))));
 		a += 0.5 * sin(angle) * distance(vector(t), vector(nth_corner(t,k))) * distance(vector(t), vector(nth_corner(t,k+1)));
 		/*

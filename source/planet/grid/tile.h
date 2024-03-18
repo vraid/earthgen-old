@@ -37,6 +37,7 @@ inline const std::vector<const Tile*>& tiles (const Tile* t) {return tiles(*t);}
 inline const std::vector<const Corner*>& corners (const Tile* t) {return corners(*t);}
 inline const std::vector<const Edge*>& edges (const Tile* t) {return edges(*t);}
 
+const std::vector<int>& indices (const Tile&);
 const Tile* nth_tile (const Tile&, int);
 const Corner* nth_corner (const Tile&, int);
 const Edge* nth_edge (const Tile&, int);
@@ -44,6 +45,7 @@ int position (const Tile&, const Tile*);
 int position (const Tile&, const Corner*);
 int position (const Tile&, const Edge*);
 
+inline const std::vector<int>& indices(const Tile* t) {return indices(*t);}
 inline const Tile* nth_tile (const Tile* t, int n) {return nth_tile(*t, n);}
 inline const Corner* nth_corner (const Tile* t, int n) {return nth_corner(*t, n);}
 inline const Edge* nth_edge (const Tile* t, int n) {return nth_edge(*t, n);}

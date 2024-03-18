@@ -115,15 +115,14 @@ void _set_wind (const Terrain& terrain, const Grid& grid, const Climate_paramete
 		std::vector<Vector2> corners =
 			rotation_matrix(north(terrain, &t) - season.tiles[id(t)].wind.direction) * polygon(&t, rotation_to_default(terrain));
 
-		int e = edge_count(t);
-		for (int k=0; k<e; k++) {
+		for (int k : indices(t)) {
 			int direction = sign(nth_edge(t, k), &t);
-			if (corners[k].x() + corners[(k+1)%e].x() < 0) direction *= -1;
+			if (corners[k].x() + corners[(k+1)%edge_count(t)].x() < 0) direction *= -1;
 			season.edges[id(nth_edge(t, k))].wind_velocity -=
 				0.5 * direction
 				* season.tiles[id(t)].wind.speed
-				* std::abs(corners[k].y() - corners[(k+1)%e].y())
-				/ length(corners[k] - corners[(k+1)%e]);
+				* std::abs(corners[k].y() - corners[(k+1)%edge_count(t)].y())
+				/ length(corners[k] - corners[(k+1)%edge_count(t)]);
 		}
 	}
 }
@@ -164,7 +163,7 @@ float _outgoing_wind (const Terrain& terrain, const Grid& grid, const Climate_ge
 float _incoming_humidity (const Terrain& terrain, const Grid& grid, const Climate_generation_season& season, int i) {
 	float humidity = 0.0;
 	const Tile* t = nth_tile(grid, i);
-	for (int k=0; k<edge_count(t); k++) {
+	for (int k : indices(t)) {
 		const Edge* e = nth_edge(t, k);
 		if (sign(e, t) * season.edges[id(e)].wind_velocity > 0) {
 			humidity +=
