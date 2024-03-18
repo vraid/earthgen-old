@@ -8,8 +8,8 @@ public:
 	Wind () :
 		direction (0), speed (0) {}
 
-	float direction;
-	float speed;
+	double direction;
+	double speed;
 };
 
 class Climate_tile {
@@ -18,9 +18,9 @@ public:
 		temperature (0), humidity (0), precipitation (0) {}
 
 	Wind wind;
-	float temperature;
-	float humidity;
-	float precipitation;
+	double temperature;
+	double humidity;
+	double precipitation;
 };
 
 class Climate_edge {
@@ -28,17 +28,17 @@ public:
 	Climate_edge () :
 		wind_velocity (0) {}
 
-	float wind_velocity;
+	double wind_velocity;
 };
 
-inline float temperature (const Climate_tile& t) {return t.temperature;}
-inline float humidity (const Climate_tile& t) {return t.humidity;}
-inline float precipitation (const Climate_tile& t) {return t.precipitation;}
+inline double temperature (const Climate_tile& t) {return t.temperature;}
+inline double humidity (const Climate_tile& t) {return t.humidity;}
+inline double precipitation (const Climate_tile& t) {return t.precipitation;}
 
-float aridity (const Climate_tile&);
-float potential_evapotranspiration (const Climate_tile&);
+double aridity (const Climate_tile&);
+double potential_evapotranspiration (const Climate_tile&);
 
-inline float wind_velocity (const Climate_edge& e) {return e.wind_velocity;}
+inline double wind_velocity (const Climate_edge& e) {return e.wind_velocity;}
 
 }
 

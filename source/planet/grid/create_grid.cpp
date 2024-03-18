@@ -94,8 +94,8 @@ void add_tiles (Grid& grid, const Grid& prev) {
 }
 
 void add_icos_tiles (Grid& grid) {
-	float x = -0.525731112119133606;
-	float z = -0.850650808352039932;
+	double x = -0.525731112119133606;
+	double z = -0.850650808352039932;
 
 	std::array<Vector3, 12>
 	icos_tiles = {

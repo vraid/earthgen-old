@@ -16,7 +16,7 @@ void generate_climate (Climate& climate, Terrain& terrain, const Grid& grid, con
 	std::cout << "seasons: ";
 	for (int i=0; i<par.seasons; i++) {
 		std::cout << i << std::flush;
-		generate_season(climate, terrain, grid, par, (float)i/par.seasons);
+		generate_season(climate, terrain, grid, par, (1.0*i)/par.seasons);
 		std::cout << ", ";
 	}
 	std::cout << "done\n";
@@ -33,7 +33,7 @@ void copy_season (const Climate_generation_season& from, Season& to) {
 	}
 }
 
-void generate_season (Climate& climate, const Terrain& terrain, const Grid& grid, const Climate_parameters& par, float time_of_year) {
+void generate_season (Climate& climate, const Terrain& terrain, const Grid& grid, const Climate_parameters& par, double time_of_year) {
 	Climate_generation_season season;
 	season.tiles.resize(tile_count(grid));
 	season.edges.resize(edge_count(grid));
@@ -54,12 +54,12 @@ void generate_season (Climate& climate, const Terrain& terrain, const Grid& grid
 }
 
 void _set_temperature (const Terrain& terrain, const Grid& grid, const Climate_parameters&, Climate_generation_season& season) {
-	auto temperature_at_latitude = [](float latitude) {
+	auto temperature_at_latitude = [](double latitude) {
 		return freezing_point() - 25 + 50*cos(latitude);
 	};
 	
 	for (auto& t : tiles(grid)) {
-		float temperature = temperature_at_latitude(season.tropical_equator - latitude(terrain, vector(t)));
+		double temperature = temperature_at_latitude(season.tropical_equator - latitude(terrain, vector(t)));
 		if (is_land(nth_tile(terrain, id(t)))) {
 			if (elevation(nth_tile(terrain, id(t))) > sea_level(terrain))
 				temperature -= temperature_lapse(elevation(nth_tile(terrain, id(t))) - sea_level(terrain));
@@ -127,15 +127,15 @@ void _set_wind (const Terrain& terrain, const Grid& grid, const Climate_paramete
 	}
 }
 
-float _air_flow_volume (const Terrain& terrain, const Edge* e, float wind_velocity) {
-	float atmosphere_volume_scale = 100.0;
-	float flow = length(terrain, e) * wind_velocity * atmosphere_volume_scale;
+double _air_flow_volume (const Terrain& terrain, const Edge* e, double wind_velocity) {
+	double atmosphere_volume_scale = 100.0;
+	double flow = length(terrain, e) * wind_velocity * atmosphere_volume_scale;
 	if (flow < 0.0) flow *= -1;
 	return flow;
 }
 
-float _incoming_wind (const Terrain& terrain, const Grid& grid, const Climate_generation_season& season, int i) {
-	float sum = 0.0;
+double _incoming_wind (const Terrain& terrain, const Grid& grid, const Climate_generation_season& season, int i) {
+	double sum = 0.0;
 	const Tile* t = nth_tile(grid, i);
 	for (auto& e : edges(t)) {
 		if (sign(e, t) * season.edges[id(e)].wind_velocity > 0) {
@@ -147,8 +147,8 @@ float _incoming_wind (const Terrain& terrain, const Grid& grid, const Climate_ge
 	return sum;
 }
 
-float _outgoing_wind (const Terrain& terrain, const Grid& grid, const Climate_generation_season& season, int i) {
-	float sum = 0.0;
+double _outgoing_wind (const Terrain& terrain, const Grid& grid, const Climate_generation_season& season, int i) {
+	double sum = 0.0;
 	const Tile* t = nth_tile(grid, i);
 	for (auto& e : edges(t)) {
 		if (sign(e, t) * season.edges[id(e)].wind_velocity < 0) {
@@ -160,8 +160,8 @@ float _outgoing_wind (const Terrain& terrain, const Grid& grid, const Climate_ge
 	return sum;
 }
 
-float _incoming_humidity (const Terrain& terrain, const Grid& grid, const Climate_generation_season& season, int i) {
-	float humidity = 0.0;
+double _incoming_humidity (const Terrain& terrain, const Grid& grid, const Climate_generation_season& season, int i) {
+	double humidity = 0.0;
 	const Tile* t = nth_tile(grid, i);
 	for (int k : indices(t)) {
 		const Edge* e = nth_edge(t, k);
@@ -175,22 +175,22 @@ float _incoming_humidity (const Terrain& terrain, const Grid& grid, const Climat
 	return humidity;
 }
 
-float _humidity_change (float first, float second) {
-	float near_zero = 1.0e-15;
+double _humidity_change (double first, double second) {
+	double near_zero = 1.0e-15;
 	if (first < near_zero) {
 		if (second > near_zero) return 1.0;
 		else return 0.0;
 	}
-	return 1.0f - first/second;
+	return 1.0 - first/second;
 }
 
 void _iterate_humidity (const Terrain& terrain, const Grid& grid, const Climate_parameters& par, Climate_generation_season& season) {
-	std::vector<float> humidity;
-	std::vector<float> precipitation;
+	std::vector<double> humidity;
+	std::vector<double> precipitation;
 	humidity.resize(tile_count(grid));
 	precipitation.resize(tile_count(grid));
 	
-	float delta = 1.0;
+	double delta = 1.0;
 	while (delta > par.error_tolerance) {
 //		std::cout << "delta: " << delta << "\n";
 		for (int i=0; i<tile_count(grid); i++) {
@@ -198,23 +198,23 @@ void _iterate_humidity (const Terrain& terrain, const Grid& grid, const Climate_
 			if (is_land(nth_tile(terrain, i))) {
 				humidity[i] = 0.0;
 				precipitation[i] = 0.0;
-				float incoming_wind = _incoming_wind(terrain, grid, season, i);
-				float outgoing_wind = _outgoing_wind(terrain, grid, season, i);
+				double incoming_wind = _incoming_wind(terrain, grid, season, i);
+				double outgoing_wind = _outgoing_wind(terrain, grid, season, i);
 				if (incoming_wind > 0.0) {
-					float convection = outgoing_wind - incoming_wind;
-					float incoming_humidity = _incoming_humidity(terrain, grid, season, i);
+					double convection = outgoing_wind - incoming_wind;
+					double incoming_humidity = _incoming_humidity(terrain, grid, season, i);
 					// less humidity when incoming wind is less than outgoing
-					float density = convection > 0 ?
+					double density = convection > 0 ?
 						incoming_humidity / (incoming_wind + convection) :
 						incoming_humidity / incoming_wind;
-					float saturation = saturation_humidity(season.tiles[i].temperature);
+					double saturation = saturation_humidity(season.tiles[i].temperature);
 					// limit to saturation humidity
 					humidity[i] = std::min(saturation, density);
 					if (saturation < density)
 						precipitation[i] += (density - saturation) * incoming_wind;
 					// increase humidity when outgoing wind is less than incoming
 					if (convection < 0) {
-						float convective = humidity[i] * (-convection / incoming_wind);
+						double convective = humidity[i] * (-convection / incoming_wind);
 						if (humidity[i] + convective > saturation)
 							precipitation[i] += (humidity[i] + convective - saturation) * (-convection);
 						humidity[i] = std::min(saturation, humidity[i] + convective);
@@ -226,7 +226,7 @@ void _iterate_humidity (const Terrain& terrain, const Grid& grid, const Climate_
 			else
 				humidity[i] = season.tiles[i].humidity;
 		}
-		float largest_change = 0.0;
+		double largest_change = 0.0;
 		for (int i=0; i<tile_count(grid); i++) {
 			largest_change = std::max(largest_change, _humidity_change(season.tiles[i].humidity, humidity[i]));
 		}
@@ -240,7 +240,7 @@ void _iterate_humidity (const Terrain& terrain, const Grid& grid, const Climate_
 
 void _set_humidity (const Terrain& terrain, const Grid& grid, const Climate_parameters& par, Climate_generation_season& season) {
 	for (auto& t : tiles(grid)) {
-		float humidity = 0.0;		
+		double humidity = 0.0;
 		if (is_water(nth_tile(terrain, id(t)))) {
 			humidity = saturation_humidity(season.tiles[id(t)].temperature);
 		}

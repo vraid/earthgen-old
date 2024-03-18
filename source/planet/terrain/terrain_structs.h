@@ -8,8 +8,8 @@ public:
 	Terrain_water () :
 		surface (0), depth (0) {}
 
-	float surface;
-	float depth;
+	double surface;
+	double depth;
 };
 
 class Terrain_tile {
@@ -17,7 +17,7 @@ public:
 	Terrain_tile () :
 		elevation (0), type (type_land) {}
 
-	float elevation;
+	double elevation;
 	Terrain_water water;
 	int type;
 	enum {type_land = 1, type_water = 2, type_coast = 4};
@@ -28,7 +28,7 @@ public:
 	Terrain_corner () :
 		elevation (0), distance_to_sea(-1), type(type_land) {}
 
-	float elevation;
+	double elevation;
 	int distance_to_sea;
 	int type;
 	enum {type_land = 1, type_water = 2, type_coast = 4};
@@ -47,14 +47,14 @@ inline bool is_land (const Terrain_tile& t) {return t.type & t.type_land;}
 inline bool is_water (const Terrain_tile& t) {return t.type & t.type_water;}
 inline bool has_coast (const Terrain_tile& t) {return t.type & t.type_coast;}
 
-inline float elevation (const Terrain_tile& t) {return t.elevation;}
-inline float water_depth (const Terrain_tile& t) {return t.water.depth;}
+inline double elevation (const Terrain_tile& t) {return t.elevation;}
+inline double water_depth (const Terrain_tile& t) {return t.water.depth;}
 
 inline bool is_land (const Terrain_corner& c) {return c.type == c.type_land;}
 inline bool is_water (const Terrain_corner& c) {return c.type == c.type_water;}
 inline bool is_coast (const Terrain_corner& c) {return c.type == c.type_coast;}
 
-inline float elevation (const Terrain_corner& c) {return c.elevation;}
+inline double elevation (const Terrain_corner& c) {return c.elevation;}
 inline int distance_to_sea (const Terrain_corner& c) {return c.distance_to_sea;}
 
 inline bool is_land (const Terrain_edge& e) {return e.type == e.type_land;}

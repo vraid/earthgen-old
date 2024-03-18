@@ -30,15 +30,15 @@ inline int season_count (const Climate& climate) {return climate.var.season_coun
 
 void clear_climate (Climate&);
 
-float freezing_point ();
-float temperature_lapse_rate ();
+double freezing_point ();
+double temperature_lapse_rate ();
 // lapse of elevation
-float temperature_lapse (float);
+double temperature_lapse (double);
 
 // saturation at temperature
-float saturation_humidity (float);
+double saturation_humidity (double);
 // aridity at temperature
-float aridity (float);
+double aridity (double);
 
 }
 

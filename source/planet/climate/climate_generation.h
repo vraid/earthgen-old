@@ -17,10 +17,10 @@ public:
 		latitude (0), temperature (0), humidity (0), precipitation (0) {}
 
 	Wind wind;
-	float latitude;
-	float temperature;
-	float humidity;
-	float precipitation;
+	double latitude;
+	double temperature;
+	double humidity;
+	double precipitation;
 };
 
 class Climate_generation_edge {
@@ -28,7 +28,7 @@ public:
 	Climate_generation_edge () :
 		wind_velocity (0) {}
 
-	float wind_velocity;
+	double wind_velocity;
 };
 
 class Season_variables {
@@ -36,8 +36,8 @@ public:
 	Season_variables () {}
 	~Season_variables () {}
 
-	float time_of_year;
-	float solar_equator;
+	double time_of_year;
+	double solar_equator;
 };
 
 class Climate_generation_season {
@@ -46,14 +46,14 @@ public:
 		tropical_equator (0) {}
 
 	Season_variables var;
-	float tropical_equator;
+	double tropical_equator;
 
 	std::vector<Climate_generation_tile> tiles;
 	std::vector<Climate_generation_edge> edges;
 };
 
 void generate_climate (Climate&, Terrain&, const Grid&, const Climate_parameters&);
-void generate_season (Climate&, const Terrain&, const Grid&, const Climate_parameters&, float);
+void generate_season (Climate&, const Terrain&, const Grid&, const Climate_parameters&, double);
 
 void _set_temperature (const Terrain&, const Grid&, const Climate_parameters&, Climate_generation_season&);
 void _set_wind (const Terrain&, const Grid&, const Climate_parameters&, Climate_generation_season&);

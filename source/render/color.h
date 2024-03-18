@@ -10,7 +10,7 @@ public:
 	Color () :
 		values ({0, 0, 0}) {}
 		
-	Color (float r, float g, float b) :
+	Color (double r, double g, double b) :
 		values ({r, g, b}) {}
 
 	double at (int n) const {return values[n];};

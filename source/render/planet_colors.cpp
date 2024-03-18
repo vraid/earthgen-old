@@ -92,7 +92,7 @@ void color_vegetation (Planet_colors& c, const Grid& grid, const Terrain& terrai
 
 	for (const Tile& t : tiles(grid)) {
 		if (is_water(nth_tile(terrain ,id(t)))) {
-			double d = std::min(1.0f, water_depth(nth_tile(terrain, id(t)))/400);
+			double d = std::min(1.0, water_depth(nth_tile(terrain, id(t)))/400);
 			c.tiles[id(t)] = interpolate(water_shallow, water_deep, d);
 		}
 		else {
@@ -102,7 +102,7 @@ void color_vegetation (Planet_colors& c, const Grid& grid, const Terrain& terrai
 			else {
 				double d = std::min(1.0, (elevation(nth_tile(terrain, id(t))) - sea_level(terrain))/2500);
 				Color ground = interpolate(land_low, land_high, d);
-				double v = std::min(1.0f, aridity(climate)/1.5f);
+				double v = std::min(1.0, aridity(climate)/1.5f);
 				c.tiles[id(t)] = interpolate(vegetation, ground, v);
 			}
 		}
@@ -119,10 +119,10 @@ void color_temperature (Planet_colors& c, const Grid& grid, const Season& s) {
 		Color(1.0, 1.0, 0),
 		Color(1.0, 0.1, 0),
 		Color(0.45, 0, 0)};
-	static float limits[8] = {-50, -35, -20, -10, 0, 10, 20, 30};
+	static double limits[8] = {-50, -35, -20, -10, 0, 10, 20, 30};
 
 	for (const Tile& t : tiles(grid)) {
-		float temp = temperature(nth_tile(s, id(t))) - freezing_point();
+		double temp = temperature(nth_tile(s, id(t))) - freezing_point();
 		if (temp <= limits[0])
 			c.tiles[id(t)] = col[0];
 		else if (temp >= limits[7])
@@ -148,17 +148,17 @@ void color_aridity (Planet_colors& c, const Grid& grid, const Terrain& terrain, 
 		Color(0.0, 1.0, 0.0),
 		Color(0.0, 0.5, 0.0)};
 		
-	float limits[4] = {2.0f, 1.0f, 0.5f, 0.0f};
+	double limits[4] = {2.0, 1.0, 0.5f, 0.0};
 
 	for (const Tile& t : tiles(grid)) {
 		if (is_water(nth_tile(terrain ,id(t))))
 			c.tiles[id(t)] = water;
 		else {
-			float ar = aridity(nth_tile(s, id(t)));
+			double ar = aridity(nth_tile(s, id(t)));
 			c.tiles[id(t)] = col[3];
 			for (int i=1; i<4; i++) {
 				if (ar > limits[i]) {
-					double d = std::min(1.0f, (ar - limits[i]) / (limits[i-1] - limits[i]));
+					double d = std::min(1.0, (ar - limits[i]) / (limits[i-1] - limits[i]));
 					c.tiles[id(t)] = interpolate(col[i], col[i-1], d);
 					break;
 				}
@@ -203,7 +203,7 @@ void color_precipitation (Planet_colors& c, const Grid& grid, const Terrain& ter
 		if (is_water(nth_tile(terrain, id(t))))
 			c.tiles[id(t)] = water;
 		else {
-			float prec = precipitation(nth_tile(s, id(t)));
+			double prec = precipitation(nth_tile(s, id(t)));
 			if (prec < low) {
 				double d = prec / low;
 				c.tiles[id(t)] = interpolate(dry, medium, d);

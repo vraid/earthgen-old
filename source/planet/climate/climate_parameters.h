@@ -30,13 +30,13 @@ public:
 		axial_tilt = std::max(0.0, axial_tilt);
 		axial_tilt = std::min(pi/2, axial_tilt);
 
-		error_tolerance = std::max(0.001f, error_tolerance);
-		error_tolerance = std::min(1.0f, error_tolerance);
+		error_tolerance = std::max(0.001, error_tolerance);
+		error_tolerance = std::min(1.0, error_tolerance);
 	}
 
 	int seasons;
 	double axial_tilt;
-	float error_tolerance;
+	double error_tolerance;
 };
 
 }

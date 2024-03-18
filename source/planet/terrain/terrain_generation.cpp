@@ -35,9 +35,9 @@ void _set_elevation (Terrain& terrain, const Grid& grid, const Terrain_parameter
 }
 
 void _scale_elevation (Terrain& terrain, const Grid& grid, const Terrain_parameters&) {
-	float lowest = elevation(nth_tile(terrain,0));
-	float highest = lowest;
-	float scale = 3000;
+	double lowest = elevation(nth_tile(terrain,0));
+	double highest = lowest;
+	double scale = 3000;
 	for (auto& t : tiles(terrain)) {
 		lowest = std::min(lowest, elevation(t));
 		highest = std::max(highest, elevation(t));
@@ -46,7 +46,7 @@ void _scale_elevation (Terrain& terrain, const Grid& grid, const Terrain_paramet
 		lowest = std::min(lowest, elevation(c));
 		highest = std::max(highest, elevation(c));
 	}
-	highest = std::max(1.0f, highest-lowest);
+	highest = std::max(1.0, highest-lowest);
 	for (auto& t : tiles(grid)) {
 		m_tile(terrain, id(t)).elevation -= lowest;
 		m_tile(terrain, id(t)).elevation *= scale / highest;
@@ -59,7 +59,7 @@ void _scale_elevation (Terrain& terrain, const Grid& grid, const Terrain_paramet
 
 const Tile* lowest_tile (const Terrain& terrain, const Grid& grid) {
 	const Tile* tile = nth_tile(grid, 0);
-	float lowest_elevation = elevation(nth_tile(terrain, 0));
+	double lowest_elevation = elevation(nth_tile(terrain, 0));
 	for (const Tile& t : tiles(grid)) {
 		if (elevation(nth_tile(terrain, id(t))) < lowest_elevation) {
 			tile = &t;
@@ -71,10 +71,10 @@ const Tile* lowest_tile (const Terrain& terrain, const Grid& grid) {
 
 void _create_sea (Terrain& terrain, const Grid& grid, const Terrain_parameters& par) {
 	const Tile* const start_tile = lowest_tile(terrain, grid);
-	float sea_level = elevation(nth_tile(terrain, id(start_tile)));
+	double sea_level = elevation(nth_tile(terrain, id(start_tile)));
 	unsigned int water_tile_count = par.water_ratio * tile_count(grid);
 	std::set<const Tile*> water_tiles;
-	std::multimap<float, const Tile*> coast_tiles_elevation;
+	std::multimap<double, const Tile*> coast_tiles_elevation;
 	std::vector<bool> coast_tiles;
 	if (water_tile_count > 0) {
 		water_tiles.insert(start_tile);
@@ -199,8 +199,8 @@ std::vector<std::array<Vector3, 3> > _elevation_vectors (const Terrain_parameter
 	return d;
 }
 
-float _elevation_at_point (const Vector3& point, const std::vector<std::array<Vector3, 3> >& elevation_vectors) {
-	float elevation = 0;
+double _elevation_at_point (const Vector3& point, const std::vector<std::array<Vector3, 3> >& elevation_vectors) {
+	double elevation = 0;
 	for (auto& i : elevation_vectors) {
 		if (
 			squared_distance(point, i[0]) < 2.0 &&

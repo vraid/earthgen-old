@@ -3,11 +3,11 @@
 
 namespace earthgen {
 
-float aridity (const Climate_tile& t) {
+double aridity (const Climate_tile& t) {
 	return aridity(potential_evapotranspiration(t));
 }
 
-float potential_evapotranspiration (const Climate_tile& t) {
+double potential_evapotranspiration (const Climate_tile& t) {
 	return saturation_humidity(temperature(t)) - humidity(t);
 }
 
