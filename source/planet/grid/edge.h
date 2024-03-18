@@ -29,6 +29,8 @@ inline const std::array<const Corner*, 2>& corners (const Edge* e) {return corne
 inline const Tile* nth_tile (const Edge* e, int n) {return nth_tile(*e, n);}
 inline const Corner* nth_corner (const Edge* e, int n) {return nth_corner(*e, n);}
 
+const std::array<int,2>& edge_indices ();
+
 int position (const Edge&, const Tile*);
 int position (const Edge&, const Corner*);
 int sign (const Edge&, const Tile*);

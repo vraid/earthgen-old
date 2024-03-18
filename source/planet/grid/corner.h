@@ -25,6 +25,8 @@ inline const Vector3& vector (const Corner& c) {return c.v;}
 inline const std::array<const Tile*, 3>& tiles (const Corner& c) {return c.tiles;}
 inline const std::array<const Corner*, 3>& corners (const Corner& c) {return c.corners;}
 inline const std::array<const Edge*, 3>& edges (const Corner& c) {return c.edges;}
+
+const std::array<int,3>& corner_indices ();
 const Corner* nth_corner (const Corner&, int);
 const Edge* nth_edge (const Corner&, int);
 

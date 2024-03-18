@@ -7,6 +7,12 @@ Edge::Edge (int i) :
 	tiles ({nullptr, nullptr}),
 	corners ({nullptr, nullptr}) {}
 
+std::array<int,2> edge_index_array {0, 1};
+
+const std::array<int,2>& edge_indices () {
+	return edge_index_array;
+}
+
 int position (const Edge& e, const Tile* t) {
 	if (e.tiles[0] == t) {
 		return 0;

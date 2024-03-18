@@ -13,7 +13,7 @@ void add_corner (Grid& grid, std::array<int, 3> ids) {
 	std::array<Tile*, 3> t = {&tiles[ids[0]], &tiles[ids[1]], &tiles[ids[2]]};
 	Vector3 v = t[0]->v + t[1]->v + t[2]->v;
 	c->v = normal(v);
-	for (int i=0; i<3; i++) {
+	for (int i : corner_indices()) {
 		t[i]->corners[position(t[i], t[(i+2)%3])] = c;
 		c->tiles[i] = t[i];
 	}
@@ -29,7 +29,7 @@ void add_edge (Grid& grid, std::array<int, 2> ids) {
 	Corner *c[2] = {
 		&grid.corners[t[0]->corners[pos]->id],
 		&grid.corners[t[0]->corners[(pos+1)%edge_count(t[0])]->id]};
-	for (int i=0; i<2; i++) {
+	for (int i : edge_indices()) {
 		t[i]->edges[position(t[i], t[(i+1)%2])] = e;
 		e->tiles[i] = t[i];
 		c[i]->edges[position(c[i], c[(i+1)%2])] = e;
@@ -52,7 +52,7 @@ void add_corners (Grid& grid) {
 
 void connect_corners (Grid& grid) {
 	for (Corner& c : grid.corners) {
-		for (int k=0; k<3; k++) {
+		for (int k : corner_indices()) {
 			auto t = c.tiles[k];
 			c.corners[k] = t->corners[(position(t, &c)+1)%edge_count(*t)];
 		}
@@ -86,7 +86,7 @@ void add_tiles (Grid& grid, const Grid& prev) {
 	for (int i=0; i<prev_corner_count; i++) {
 		auto& tile = tiles[i+prev_tile_count];
 		tile.v = prev.corners[i].v;
-		for (int k=0; k<3; k++) {
+		for (int k : corner_indices()) {
 			tile.tiles[2*k] = &tiles[prev.corners[i].corners[k]->id+prev_tile_count];
 			tile.tiles[2*k+1] = &tiles[prev.corners[i].tiles[k]->id];
 		}
