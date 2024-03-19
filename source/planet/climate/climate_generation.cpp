@@ -1,5 +1,6 @@
 #include "climate_generation.h"
 #include "../grid/grid.h"
+#include "../grid/grid_util.h"
 #include "../terrain/terrain.h"
 #include "climate.h"
 #include "../../math/matrix2.h"

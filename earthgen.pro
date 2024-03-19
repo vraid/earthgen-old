@@ -66,6 +66,7 @@ HEADERS += source/gui/axisBox.h \
            source/planet/grid/create_grid.h \
            source/planet/grid/edge.h \
            source/planet/grid/grid.h \
+           source/planet/grid/grid_util.h \
            source/planet/grid/tile.h \
            source/planet/terrain/terrain.h \
            source/planet/terrain/terrain_generation.h \
@@ -101,6 +102,7 @@ SOURCES += source/main.cpp \
            source/planet/grid/create_grid.cpp \
            source/planet/grid/edge.cpp \
            source/planet/grid/grid.cpp \
+           source/planet/grid/grid_util.cpp \
            source/planet/grid/tile.cpp \
            source/planet/terrain/terrain.cpp \
            source/planet/terrain/terrain_generation.cpp \

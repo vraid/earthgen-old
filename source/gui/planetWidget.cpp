@@ -4,6 +4,7 @@
 #include "../render/globe_renderer.h"
 #include "../render/map_renderer.h"
 #include "../render/planet_colors.h"
+#include "../../math/quaternion.h"
 
 namespace earthgen {
 

@@ -1,5 +1,6 @@
 #include "terrain.h"
 #include "../grid/grid.h"
+#include "../grid/grid_util.h"
 #include "../../math/math_common.h"
 #include "../../math/quaternion.h"
 #include <cmath>
