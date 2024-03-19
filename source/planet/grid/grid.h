@@ -4,7 +4,7 @@
 #include "tile.h"
 #include "corner.h"
 #include "edge.h"
-#include <math.h>
+#include <cmath>
 
 namespace earthgen {
 

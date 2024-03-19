@@ -6,8 +6,7 @@
 #include "../grid/grid.h"
 #include "../terrain/terrain.h"
 #include "planet_colors.h"
-#include <iostream>
-#include <math.h>
+#include <cmath>
 
 namespace earthgen {
 
@@ -77,7 +76,7 @@ Vector3 Globe_renderer::to_coordinates (const Vector2& screen_position) const {
 	if (squared_length(v) > 1.0)
 		return Vector3();
 
-	return conjugate(rotation()) * Vector3(v.x(), v.y(), sqrt(1.0-squared_length(v)));
+	return conjugate(rotation()) * Vector3(v.x(), v.y(), std::sqrt(1.0-squared_length(v)));
 }
 
 void Globe_renderer::reset_rotation () {

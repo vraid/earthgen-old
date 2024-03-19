@@ -61,7 +61,7 @@ double dot_product (const Vector3& v, const Vector3& u) {
 }
 
 double length (const Vector3& v) {
-	return sqrt(squared_length(v));
+	return std::sqrt(squared_length(v));
 }
 
 double squared_length (const Vector3& v) {
@@ -69,7 +69,7 @@ double squared_length (const Vector3& v) {
 }
 
 double distance (const Vector3& v, const Vector3& u) {
-	return sqrt(squared_distance(v,u));
+	return std::sqrt(squared_distance(v,u));
 }
 
 double squared_distance (const Vector3& v, const Vector3& u) {
@@ -77,7 +77,7 @@ double squared_distance (const Vector3& v, const Vector3& u) {
 }
 
 double angle (const Vector3& v, const Vector3& u) {
-	return acos(dot_product(v,u) / (length(v) * length(u)));
+	return std::acos(dot_product(v,u) / (length(v) * length(u)));
 }
 
 }

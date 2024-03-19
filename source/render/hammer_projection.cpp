@@ -26,9 +26,9 @@ Vector3 from_lat_long(double latitude, double longitude) {
 }
 
 Vector3 from_hammer (const Vector2& v) {
-	double z = sqrt(1.0-pow(v.x()/4.0,2.0)-pow(v.y()/2.0,2.0));
-	double latitude = asin(z*v.y());
-	double longitude = 2.0*atan(z*v.x() / (2.0*(2.0*z*z-1.0)));
+	double z = std::sqrt(1.0-std::pow(v.x()/4.0,2.0)-std::pow(v.y()/2.0,2.0));
+	double latitude = std::asin(z*v.y());
+	double longitude = 2.0*std::atan(z*v.x() / (2.0*(2.0*z*z-1.0)));
 	return from_lat_long(latitude, longitude);
 }
 
@@ -37,10 +37,13 @@ Vector2 to_hammer (const Vector3& v) {
 }
 
 Vector2 to_hammer (double latitude, double longitude) {
-	return Vector2(2.0*cos(latitude)*sin(longitude/2.0), sin(latitude)) * (sqrt(2.0)/sqrt(1.0+cos(latitude)*cos(longitude/2.0)));
+	double x = 2.0 * std::cos(latitude) * std::sin(longitude/2.0);
+	double y = std::sin(latitude);
+	double scale = (std::sqrt(2.0)/std::sqrt(1.0 + std::cos(latitude) * std::cos(longitude/2.0)));
+	return Vector2(x, y) * scale;
 }
 
-double hammer_width () {return sqrt(8.0);}
-double hammer_height () {return sqrt(2.0);}
+double hammer_width () {return std::sqrt(8.0);}
+double hammer_height () {return std::sqrt(2.0);}
 
 }

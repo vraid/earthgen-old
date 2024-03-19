@@ -25,7 +25,7 @@ Vector2 Vector2::operator * (double d) const {
 }
 
 double length (const Vector2& v) {
-	return sqrt(squared_length(v));
+	return std::sqrt(squared_length(v));
 }
 
 double squared_length (const Vector2& v) {
@@ -33,7 +33,7 @@ double squared_length (const Vector2& v) {
 }
 
 double distance (const Vector2& v, const Vector2& u) {
-	return sqrt(squared_distance(v, u));
+	return std::sqrt(squared_distance(v, u));
 }
 
 double squared_distance (const Vector2& v, const Vector2& u) {
@@ -41,7 +41,7 @@ double squared_distance (const Vector2& v, const Vector2& u) {
 }
 
 double angle (const Vector2& v) {
-	return atan2(v.y(), v.x());
+	return std::atan2(v.y(), v.x());
 }
 
 }

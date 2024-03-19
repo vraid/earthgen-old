@@ -13,8 +13,8 @@ Quaternion::Quaternion (double a, double i, double j, double k) :
 	values ({a, i, j, k}) {}
 
 Quaternion rotation_around (const Vector3& axis, double angle) {
-	Vector3 v = normal(axis)*sin(angle*0.5);
-	return Quaternion(cos(angle*0.5), v.x(), v.y(), v.z());
+	Vector3 v = normal(axis)*std::sin(angle*0.5);
+	return Quaternion(std::cos(angle*0.5), v.x(), v.y(), v.z());
 }
 
 Quaternion rotation_between_nonparallel (const Vector3& a, const Vector3& b) {
@@ -64,7 +64,7 @@ Quaternion normal (const Quaternion& q) {
 	double i = q.at(1);
 	double j = q.at(2);
 	double k = q.at(3);
-	double d = sqrt(square(a) + square(i) + square(j) + square(k));
+	double d = std::sqrt(square(a) + square(i) + square(j) + square(k));
 	return Quaternion(a/d, i/d, j/d, k/d);
 }
 

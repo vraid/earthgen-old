@@ -2,11 +2,11 @@
 #define globe_renderer_h
 
 #include "planet_renderer.h"
-#include "../math/quaternion.h"
 
 namespace earthgen {
 
 class Vector2;
+class Quaterion;
 class Matrix3;
 class Tile;
 class Planet;

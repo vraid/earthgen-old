@@ -1,4 +1,3 @@
-#include <iostream>
 #include <QApplication>
 #include <QIcon>
 #include "gui/mainWindow.h"

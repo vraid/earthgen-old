@@ -2,10 +2,8 @@
 #include "terrain.h"
 #include "../grid/grid.h"
 #include <cmath>
-#include <cstdlib>
 #include <map>
 #include <set>
-#include <utility>
 #include "../../math/math_common.h"
 #include "../../hash/md5.h"
 
@@ -214,8 +212,8 @@ double _elevation_at_point (const Vector3& point, const std::vector<std::array<V
 
 Vector3 point_uniform (int a, int b) {
 	double x = 2*pi*(a/(double)RAND_MAX);
-	double y = acos(2*(b/(double)RAND_MAX)-1)-(0.5*pi);
-	return Vector3(sin(x)*cos(y), sin(y), cos(x)*cos(y));
+	double y = std::acos(2*(b/(double)RAND_MAX)-1)-(0.5*pi);
+	return Vector3(std::sin(x) * std::cos(y), std::sin(y), std::cos(x) * std::cos(y));
 }
 
 }

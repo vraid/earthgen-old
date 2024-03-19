@@ -8,7 +8,6 @@
 #include "planetHandler.h"
 #include "planetWidget.h"
 #include "../render/planet_colors.h"
-#include <iostream>
 
 namespace earthgen {
 

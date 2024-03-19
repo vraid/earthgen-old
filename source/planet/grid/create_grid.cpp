@@ -142,8 +142,8 @@ double tile_area (const Tile& t) {
 	auto segment_length = [=](int n) {return distance(vector(t), vector(nth_corner(t,n)));};
 	double accum = 0.0;
 	for (int k : indices(t)) {
-		double angle = acos(dot_product(segment_normal(k), segment_normal(k+1)));
-		accum += sin(angle) * segment_length(k) * segment_length(k+1);
+		double angle = std::acos(dot_product(segment_normal(k), segment_normal(k+1)));
+		accum += std::sin(angle) * segment_length(k) * segment_length(k+1);
 	}
 	return accum * 0.5;
 }

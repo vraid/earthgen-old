@@ -1,5 +1,5 @@
-#include <math.h>
 #include "climate.h"
+#include <cmath>
 
 namespace earthgen {
 
@@ -17,7 +17,7 @@ double temperature_lapse (double height) {
 double saturation_humidity (double temperature) {
 	double c = 4.6e-9;
 	double k = 0.05174;
-	return c*exp(k*temperature);
+	return c * std::exp(k*temperature);
 }
 
 double aridity (double potential_evapotranspiration) {

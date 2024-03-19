@@ -39,7 +39,7 @@ void generate_season (Climate& climate, const Terrain& terrain, const Grid& grid
 	season.edges.resize(edge_count(grid));
 
 	season.var.time_of_year = time_of_year;
-	season.var.solar_equator = axial_tilt(terrain) * sin(2.0*pi*time_of_year);
+	season.var.solar_equator = axial_tilt(terrain) * std::sin(2.0*pi*time_of_year);
 	season.tropical_equator = 0.67*season.var.solar_equator;
 	
 	_set_temperature(terrain, grid, par, season);
@@ -55,7 +55,7 @@ void generate_season (Climate& climate, const Terrain& terrain, const Grid& grid
 
 void _set_temperature (const Terrain& terrain, const Grid& grid, const Climate_parameters&, Climate_generation_season& season) {
 	auto temperature_at_latitude = [](double latitude) {
-		return freezing_point() - 25 + 50*cos(latitude);
+		return freezing_point() - 25 + 50*std::cos(latitude);
 	};
 	
 	for (auto& t : tiles(grid)) {

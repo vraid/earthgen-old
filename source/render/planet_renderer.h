@@ -2,9 +2,9 @@
 #define planet_renderer_h
 
 #include <QGLWidget>
+#include "color.h"
 #include "../math/vector2.h"
 #include "../math/vector3.h"
-#include "color.h"
 
 namespace earthgen {
 

@@ -37,11 +37,11 @@ double longitude (const Terrain& terrain, const Vector3& v) {
 
 double north (const Terrain& terrain, const Tile* t) {
 	Vector3 v = reference_rotation(t, rotation_to_default(terrain)) * vector(nth_tile(t, 0));
-	return pi-atan2(v.y(), v.x());
+	return pi - std::atan2(v.y(), v.x());
 }
 
 double area (const Terrain& terrain, const Tile* t) {
-	return area(t) * pow(radius(terrain), 2.0);
+	return area(t) * std::pow(radius(terrain), 2.0);
 }
 
 double length (const Terrain& terrain, const Edge* e) {
@@ -54,7 +54,7 @@ double angular_velocity (const Terrain&) {
 }
 
 double coriolis_coefficient (const Terrain& terrain, double latitude) {
-	return 2.0 * angular_velocity(terrain) * sin(latitude);
+	return 2.0 * angular_velocity(terrain) * std::sin(latitude);
 }
 
 Vector3 default_axis () {return Vector3(0,0,1);}
