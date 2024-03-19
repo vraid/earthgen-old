@@ -1,14 +1,15 @@
 #include "planetHandler.h"
 #include "planetWidget.h"
 #include "../planet/grid/create_grid.h"
+#include <memory>
 
 namespace earthgen {
 
 PlanetHandler::PlanetHandler () {
 	currentSeason_ = 0;
-	Grid* grid = new Grid();
+	auto grid = std::make_unique<Grid>();
 	size_0_grid(*grid);
-	grids.push_back(std::unique_ptr<Grid>(grid));
+	grids.push_back(std::move(grid));
 }
 
 PlanetHandler::~PlanetHandler () {
@@ -35,9 +36,9 @@ void PlanetHandler::setAxis (const Vector3& v) {
 void PlanetHandler::setGridSize(int size) {
 	current_grid_size = size;
 	while (grids.size() < current_grid_size + 1) {
-		Grid* grid = new Grid();
+		auto grid = std::make_unique<Grid>();
 		subdivide(*grid, *(grids.back()));
-		grids.push_back(std::unique_ptr<Grid>(grid));
+		grids.push_back(std::move(grid));
 	}
 }
 
