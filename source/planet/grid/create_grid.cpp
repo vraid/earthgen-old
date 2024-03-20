@@ -138,12 +138,19 @@ void add_icos_tiles (Grid& grid) {
 }
 
 double tile_area (const Tile& t) {
-	auto segment_normal = [=](int n) {return normal(vector(t) - vector(nth_corner(t,n)));};
-	auto segment_length = [=](int n) {return distance(vector(t), vector(nth_corner(t,n)));};
+	std::array<Vector3, 6> normals;
+	std::array<double, 6> lengths;
+	auto& vec = vector(t);
+	for (int n : indices(t)) {
+		Vector3 diff = vec - vector(nth_corner(t,n));
+		normals[n] = normal(diff);
+		lengths[n] = length(diff);
+	}
 	double accum = 0.0;
 	for (int k : indices(t)) {
-		double angle = std::acos(dot_product(segment_normal(k), segment_normal(k+1)));
-		accum += std::sin(angle) * segment_length(k) * segment_length(k+1);
+		int n = (k+1) % edge_count(t);
+		double angle = std::acos(dot_product(normals[k], normals[n]));
+		accum += std::sin(angle) * lengths[k] * lengths[n];
 	}
 	return accum * 0.5;
 }
