@@ -77,7 +77,8 @@ void _create_sea (Terrain& terrain, const Grid& grid, const Terrain_parameters& 
 	if (water_tile_count > 0) {
 		water_tiles.insert(start_tile);
 		coast_tiles.resize(tile_count(grid), false);
-		for (const Tile* i : tiles(start_tile)) {
+		for (int n : indices(start_tile)) {
+			auto i = nth_tile(start_tile, n);
 			coast_tiles[id(i)] = true;
 			coast_tiles_elevation.insert(std::make_pair(elevation(nth_tile(terrain ,id(i))), i));
 		}
@@ -87,7 +88,8 @@ void _create_sea (Terrain& terrain, const Grid& grid, const Terrain_parameters& 
 			water_tiles.insert(tile);
 			coast_tiles[id(tile)] = false;
 			coast_tiles_elevation.erase(coast_tiles_elevation.begin());
-			for (auto i : tiles(tile)) {
+			for (int n : indices(tile)) {
+				const Tile* i = nth_tile(tile, n);
 				if (water_tiles.find(i) == water_tiles.end() && !coast_tiles[id(i)]) {
 					coast_tiles[id(i)] = true;
 					coast_tiles_elevation.insert(std::make_pair(elevation(nth_tile(terrain, id(i))), i));
@@ -114,7 +116,8 @@ void _create_sea (Terrain& terrain, const Grid& grid, const Terrain_parameters& 
 int _tile_type (const Terrain& terrain, const Tile* t) {
 	int land = 0;
 	int water = 0;
-	for (auto i : tiles(t)) {
+	for (int n : indices(t)) {
+		auto i = nth_tile(t, n);
 		if (water_depth(nth_tile(terrain ,id(i))) > 0) {water++;}
 		else {land++;}
 	}

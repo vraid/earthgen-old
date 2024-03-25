@@ -6,11 +6,10 @@ namespace earthgen {
 Tile::Tile (int i, int e) :
 	id (i),
 	edge_count (e),
-	area (0) {
-	tiles.resize(edge_count, nullptr);
-	corners.resize(edge_count, nullptr);
-	edges.resize(edge_count, nullptr);
-}
+	area (0),
+	tiles ({{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}}),
+	corners ({{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}}),
+	edges ({{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}}) {}
 
 std::vector<int> tile_index_vector_5 {0, 1, 2, 3, 4};
 std::vector<int> tile_index_vector_6 {0, 1, 2, 3, 4, 5};

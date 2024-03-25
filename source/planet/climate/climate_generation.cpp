@@ -138,7 +138,8 @@ double _air_flow_volume (const Terrain& terrain, const Edge* e, double wind_velo
 double _incoming_wind (const Terrain& terrain, const Grid& grid, const Climate_generation_season& season, int i) {
 	double sum = 0.0;
 	const Tile* t = nth_tile(grid, i);
-	for (auto& e : edges(t)) {
+	for (int n : indices(t)) {
+		auto* e = nth_edge(t, n);
 		if (sign(e, t) * season.edges[id(e)].wind_velocity > 0) {
 			sum +=
 				std::abs(season.edges[id(e)].wind_velocity)
@@ -151,7 +152,8 @@ double _incoming_wind (const Terrain& terrain, const Grid& grid, const Climate_g
 double _outgoing_wind (const Terrain& terrain, const Grid& grid, const Climate_generation_season& season, int i) {
 	double sum = 0.0;
 	const Tile* t = nth_tile(grid, i);
-	for (auto& e : edges(t)) {
+	for (int n : indices(t)) {
+		auto* e = nth_edge(t, n);
 		if (sign(e, t) * season.edges[id(e)].wind_velocity < 0) {
 			sum +=
 				std::abs(season.edges[id(e)].wind_velocity)

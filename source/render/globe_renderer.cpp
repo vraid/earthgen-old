@@ -25,9 +25,11 @@ void Globe_renderer::draw_tile (const Tile* t, const Matrix3& m, const Color& co
 	glColor3f(color);
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex3f(m*vector(t));
-	for (const Corner* c : corners(t))
+	for (int n : indices(t)) {
+		const Corner* c = nth_corner(t, n);
 		glVertex3f(m*vector(c));
-	glVertex3f(m*vector(corners(t)[0]));
+	}
+	glVertex3f(m*vector(nth_corner(t, 0)));
 	glEnd();
 }
 
