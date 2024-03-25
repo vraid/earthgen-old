@@ -6,7 +6,7 @@ MOC_DIR = moc
 
 TEMPLATE = app
 config += qt console
-QMAKE_CXXFLAGS += -std=c++17
+QMAKE_CXXFLAGS += -std=c++17 -O2
 QT += opengl
 DESTDIR = release
 OBJECTS_DIR = release/.obj
