@@ -47,6 +47,7 @@ HEADERS += source/gui/axisBox.h \
            source/math/matrix2.h \
            source/math/matrix3.h \
            source/math/quaternion.h \
+           source/math/trigonometry.h \
            source/math/vector2.h \
            source/math/vector3.h \
            source/render/color.h \
@@ -86,6 +87,7 @@ SOURCES += source/main.cpp \
            source/math/matrix2.cpp \
            source/math/matrix3.cpp \
            source/math/quaternion.cpp \
+           source/math/trigonometry.cpp \
            source/math/vector2.cpp \
            source/math/vector3.cpp \
            source/render/color.cpp \
