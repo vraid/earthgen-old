@@ -10,9 +10,10 @@ class Corner;
 
 class Edge {
 public:
-	Edge (int id);
+	Edge (int id, double ln);
 	
 	int id;
+	double length;
 	std::array<const Tile*, 2> tiles;
 	std::array<const Corner*, 2> corners;
 };

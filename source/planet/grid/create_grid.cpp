@@ -20,15 +20,15 @@ void add_corner (Grid& grid, std::array<int, 3> ids) {
 }
 
 void add_edge (Grid& grid, std::array<int, 2> ids) {
-	int id = grid.edges.size();
-	grid.edges.push_back(Edge(id));
-	Edge *e = &grid.edges[id];
 	auto& tiles = grid.tiles;
 	std::array<Tile*, 2> t = {&tiles[ids[0]], &tiles[ids[1]]};
 	auto pos = position(t[0], t[1]);
 	Corner *c[2] = {
 		&grid.corners[t[0]->corners[pos]->id],
 		&grid.corners[t[0]->corners[(pos+1)%edge_count(t[0])]->id]};
+	int id = grid.edges.size();
+	grid.edges.push_back(Edge(id, distance(c[0]->v, c[1]->v)));
+	Edge *e = &grid.edges[id];
 	for (int i : edge_indices()) {
 		t[i]->edges[position(t[i], t[(i+1)%2])] = e;
 		e->tiles[i] = t[i];

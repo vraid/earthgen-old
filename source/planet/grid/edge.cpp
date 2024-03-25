@@ -2,8 +2,9 @@
 
 namespace earthgen {
 
-Edge::Edge (int i) :
+Edge::Edge (int i, double ln) :
 	id (i),
+	length (ln),
 	tiles ({nullptr, nullptr}),
 	corners ({nullptr, nullptr}) {}
 
