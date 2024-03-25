@@ -1,6 +1,6 @@
 #include "create_grid.h"
 #include "grid.h"
-#include <cmath>
+#include "../../math/trigonometry.h"
 #include <array>
 
 namespace earthgen {
@@ -138,21 +138,17 @@ void add_icos_tiles (Grid& grid) {
 }
 
 double tile_area (const Tile& t) {
-	std::array<Vector3, 6> normals;
 	std::array<double, 6> lengths;
 	auto& vec = vector(t);
 	for (int n : indices(t)) {
-		Vector3 diff = vec - vector(nth_corner(t,n));
-		normals[n] = normal(diff);
-		lengths[n] = length(diff);
+		lengths[n] = distance(vec, vector(nth_corner(t,n)));
 	}
 	double accum = 0.0;
 	for (int k : indices(t)) {
 		int n = (k+1) % edge_count(t);
-		double angle = std::acos(dot_product(normals[k], normals[n]));
-		accum += std::sin(angle) * lengths[k] * lengths[n];
+		accum += triangle_area(lengths[k], lengths[n], t.edges[k]->length);
 	}
-	return accum * 0.5;
+	return accum;
 }
 
 void set_tile_areas (Grid& grid) {
